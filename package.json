@@ -1,0 +1,17 @@
+{
+  "name": "n8n-api-client",
+  "version": "1.0.0",
+  "description": "",
+  "main": "esbuild.js",
+  "scripts": {
+    "build": "node esbuild.js",
+    "exec": "node dist/index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^18.7.23",
+    "esbuild": "^0.15.10"
+  }
+}
