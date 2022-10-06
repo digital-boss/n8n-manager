@@ -1,2 +1,5 @@
 node_modules
 dist
+tmp
+workflows
+n8n-apiclient-config.json
