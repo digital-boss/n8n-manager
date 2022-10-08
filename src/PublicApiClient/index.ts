@@ -1,19 +1,23 @@
 import { HttpClient } from "./HttpClient";
 import { Workflow } from "./resources/workflow";
 
+export interface IPublicApiConfig {
+  url: string;
+  apiKey: string;
+}
+
 /**
  * Poosibly API Client can be generated with https://github.com/swagger-api/swagger-codegen, or with other tools from swagger yaml description.
  */
-export class N8NApiClient {
+export class PublicApiClient {
   
   httpClient: HttpClient;
   workflow: Workflow;
 
   constructor (
-    public url: string,
-    public apiKey: string
+    public config: IPublicApiConfig,
   ) {
-    this.httpClient = new HttpClient(url, apiKey);
+    this.httpClient = new HttpClient(config);
     this.workflow = new Workflow(this.httpClient);
   }
 

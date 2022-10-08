@@ -1,19 +1,19 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
+import { IPublicApiConfig } from '.';
 
 export class HttpClient {
 
   constructor(
-    private baseUrl: string,
-    private apiKey: string
+    public config: IPublicApiConfig,
   ) {}
 
   request (opts: AxiosRequestConfig) {
     const defaultOpts: AxiosRequestConfig = {
-      baseURL: this.baseUrl,
+      baseURL: this.config.url + '/api/v1',
       headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
-        'X-N8N-API-KEY': this.apiKey
+        'X-N8N-API-KEY': this.config.apiKey
       },
       // proxy: {
       //   host: 'localhost',

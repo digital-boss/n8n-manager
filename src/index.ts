@@ -3,28 +3,8 @@ import { version } from './version';
 import fs from 'node:fs'
 import path from 'node:path'
 import { backup } from './lib/wf/backup';
-
-interface IConfig {
-  n8n: {
-    url: string;
-    apiKey: string;
-  }
-  workflows: {
-    dir: string;
-  }
-}
-
-const createEmptyConfig = (): IConfig => {
-  return {
-    n8n: {
-      url: 'http://localhost:5678',
-      apiKey: ''
-    },
-    workflows: {
-      dir: '.'
-    }
-  }
-}
+import { createEmptyConfig, IConfig } from './lib/config';
+import { IPublicApiConfig } from './PublicApiClient';
 
 let config: IConfig = createEmptyConfig();
 
@@ -58,9 +38,13 @@ wf.command('backup')
   .hook('preAction', loadConfig)
   .option('--dir', 'Directory with workflows')
   .option('-n, --name <string...>', 'Workflow names to save')
-  .action(async function() {
+  .action(async function(this: Command) {
     const opts = this.optsWithGlobals();
-    await backup(config.n8n, {
+    const publicApiCfg: IPublicApiConfig = {
+      url: config.n8n.url,
+      apiKey: ''
+    }
+    await backup(publicApiCfg, {
       dir: opts.dir || config.workflows.dir,
       name: opts.name,
     })
