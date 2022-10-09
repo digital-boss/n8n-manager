@@ -10,7 +10,6 @@ program
   .option('-c, --config <string>', 'Path to json configuration file', 'n8n-apiclient-config.json')
   .version(version)
   .addCommand(cli.wf())
-  .addCommand(cli.registry())
   .addCommand(cli.npm())
 
 program.parse();
