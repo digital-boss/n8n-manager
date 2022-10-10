@@ -1,5 +1,5 @@
 import { Command } from 'commander';
-import { IPublicApiConfig } from 'src/PublicApiClient';
+import { IPublicApiConfig } from 'src/PublicApiClient/HttpClient';
 import { config, loadConfig } from "./common";
 import { Workflows } from "../lib/workflows";
 

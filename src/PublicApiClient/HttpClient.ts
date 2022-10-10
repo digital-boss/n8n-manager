@@ -1,5 +1,9 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
-import { IPublicApiConfig } from '.';
+
+export interface IPublicApiConfig {
+  url: string;
+  apiKey: string;
+}
 
 export class HttpClient {
 

@@ -4,7 +4,7 @@ export interface IConfig {
   n8n: {
     url: string;
     publicApiKey: string;
-    login: string;
+    email: string;
     password: string;
   }
   workflows: {
@@ -17,7 +17,7 @@ export const createEmptyConfig = (): IConfig => {
     n8n: {
       url: 'http://localhost:5678',
       publicApiKey: '',
-      login: '',
+      email: '',
       password: ''
     },
     workflows: {

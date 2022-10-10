@@ -1,13 +1,8 @@
-import { HttpClient } from "./HttpClient";
+import { HttpClient, IPublicApiConfig } from "./HttpClient";
 import { Workflow } from "./resources/workflow";
 
-export interface IPublicApiConfig {
-  url: string;
-  apiKey: string;
-}
-
 /**
- * Poosibly API Client can be generated with https://github.com/swagger-api/swagger-codegen, or with other tools from swagger yaml description.
+ * Possibly API Client can be generated with https://github.com/swagger-api/swagger-codegen, or with other tools from swagger yaml description.
  */
 export class PublicApiClient {
   

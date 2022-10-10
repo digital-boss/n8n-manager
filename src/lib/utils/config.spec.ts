@@ -21,7 +21,7 @@ describe('Environmental Variables', () => {
       n8n: {
         url: 'url1',
         publicApiKey: 'key1',
-        login: 'login1',
+        email: 'email1',
         password: 'password1'
       },
       workflows: {
@@ -38,7 +38,7 @@ describe('Environmental Variables', () => {
 
     expect(obj.n8n.url).toEqual('url1');
     expect(obj.n8n.publicApiKey).toEqual('key1');
-    expect(obj.n8n.login).toEqual('login1');
+    expect(obj.n8n.email).toEqual('email1');
     expect(obj.n8n.password).toEqual('passwordFromEnv');
     expect(obj.workflows.dir).toEqual('dirFromEnv');
   });

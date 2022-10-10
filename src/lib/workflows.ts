@@ -1,6 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
-import { IPublicApiConfig, PublicApiClient } from "src/PublicApiClient";
+import { PublicApiClient } from "src/PublicApiClient";
+import { IPublicApiConfig } from "src/PublicApiClient/HttpClient";
 
 export interface IBackupOpts {
   dir: string;
