@@ -53,18 +53,28 @@ export class HttpClient {
 	}
 
 	async request (options: AxiosRequestConfig) {
-		options.headers = options.headers || {};
-		const headers = options.headers;
-		headers['Content-Type'] = headers['Content-Type'] || 'application/json';
+
+		
+		
 		return this.requestInternal(options, 0);
 	}
 
 	private async requestInternal (options: AxiosRequestConfig, count = 0): Promise<any> {
 		const cookie = await this.getCookie();
 
+		const defaultOpts: AxiosRequestConfig = {
+      baseURL: this.config.url,
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+				'Cookie': cookie
+      },
+    }
+
+		const instance = axios.create(defaultOpts)
+
 		try {
-			options.headers!['Cookie'] = cookie;
-			return await axios(options);
+			return await instance.request(options);
 		} catch (res) {
 			if (res) {
 				if (res.statusCode === 401) {
