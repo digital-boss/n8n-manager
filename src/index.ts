@@ -7,7 +7,8 @@ const program = new Command();
 program
   .name('n8n-api-client')
   .description('CLI to interact with N8N API')
-  .option('-c, --config <string>', 'Path to json configuration file', 'n8n-apiclient-config.json')
+  .option('--config <string>', 'Path to json configuration file', 'n8n-apiclient-config.json')
+  .option('--dry', 'Dry run. Only show config and input parameters.', false)
   .version(version)
   .addCommand(cli.wf())
   .addCommand(cli.npm())

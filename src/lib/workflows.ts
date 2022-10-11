@@ -15,6 +15,9 @@ interface IWorkflow {
   tags: IWorkflowTag[];
 }
 
+// Interfaces for arguments
+
+
 export interface IWorkflowsListParams {
   name: string[];
   id: number[];
@@ -132,6 +135,23 @@ export class Workflows {
   /****************************************************************************
    * Public
    */
+
+  async list(json: boolean) {
+    const res = await this.fetchAllWf();
+
+    if (json) {
+      const jsonRes = res.map(w => {
+        w.id,
+        w.name,
+        w.active,
+        w.tags.map(t => t.name)
+      })
+      console.log(jsonRes);
+    } else {
+      const lines = res.map(i => `${i}: ${i.name}. ${i.active}. ${i.tags.map(t => t.name).join(', ')}`);
+      console.log(lines.join('\n'));
+    }
+  }
 
   async delete(wfList: IWorkflowsListParams) {
     const ids = await this.getIds(wfList);

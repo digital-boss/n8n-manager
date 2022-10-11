@@ -1,4 +1,4 @@
-import { Command, Option } from 'commander';
+import { Command, Option, OptionValues } from 'commander';
 import { IPublicApiConfig } from 'src/PublicApiClient/HttpClient';
 import { config, loadConfig } from "./common";
 import { Workflows } from "../lib/workflows";
@@ -17,48 +17,97 @@ const createWorkflowsAgent = (cmd: Command) => {
   return new Workflows(publicApiCfg) 
 } 
 
+const createAction = (
+  fn: (opts: OptionValues, wf: Workflows, cmd: Command) => Promise<void>
+) => {
+  return async function(this: Command) {
+    const opts = this.optsWithGlobals();
+    const wf = createWorkflowsAgent(this);
+    return fn(opts, wf, this);
+  }
+}
+
 export const wf = () => {
   const cmd = new Command('wf');
+
+  cmd.command('list')
+    .description('List workflows from n8n instance.')
+    .hook('preAction', loadConfig)
+    .option('-j, --json', 'Output in json format', false)
+    .action(createAction(async (opts, wf) => {
+      const args: Parameters<typeof wf.list> = [
+        opts.json
+      ]
+      console.log(cmd.name, args);
+      if (opts.dry === false) {
+        await wf.list(...args);
+      }
+    }))
 
   cmd.command('delete')
     .description('Delete workflow from n8n instance.')
     .hook('preAction', loadConfig)
-    .action(async function(this: Command) {
-      const opts = this.optsWithGlobals();
-      const wf = createWorkflowsAgent(this)
-      await wf.delete({
-        name: opts.name,
-        id: opts.id
-      })
-    })
+    .action(createAction(async (opts, wf) => {
+      const args: Parameters<typeof wf.delete> = [
+        {
+          name: opts.name,
+          id: opts.id
+        }
+      ]
+      console.log(cmd.name, args);
+      if (opts.dry === false) {
+        await wf.delete(...args)
+      }
+    }))
 
   cmd.command('activate')
     .description('')
     .hook('preAction', loadConfig)
-    .action(async function(this: Command) {
-      const opts = this.optsWithGlobals();
-      const wf = createWorkflowsAgent(this)
-      await wf.activate({
-        name: opts.name,
-        id: opts.id
-      })
-    })
+    .action(createAction(async (opts, wf) => {
+      const args: Parameters<typeof wf.activate> = [
+        {
+          name: opts.name,
+          id: opts.id
+        }
+      ]
+      console.log(cmd.name, args);
+      if (opts.dry === false) {
+        await wf.activate(...args)
+      }
+    }))
 
   cmd.command('deactivate')
     .description('')
     .hook('preAction', loadConfig)
-    .action(async function(this: Command) {
-      const opts = this.optsWithGlobals();
-      const wf = createWorkflowsAgent(this)
-      await wf.deactivate({
-        name: opts.name,
-        id: opts.id
-      })
-    })
+    .action(createAction(async (opts, wf) => {
+      const args: Parameters<typeof wf.deactivate> = [
+        {
+          name: opts.name,
+          id: opts.id
+        }
+      ]
+      console.log(cmd.name, args);
+      if (opts.dry === false) {
+        await wf.deactivate(...args)
+      }
+    }))
 
   cmd.command('rename-files')
     .description('')
     .hook('preAction', loadConfig)
+    .action(createAction(async (opts, wf) => {
+      const args: Parameters<typeof wf.renameFiles> = [
+        opts.dir || config.workflows.dir,
+        {
+          name: opts.name,
+          id: opts.id
+        },
+      ]
+      console.log(cmd.name, args);
+      if (opts.dry === false) {
+        await wf.renameFiles(...args)
+      }
+    }))
 
   cmd.command('save')
     .description('Save workflows to directory.')
@@ -67,18 +116,20 @@ export const wf = () => {
     .addOption(options.name)
     .addOption(options.id)
     .option('-d, --delete-old-files', 'Delete old files', true)
-    .action(async function(this: Command) {
-      const opts = this.optsWithGlobals();
-      const wf = createWorkflowsAgent(this)
-      await wf.save(
+    .action(createAction(async (opts, wf) => {
+      const args: Parameters<typeof wf.save> = [
         opts.dir || config.workflows.dir,
         {
           name: opts.name,
           id: opts.id
         },
         opts.deleteOldFiles
-      )
-    })
+      ]
+      console.log(cmd.name, args);
+      if (opts.dry === false) {
+        await wf.save(...args)
+      }
+    }))
 
   cmd.command('publish')
     .description('Publish workflow(s) to n8n instance.')
@@ -87,27 +138,33 @@ export const wf = () => {
     .addOption(options.name)
     .addOption(options.id)
     .option('-a, --activate-live', 'Activate workflows with "live" tag', true)
-    .action(async function(this: Command) {
-      const opts = this.optsWithGlobals();
-      const wf = createWorkflowsAgent(this)
-      await wf.publish(
+    .action(createAction(async (opts, wf) => {
+      const args: Parameters<typeof wf.publish> = [
         opts.dir || config.workflows.dir,
         {
           name: opts.name,
           id: opts.id
         }
-      )
-    })
+      ]
+      console.log(cmd.name, args);
+      if (opts.dry === false) {
+        await wf.publish(...args)
+      }
+    }))
 
   cmd.command('setup-all')
     .description('Setup n8n instalce workflows exactly the save as your --dir.')
     .addOption(options.dir)
     .hook('preAction', loadConfig)
-    .action(async function(this: Command) {
-      const opts = this.optsWithGlobals();
-      const wf = createWorkflowsAgent(this)
-      await wf.setupAll(opts.dir || config.workflows.dir)
-    })
+    .action(createAction(async (opts, wf) => {
+      const args: Parameters<typeof wf.setupAll> = [
+        opts.dir || config.workflows.dir
+      ]
+      console.log(cmd.name, args);
+      if (opts.dry === false) {
+        await wf.setupAll(...args)
+      }
+    }))
 
   return cmd;
 }
