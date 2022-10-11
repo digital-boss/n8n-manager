@@ -7,16 +7,21 @@ export class Workflow extends ResourceBase {
   //   if (r.status !== 200) {
   //     throw new Error(`${r.status} ${r.statusText}`)
   //   } else {
-  //     return r.data;
+  //     return r;
   //   }
   // }
+
+  private errHandler = (err: any) => {
+    console.log(err.response.data)
+    throw new Error('err');
+  }
 
   getAll () {
     return this.httpClient.request({
       url: '/workflows',
       method: 'GET',
     })
-    // .then(this.postProcess)
+    .catch(this.errHandler)
   }
   
   get (id: number) {

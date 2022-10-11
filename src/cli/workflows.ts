@@ -66,6 +66,7 @@ export const wf = () => {
     .addOption(options.dir)
     .addOption(options.name)
     .addOption(options.id)
+    .option('-d, --delete-old-files', 'Delete old files', true)
     .action(async function(this: Command) {
       const opts = this.optsWithGlobals();
       const wf = createWorkflowsAgent(this)
@@ -74,7 +75,9 @@ export const wf = () => {
         {
           name: opts.name,
           id: opts.id
-        })
+        },
+        opts.deleteOldFiles
+      )
     })
 
   cmd.command('publish')

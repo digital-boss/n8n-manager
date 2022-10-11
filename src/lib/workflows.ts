@@ -36,7 +36,7 @@ const getWorkflowFiles = (dir: string) => {
     .filter(i => i.match(/\d+_.*\.json/));
 }
 
-const getFileById = (files: string[], id: number) => files.find(f => f.startsWith(id.toString() + '_'));
+const getFileNameById = (files: string[], id: number) => files.find(f => f.startsWith(id.toString() + '_'));
 
 const getIdFromFileName = (fileName: string): number => {
   const m = fileName.match(/^\d+/);
@@ -51,58 +51,89 @@ const getWfFromFile = (file: string): IWorkflow => {
   return JSON.parse(content);
 }
 
+const hasIds = (wfList?: IWorkflowsListParams) => wfList && wfList.id && wfList.id.length;
+
+const hasNames = (wfList?: IWorkflowsListParams) => wfList && wfList.name && wfList.name.length;
+
 export class Workflows {
   
   publicApiClient: PublicApiClient
-  workflows?: Array<IWorkflow> = undefined;
 
   constructor(public publicApiCfg: IPublicApiConfig) {
     this.publicApiClient = new PublicApiClient(this.publicApiCfg)
   }
 
-  private clearCache() {
-    this.workflows = undefined;
-  }
-
-  private async fetchAllWf(): Promise<void> {
+  private async fetchAllWf(): Promise<IWorkflow[]> {
     const result = await this.publicApiClient.workflow.getAll();
     if (result.data.nextCursor) {
       throw new Error('It time to implement paging!')
     }
-    this.workflows = result.data.data;
+    return result.data.data;
   }
 
-  private async getAllWf(): Promise<IWorkflow[]> {
-    if (this.workflows === undefined) {
-      await this.fetchAllWf();
-    }
-    return Promise.resolve(this.workflows!);
-  }
-
-  private async getWfById(id: number): Promise<IWorkflow> {
-    if (this.workflows) {
-      const wf = this.workflows.find(wf => wf.id === id)
-      return Promise.resolve(wf!);
-    }
-    const res = await this.publicApiClient.workflow.get(id);
-    return res.data;
-  }
-
-  private async getIds(wfList: IWorkflowsListParams): Promise<number[]> {
-    if (wfList.id && wfList.id.length) {
-      return wfList.id
+  private async getIds(wfList?: IWorkflowsListParams): Promise<number[]> {
+    if (hasIds(wfList)) {
+      return wfList!.id
     } else {
-      const all = await this.getAllWf();
-      const filtered: any = wfList.name && wfList.name.length
-        ? all.filter((i: any) => wfList.name.includes(i.name))
+      const all = await this.fetchAllWf();
+      const filtered = hasNames(wfList)
+        ? all.filter(i => wfList!.name.includes(i.name))
         : all;
-      const ids = filtered.map((i: any) => i.id);
+      const ids = filtered.map(i => i.id);
       return Promise.resolve(ids);
     }
   }
 
+  /**
+   * Fetch from n8n instance
+   * @param wfList 
+   * @returns 
+   */
+  private async getWorkflowsFromSrv(wfList?: IWorkflowsListParams): Promise<IWorkflow[]> {
+    if (hasIds(wfList)) {
+      const workflows = wfList!.id.map(
+        async id => await this.publicApiClient.workflow
+          .get(id)
+          .then(r => r.data as IWorkflow)
+      );
+      return await Promise.all(workflows);
+    } else {
+      const all = await this.fetchAllWf();
+      return wfList && wfList.name && wfList.name.length
+        ? all.filter(i => wfList.name.includes(i.name))
+        : all;
+    }
+  }
+
+  /**
+   * Get From Directory
+   * @param dir 
+   * @param wfList 
+   * @returns 
+   */
+  private async getWorkflowsFromDir(dir: string, wfList?: IWorkflowsListParams): Promise<IWorkflow[]> {
+    // fetch from dir
+    const fromFileFn = (fileName: string) => getWfFromFile(path.join(dir, fileName))
+    const listOfAll = getWorkflowFiles(dir);
+    if (hasNames(wfList)) {
+      return listOfAll
+        .map(fromFileFn)
+        .filter(wf => wfList!.name.includes(wf.name))
+    }
+    
+    const filtered = hasIds(wfList)
+      ? listOfAll.filter(fileName => wfList!.id.includes(getIdFromFileName(fileName)))
+      : listOfAll
+    
+    return Promise.resolve(filtered.map(fromFileFn));
+  }
+
+
+  /****************************************************************************
+   * Public
+   */
+
   async delete(wfList: IWorkflowsListParams) {
-    this.clearCache();
     const ids = await this.getIds(wfList);
     ids.forEach(async id => {
       await this.publicApiClient.workflow.delete(id);
@@ -110,7 +141,6 @@ export class Workflows {
   }
 
   async activate(wfList: IWorkflowsListParams) {
-    this.clearCache();
     const ids = await this.getIds(wfList);
     ids.forEach(async id => {
       await this.publicApiClient.workflow.activate(id);
@@ -118,7 +148,6 @@ export class Workflows {
   }
 
   async deactivate(wfList: IWorkflowsListParams) {
-    this.clearCache();
     const ids = await this.getIds(wfList);
     ids.forEach(async id => {
       await this.publicApiClient.workflow.deactivate(id);
@@ -126,86 +155,82 @@ export class Workflows {
   }
 
   async renameFiles(dir: string, wfList: IWorkflowsListParams) {
-    this.clearCache();
-    const ids = await this.getIds(wfList);
+    const workflows = await this.getWorkflowsFromSrv(wfList);
     const files = getWorkflowFiles(dir);
 
-    ids.forEach(async id => {
-      const fileName = getFileById(files, id);
+    await workflows.forEach(async wf => {
+      const fileName = getFileNameById(files, wf.id);
       if (fileName) {
-        const wf = await this.getWfById(id);
-        const newName = getFileName(wf!.name)
+        const newName = getFileName(wf.name)
         fs.renameSync(path.join(dir, fileName), path.join(dir, newName))
       }
     })
   }
 
-  async save(dir: string, wfList: IWorkflowsListParams) {
-    this.clearCache();
-    const ids = await this.getIds(wfList);
-    ids.forEach(async id => {
-      const wf = await this.getWfById(id);
-      const filePath = path.join(dir, getFileName(wf));
+  async save(dir: string, wfList: IWorkflowsListParams, deleteOldFile: boolean) {
+    const workflows = await this.getWorkflowsFromSrv(wfList);
+    const fileList = getWorkflowFiles(dir);
+    workflows.forEach(async wf => {
+      const newFileName = getFileName(wf);
+      const filePath = path.join(dir, newFileName);
       const content = JSON.stringify(wf, undefined, 2);
+      if (deleteOldFile) {
+        const oldFile = fileList.find(fileName => getIdFromFileName(fileName) === wf.id);
+        if (oldFile) {
+          fs.unlinkSync(path.join(dir, oldFile));
+        }
+      }
       fs.writeFileSync(filePath, content);
     });
   }
 
   async publish(dir: string, wfList: IWorkflowsListParams) {
-    this.clearCache();
-    const ids = await this.getIds(wfList);
-    const files = getWorkflowFiles(dir);
+    const workflowsFromSrv = await this.getWorkflowsFromSrv(wfList);
+    const workflowsFromDir = await this.getWorkflowsFromDir(dir, wfList);
 
-    ids.forEach(async id => {
-      const fileName = getFileById(files, id);
-      if (fileName) {
-        const wf = await this.getWfById(id);
-        const fromFile = getWfFromFile(path.join(dir, fileName));
-        if (wf) {
-          console.log(`updating ${fileName}`)
-          const res = await this.publicApiClient.workflow.update(id, fromFile);
-          console.log(res.status);
-        } else {
-          console.log(`creating ${fileName}`)
-          const res = await this.publicApiClient.workflow.create(fromFile);
-          console.log(res.status);
-        }
-      }
-    });
+    // group workflows by action
+    const wfsToUpdate = workflowsFromDir.filter(wd => workflowsFromSrv.findIndex(ws => ws.id === wd.id) > -1)
+    const wfsToCreate = workflowsFromDir.filter(wd => workflowsFromSrv.findIndex(ws => ws.id === wd.id) === -1)
+
+    await wfsToUpdate.forEach(async wf => {
+      console.log(`updating ${wf.id} ${wf.name}`)
+      const res = await this.publicApiClient.workflow.update(wf.id, wf);
+      console.log(res.status);
+    })
+    
+    await wfsToCreate.forEach(async wf => {
+      console.log(`creating ${wf.id} ${wf.name}`)
+      const res = await this.publicApiClient.workflow.create(wf);
+      console.log(res.status);
+    })
+
   }
 
   async setupAll(dir: string) {
-    this.clearCache();
-    this.fetchAllWf();
-    const files = getWorkflowFiles(dir);
-    const idsFromFiles = files.map(f => getIdFromFileName(f));
-    const idsFromSrv = this.workflows!.map(wf => wf.id)
+    const workflowsFromSrv = await this.getWorkflowsFromSrv();
+    const workflowsFromDir = await this.getWorkflowsFromDir(dir);
 
-    // ids
-    const idsToDelete = idsFromSrv.filter(id => !idsFromFiles.includes(id));
-    const idsToUpdate = idsFromSrv.filter(id => idsFromFiles.includes(id));
-    const idsToCreate = idsFromFiles.filter(id => !idsFromSrv.includes(id));
+    // Workflows
+    const wfsToDelete = workflowsFromSrv.filter(i => workflowsFromDir.findIndex(j => i.id === j.id) === -1);
+    const wfsToUpdate = workflowsFromDir.filter(i => workflowsFromSrv.findIndex(j => i.id === j.id) > -1);
+    const wfsToCreate = workflowsFromDir.filter(i => workflowsFromSrv.findIndex(j => i.id === j.id) === -1);
 
-    console.log(`Deleting:`);
-    idsToDelete.forEach(async id => {
-      await this.publicApiClient.workflow.delete(id);
-      console.log(`Deleted ${id}`);
+    console.log(`Deleting...`);
+    wfsToDelete.forEach(async wf => {
+      const res = await this.publicApiClient.workflow.delete(wf.id);
+      console.log(`Deleted ${wf.id}. Result status: ${res.status}`);
     })
 
-    console.log(`Updating:`);
-    idsToUpdate.forEach(async id => {
-      const fileName = getFileById(files, id);
-      const wf = getWfFromFile(path.join(dir, fileName!));
-      await this.publicApiClient.workflow.update(id, wf);
-      console.log(`Updated ${fileName}`);
+    console.log(`Updating...`);
+    wfsToUpdate.forEach(async wf => {
+      const res = await this.publicApiClient.workflow.update(wf.id, wf);
+      console.log(`Updated ${wf.id} ${wf.name}. Result status: ${res.status}`);
     })
 
-    console.log(`Creating:`);
-    idsToCreate.forEach(async id => {
-      const fileName = getFileById(files, id);
-      const wf = getWfFromFile(path.join(dir, fileName!));
+    console.log(`Creating...`);
+    wfsToCreate.forEach(async wf => {
       const res = await this.publicApiClient.workflow.create(wf);
-      console.log(`Created ${fileName}. New id: ${res.data.id}`);
+      console.log(`Created ${wf.name}. New id: ${res.data.id}`);
     })
   }
 }

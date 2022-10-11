@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-npm run build && node ./dist/index.js "$@"
+node ./dist/index.js "$@"
