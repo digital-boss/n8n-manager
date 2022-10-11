@@ -34,11 +34,11 @@ export const wf = () => {
     .description('List workflows from n8n instance.')
     .hook('preAction', loadConfig)
     .option('-j, --json', 'Output in json format', false)
-    .action(createAction(async (opts, wf) => {
+    .action(createAction(async (opts, wf, cmd) => {
       const args: Parameters<typeof wf.list> = [
         opts.json
       ]
-      console.log(cmd.name, args);
+      console.log(cmd.name(), args);
       if (opts.dry === false) {
         await wf.list(...args);
       }
@@ -47,14 +47,14 @@ export const wf = () => {
   cmd.command('delete')
     .description('Delete workflow from n8n instance.')
     .hook('preAction', loadConfig)
-    .action(createAction(async (opts, wf) => {
+    .action(createAction(async (opts, wf, cmd) => {
       const args: Parameters<typeof wf.delete> = [
         {
           name: opts.name,
           id: opts.id
         }
       ]
-      console.log(cmd.name, args);
+      console.log(cmd.name(), args);
       if (opts.dry === false) {
         await wf.delete(...args)
       }
@@ -63,14 +63,14 @@ export const wf = () => {
   cmd.command('activate')
     .description('')
     .hook('preAction', loadConfig)
-    .action(createAction(async (opts, wf) => {
+    .action(createAction(async (opts, wf, cmd) => {
       const args: Parameters<typeof wf.activate> = [
         {
           name: opts.name,
           id: opts.id
         }
       ]
-      console.log(cmd.name, args);
+      console.log(cmd.name(), args);
       if (opts.dry === false) {
         await wf.activate(...args)
       }
@@ -79,14 +79,14 @@ export const wf = () => {
   cmd.command('deactivate')
     .description('')
     .hook('preAction', loadConfig)
-    .action(createAction(async (opts, wf) => {
+    .action(createAction(async (opts, wf, cmd) => {
       const args: Parameters<typeof wf.deactivate> = [
         {
           name: opts.name,
           id: opts.id
         }
       ]
-      console.log(cmd.name, args);
+      console.log(cmd.name(), args);
       if (opts.dry === false) {
         await wf.deactivate(...args)
       }
@@ -95,7 +95,7 @@ export const wf = () => {
   cmd.command('rename-files')
     .description('')
     .hook('preAction', loadConfig)
-    .action(createAction(async (opts, wf) => {
+    .action(createAction(async (opts, wf, cmd) => {
       const args: Parameters<typeof wf.renameFiles> = [
         opts.dir || config.workflows.dir,
         {
@@ -103,7 +103,7 @@ export const wf = () => {
           id: opts.id
         },
       ]
-      console.log(cmd.name, args);
+      console.log(cmd.name(), args);
       if (opts.dry === false) {
         await wf.renameFiles(...args)
       }
@@ -116,7 +116,7 @@ export const wf = () => {
     .addOption(options.name)
     .addOption(options.id)
     .option('-d, --delete-old-files', 'Delete old files', true)
-    .action(createAction(async (opts, wf) => {
+    .action(createAction(async (opts, wf, cmd) => {
       const args: Parameters<typeof wf.save> = [
         opts.dir || config.workflows.dir,
         {
@@ -125,7 +125,7 @@ export const wf = () => {
         },
         opts.deleteOldFiles
       ]
-      console.log(cmd.name, args);
+      console.log(cmd.name(), args);
       if (opts.dry === false) {
         await wf.save(...args)
       }
@@ -138,7 +138,7 @@ export const wf = () => {
     .addOption(options.name)
     .addOption(options.id)
     .option('-a, --activate-live', 'Activate workflows with "live" tag', true)
-    .action(createAction(async (opts, wf) => {
+    .action(createAction(async (opts, wf, cmd) => {
       const args: Parameters<typeof wf.publish> = [
         opts.dir || config.workflows.dir,
         {
@@ -146,7 +146,7 @@ export const wf = () => {
           id: opts.id
         }
       ]
-      console.log(cmd.name, args);
+      console.log(cmd.name(), args);
       if (opts.dry === false) {
         await wf.publish(...args)
       }
@@ -156,11 +156,11 @@ export const wf = () => {
     .description('Setup n8n instalce workflows exactly the save as your --dir.')
     .addOption(options.dir)
     .hook('preAction', loadConfig)
-    .action(createAction(async (opts, wf) => {
+    .action(createAction(async (opts, wf, cmd) => {
       const args: Parameters<typeof wf.setupAll> = [
         opts.dir || config.workflows.dir
       ]
-      console.log(cmd.name, args);
+      console.log(cmd.name(), args);
       if (opts.dry === false) {
         await wf.setupAll(...args)
       }
