@@ -22,7 +22,6 @@ export class HttpClient {
 	}
 
 	protected getCookie = async (): Promise<string> => {
-		console.log(`cookie: '${this.cookie}'`)
 		return this.cookie || this.setNewCookie();
 	}
 
@@ -49,7 +48,7 @@ export class HttpClient {
 		}
 	
 		if (response.status === 200 && response.headers?.['set-cookie']) {
-			return response.headers?.['set-cookie'][0];
+			return response.headers?.['set-cookie'] as unknown as string; // https://github.com/axios/axios/issues/5083 AxiosHeaders get 'set-cookie' returns string instead of array
 		}
 	
 		throw new Error(`Login error: No cookies received`);

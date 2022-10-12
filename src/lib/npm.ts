@@ -11,12 +11,13 @@ export class Npm {
 
   async list (json: boolean) {
     const res = await this.client.nodes.list();
+    const data = res.data.data;
     if (json) {
-      console.log(res.data)
+      console.log(JSON.stringify(data, undefined, 2));
     } else {
-      //res.data
+      const list = data.map((i: any) => `${i.packageName}@${i.installedVersion}. Nodes: ${i.installedNodes.map((j: any) => j.name).join(', ')}`)
+      console.log(list.join('\n'));
     }
-    
   }
 
   async install (packages: string[]) {
