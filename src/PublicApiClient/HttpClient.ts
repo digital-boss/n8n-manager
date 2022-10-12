@@ -1,8 +1,9 @@
-import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
+import axios, { AxiosProxyConfig, AxiosRequestConfig, AxiosResponse } from 'axios';
 
 export interface IPublicApiConfig {
   url: string;
   apiKey: string;
+  proxy?: AxiosProxyConfig
 }
 
 export class HttpClient {
@@ -19,10 +20,7 @@ export class HttpClient {
         'Accept': 'application/json',
         'X-N8N-API-KEY': this.config.apiKey
       },
-      proxy: {
-        host: 'localhost',
-        port: 8080
-      }
+      proxy: this.config.proxy,
     }
 
     const instance = axios.create(defaultOpts)

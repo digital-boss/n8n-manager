@@ -1,3 +1,4 @@
+import { AxiosProxyConfig } from "axios";
 import { setValue, traverse, VisitorFn } from "./traverse";
 
 export interface IConfig {
@@ -9,7 +10,8 @@ export interface IConfig {
   }
   workflows: {
     dir: string;
-  }
+  },
+  proxy?: AxiosProxyConfig
 }
 
 export const createEmptyConfig = (): IConfig => {
@@ -22,11 +24,11 @@ export const createEmptyConfig = (): IConfig => {
     },
     workflows: {
       dir: '.'
-    }
+    },
   }
 }
 
-const envVarsPrefix = 'N8NCLIENT'
+const envVarsPrefix = 'N8NM'
 
 export const overrideWithEnv = <T>(obj: T, path: Array<string | number>) => {
   const envVarName = [envVarsPrefix, ...path].map(i => i.toString().toUpperCase()).join('_');

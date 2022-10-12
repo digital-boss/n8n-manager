@@ -13,6 +13,12 @@ export class Nodes extends ResourceBase {
     }
   }
   
+  private errHandler = (err: any) => {
+    console.log(err.config);
+    console.log(err.response.data);
+    throw new Error(err.response.data.message);
+  }
+
   install (packageName: string) {
     return this.httpClient.request({
       url: nodesUrl,
@@ -21,7 +27,7 @@ export class Nodes extends ResourceBase {
         name: packageName
       }
     })
-    .then(this.postProcess)
+    .catch(this.errHandler)
   }
 
   uninstall (packageName: string) {
@@ -32,7 +38,7 @@ export class Nodes extends ResourceBase {
         name: packageName
       }
     })
-    .then(this.postProcess)
+    .catch(this.errHandler)
   }
 
   update (packageName: string) {
@@ -43,7 +49,7 @@ export class Nodes extends ResourceBase {
         name: packageName
       }
     })
-    .then(this.postProcess)
+    .catch(this.errHandler)
   }
 
   list () {
@@ -51,6 +57,6 @@ export class Nodes extends ResourceBase {
       url: nodesUrl,
       method: 'GET',
     })
-    .then(this.postProcess)
+    .catch(this.errHandler)
   }
 }

@@ -1,6 +1,6 @@
 import { Command, Option, OptionValues } from 'commander';
 import { IPublicApiConfig } from 'src/PublicApiClient/HttpClient';
-import { config, loadConfig } from "./common";
+import { config, loadConfig, logOp } from "./common";
 import { Workflows } from "../lib/workflows";
 
 const options = {
@@ -13,7 +13,8 @@ const options = {
 const createWorkflowsAgent = (cmd: Command) => {
   const publicApiCfg: IPublicApiConfig = {
     url: config.n8n.url,
-    apiKey: config.n8n.publicApiKey
+    apiKey: config.n8n.publicApiKey,
+    proxy: config.proxy,
   }
   return new Workflows(publicApiCfg) 
 } 
@@ -28,17 +29,13 @@ const createAction = (
   }
 }
 
-const logOp = (cmd: Command, args: any) => {
-  console.log('Operation: ', cmd.name(), args, '\n');
-}
-
 export const wf = () => {
   const cmd = new Command('wf');
 
   cmd.command('list')
     .description('List workflows from n8n instance.')
     .hook('preAction', loadConfig)
-    .option('-j, --json', 'Output in json format', false)
+    .option('-j, --json', 'Output in json format')
     .action(createAction(async (opts, wf, cmd) => {
       const args: Parameters<typeof wf.list> = [
         opts.json

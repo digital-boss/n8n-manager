@@ -12,3 +12,7 @@ export const loadConfig = (cmd: Command) => {
     console.log('Config:', config, '\n');
   }
 }
+
+export const logOp = (cmd: Command, args: any) => {
+  console.log('Operation: ', cmd.name(), args, '\n');
+}

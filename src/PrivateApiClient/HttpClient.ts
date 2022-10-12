@@ -1,9 +1,10 @@
-import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
+import axios, { AxiosRequestConfig, AxiosResponse, AxiosError, AxiosProxyConfig } from 'axios';
 
 export interface IPrivateApiConfig {
   url: string;
   email: string;
 	password: string;
+	proxy?: AxiosProxyConfig;
 }
 
 export class HttpClient {
@@ -21,6 +22,7 @@ export class HttpClient {
 	}
 
 	protected getCookie = async (): Promise<string> => {
+		console.log(`cookie: '${this.cookie}'`)
 		return this.cookie || this.setNewCookie();
 	}
 
@@ -36,6 +38,7 @@ export class HttpClient {
 				email: this.config.email,
 				password: this.config.password,
 			},
+			proxy: this.config.proxy,
 		};
 	
 		let response;
@@ -53,13 +56,10 @@ export class HttpClient {
 	}
 
 	async request (options: AxiosRequestConfig) {
-
-		
-		
 		return this.requestInternal(options, 0);
 	}
 
-	private async requestInternal (options: AxiosRequestConfig, count = 0): Promise<any> {
+	private async requestInternal (options: AxiosRequestConfig, count = 0): Promise<AxiosResponse> {
 		const cookie = await this.getCookie();
 
 		const defaultOpts: AxiosRequestConfig = {
@@ -69,15 +69,16 @@ export class HttpClient {
         'Accept': 'application/json',
 				'Cookie': cookie
       },
+			proxy: this.config.proxy,
     }
 
 		const instance = axios.create(defaultOpts)
 
 		try {
-			return await instance.request(options);
-		} catch (res) {
-			if (res) {
-				if (res.statusCode === 401) {
+			return instance.request(options);
+		} catch (err: any | AxiosError) {
+			if (axios.isAxiosError(err)) {
+				if (err.status === 401) {
 					if (count > 1) {
 						throw new Error('Login failed: Two times login returned cookies, but it was theated as Unauthorized in next response');
 					}
@@ -85,7 +86,7 @@ export class HttpClient {
 					return this.requestInternal(options, count + 1);
 				}
 			}
-			throw(res);
+			throw(err);
 		}
 	};
 }
