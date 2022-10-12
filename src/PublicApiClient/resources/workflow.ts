@@ -12,8 +12,9 @@ export class Workflow extends ResourceBase {
   // }
 
   private errHandler = (err: any) => {
-    console.log(err.response.data)
-    throw new Error('err');
+    console.log(err.config);
+    console.log(err.response.data);
+    throw new Error(err.response.data.message);
   }
 
   getAll () {
@@ -29,7 +30,7 @@ export class Workflow extends ResourceBase {
       url: `/workflows/${id}`,
       method: 'GET',
     })
-    // .then(this.postProcess)
+    .catch(this.errHandler)
   }
   
   delete (id: number) {
@@ -37,7 +38,7 @@ export class Workflow extends ResourceBase {
       url: `/workflows/${id}`,
       method: 'DELETE',
     })
-    // .then(this.postProcess)
+    .catch(this.errHandler)
   }
 
   create (wf: any) {
@@ -46,7 +47,7 @@ export class Workflow extends ResourceBase {
       method: 'POST',
       data: wf
     })
-    // .then(this.postProcess)
+    .catch(this.errHandler)
   }
 
   update (id: number, wf: any) {
@@ -55,7 +56,7 @@ export class Workflow extends ResourceBase {
       method: 'PUT',
       data: wf
     })
-    // .then(this.postProcess)
+    .catch(this.errHandler)
   }
   
   activate (id: number) {
@@ -63,7 +64,7 @@ export class Workflow extends ResourceBase {
       url: `/workflows/${id}/activate`,
       method: 'POST',
     })
-    // .then(this.postProcess)
+    .catch(this.errHandler)
   }
   
   deactivate (id: number) {
@@ -71,6 +72,6 @@ export class Workflow extends ResourceBase {
       url: `/workflows/${id}/deactivate`,
       method: 'POST',
     })
-    // .then(this.postProcess)
+    .catch(this.errHandler)
   }
 }

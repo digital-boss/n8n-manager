@@ -15,15 +15,13 @@ interface IWorkflow {
   tags: IWorkflowTag[];
 }
 
-// Interfaces for arguments
-
-
 export interface IWorkflowsListParams {
   name: string[];
   id: number[];
+  tag: string[];
 }
 
-const getFileName = (wf: any) => {
+const getFileName = (wf: IWorkflow) => {
   const name = wf.name
     .replace(/::|: /g, ' - ')
     .replace(/[:|]/g, '')
@@ -55,8 +53,23 @@ const getWfFromFile = (file: string): IWorkflow => {
 }
 
 const hasIds = (wfList?: IWorkflowsListParams) => wfList && wfList.id && wfList.id.length;
-
 const hasNames = (wfList?: IWorkflowsListParams) => wfList && wfList.name && wfList.name.length;
+const hasTags = (wfList?: IWorkflowsListParams) => wfList && wfList.tag && wfList.tag.length;
+
+const removeReadonlyProps = (wf: IWorkflow) => {
+  const w: any = { ...wf };
+  delete w.id;
+  delete w.active;
+  delete w.createdAt;
+  delete w.updatedAt;
+  delete w.tags;
+  // w.tags = w.tags.map((t: any) => {
+  //   delete t.createdAt;
+  //   delete t.updatedAt;
+  //   return t;
+  // });
+  return w;
+}
 
 export class Workflows {
   
@@ -74,19 +87,6 @@ export class Workflows {
     return result.data.data;
   }
 
-  private async getIds(wfList?: IWorkflowsListParams): Promise<number[]> {
-    if (hasIds(wfList)) {
-      return wfList!.id
-    } else {
-      const all = await this.fetchAllWf();
-      const filtered = hasNames(wfList)
-        ? all.filter(i => wfList!.name.includes(i.name))
-        : all;
-      const ids = filtered.map(i => i.id);
-      return Promise.resolve(ids);
-    }
-  }
-
   /**
    * Fetch from n8n instance
    * @param wfList 
@@ -102,9 +102,22 @@ export class Workflows {
       return await Promise.all(workflows);
     } else {
       const all = await this.fetchAllWf();
-      return wfList && wfList.name && wfList.name.length
-        ? all.filter(i => wfList.name.includes(i.name))
+      const filtered = hasNames(wfList)
+        ? all.filter(i => wfList!.name.includes(i.name))
+        : hasTags(wfList)
+        ? all.filter(i => i.tags.findIndex(tag => wfList!.tag.includes(tag.name)) > -1)
         : all;
+      return filtered;
+    }
+  }
+
+  private async getIds(wfList?: IWorkflowsListParams): Promise<number[]> {
+    if (hasIds(wfList)) {
+      return wfList!.id
+    } else {
+      const wfs = await this.getWorkflowsFromSrv(wfList);
+      const ids = wfs.map(i => i.id);
+      return Promise.resolve(ids);
     }
   }
 
@@ -115,20 +128,26 @@ export class Workflows {
    * @returns 
    */
   private async getWorkflowsFromDir(dir: string, wfList?: IWorkflowsListParams): Promise<IWorkflow[]> {
-    // fetch from dir
     const fromFileFn = (fileName: string) => getWfFromFile(path.join(dir, fileName))
     const listOfAll = getWorkflowFiles(dir);
+
     if (hasNames(wfList)) {
       return listOfAll
         .map(fromFileFn)
         .filter(wf => wfList!.name.includes(wf.name))
     }
     
-    const filtered = hasIds(wfList)
+    const fileNames = hasIds(wfList)
       ? listOfAll.filter(fileName => wfList!.id.includes(getIdFromFileName(fileName)))
       : listOfAll
     
-    return Promise.resolve(filtered.map(fromFileFn));
+    const workflows = fileNames.map(fromFileFn);
+
+    const filteredWfs = hasTags(wfList)
+      ? workflows.filter(wf => wf.tags.findIndex(tag => wfList!.tag.includes(tag.name)) > -1)
+      : workflows
+
+    return Promise.resolve(filteredWfs);
   }
 
 
@@ -140,15 +159,15 @@ export class Workflows {
     const res = await this.fetchAllWf();
 
     if (json) {
-      const jsonRes = res.map(w => {
-        w.id,
-        w.name,
-        w.active,
-        w.tags.map(t => t.name)
-      })
+      const jsonRes = res.map(w => ({
+        id: w.id,
+        name: w.name,
+        active: w.active,
+        tags: w.tags.map(t => t.name)
+      }));
       console.log(jsonRes);
     } else {
-      const lines = res.map(i => `${i}: ${i.name}. ${i.active}. ${i.tags.map(t => t.name).join(', ')}`);
+      const lines = res.map(i => `${i.id}: ${i.name}. ${i.active}. ${i.tags.map(t => t.name).join(', ')}`);
       console.log(lines.join('\n'));
     }
   }
@@ -167,7 +186,7 @@ export class Workflows {
     });
   }
 
-  async deactivate(wfList: IWorkflowsListParams) {
+  async deactivate(wfList?: IWorkflowsListParams) {
     const ids = await this.getIds(wfList);
     ids.forEach(async id => {
       await this.publicApiClient.workflow.deactivate(id);
@@ -181,7 +200,7 @@ export class Workflows {
     await workflows.forEach(async wf => {
       const fileName = getFileNameById(files, wf.id);
       if (fileName) {
-        const newName = getFileName(wf.name)
+        const newName = getFileName(wf)
         fs.renameSync(path.join(dir, fileName), path.join(dir, newName))
       }
     })
@@ -205,7 +224,7 @@ export class Workflows {
   }
 
   async publish(dir: string, wfList: IWorkflowsListParams) {
-    const workflowsFromSrv = await this.getWorkflowsFromSrv(wfList);
+    const workflowsFromSrv = await this.getWorkflowsFromSrv();
     const workflowsFromDir = await this.getWorkflowsFromDir(dir, wfList);
 
     // group workflows by action
@@ -220,7 +239,7 @@ export class Workflows {
     
     await wfsToCreate.forEach(async wf => {
       console.log(`creating ${wf.id} ${wf.name}`)
-      const res = await this.publicApiClient.workflow.create(wf);
+      const res = await this.publicApiClient.workflow.create(removeReadonlyProps(wf));
       console.log(res.status);
     })
 
@@ -234,6 +253,9 @@ export class Workflows {
     const wfsToDelete = workflowsFromSrv.filter(i => workflowsFromDir.findIndex(j => i.id === j.id) === -1);
     const wfsToUpdate = workflowsFromDir.filter(i => workflowsFromSrv.findIndex(j => i.id === j.id) > -1);
     const wfsToCreate = workflowsFromDir.filter(i => workflowsFromSrv.findIndex(j => i.id === j.id) === -1);
+
+    console.log('Deactivate all...');
+    await this.deactivate();
 
     console.log(`Deleting...`);
     wfsToDelete.forEach(async wf => {
@@ -252,5 +274,8 @@ export class Workflows {
       const res = await this.publicApiClient.workflow.create(wf);
       console.log(`Created ${wf.name}. New id: ${res.data.id}`);
     })
+
+    console.log('Activate live...');
+    await this.activate({id: [], name: [], tag: ['live']})
   }
 }

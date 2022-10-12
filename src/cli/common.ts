@@ -9,6 +9,6 @@ export const loadConfig = (cmd: Command) => {
   if (fs.existsSync(file)) {
     const content = fs.readFileSync(file, 'utf-8');
     config = JSON.parse(content);
-    console.log('Config:', config);
+    console.log('Config:', config, '\n');
   }
 }
