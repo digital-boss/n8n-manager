@@ -1,5 +1,22 @@
 import { PrivateApiClient } from "src/PrivateApiClient";
 import { IPrivateApiConfig } from "src/PrivateApiClient/HttpClient";
+import fs from "node:fs";
+import path from "node:path";
+interface INodePackage {
+  packageName: string;
+  installedVersion: string;
+  installedNodes: {
+    name: string;
+  }[]
+}
+
+const nodesListToText = (nodesPackages: INodePackage[]) => {
+  const list = nodesPackages.map(i => {
+    const nodes = i.installedNodes.map(j => j.name).join(', '); 
+    return `${i.packageName}@${i.installedVersion}. Nodes: ${nodes}`
+  })
+  return list.join('\n');
+}
 
 export class Npm {
 
@@ -15,9 +32,17 @@ export class Npm {
     if (json) {
       console.log(JSON.stringify(data, undefined, 2));
     } else {
-      const list = data.map((i: any) => `${i.packageName}@${i.installedVersion}. Nodes: ${i.installedNodes.map((j: any) => j.name).join(', ')}`)
-      console.log(list.join('\n'));
+      const listTxt = nodesListToText(data);
+      console.log(listTxt);
     }
+  }
+
+  async saveList (file: string) {
+    const res = await this.client.nodes.list();
+    const data = res.data.data as INodePackage[];
+    const list = data.map(i => `${i.packageName}@${i.installedVersion}`);
+    const content = list.sort().join('\n') + '\n'
+    fs.writeFileSync(file, content);
   }
 
   async install (packages: string[]) {
@@ -32,7 +57,7 @@ export class Npm {
 
   }
 
-  async setupAll () {
+  async setupAll (file: string) {
 
   }
 }

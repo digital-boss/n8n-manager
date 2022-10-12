@@ -5,6 +5,7 @@ import { Npm } from "src/lib/npm";
 
 const options = {
   packages: new Option('-p, --package <string...>', 'Package names'),
+  nodesListFile: new Option('--nodes-file <string>', 'Path to text file with nodes list'),
 }
 
 
@@ -45,17 +46,32 @@ export const npm = () => {
       }
     }))
 
+  cmd.command('save-list')
+    .description('Save nodes packages list to file')
+    .hook('preAction', loadConfig)
+    .addOption(options.nodesListFile)
+    .action(createAction(async (opts, npm, cmd) => {
+      const args: Parameters<typeof npm.saveList> = [
+        opts.nodesFile || config.nodesListFile
+      ]
+      logOp(cmd, args)
+      if (opts.dry === false) {
+        await npm.saveList(...args);
+      }
+    }))
+
+
   cmd.command('install')
     .description('')
     .hook('preAction', loadConfig)
     .addOption(options.packages)
     .action(createAction(async (opts, npm, cmd) => {
-      const args: Parameters<typeof npm.list> = [
+      const args: Parameters<typeof npm.install> = [
         opts.packages
       ]
       logOp(cmd, args)
       if (opts.dry === false) {
-        await npm.list(...args);
+        await npm.install(...args);
       }
     }))
 
@@ -64,12 +80,12 @@ export const npm = () => {
     .hook('preAction', loadConfig)
     .addOption(options.packages)
     .action(createAction(async (opts, npm, cmd) => {
-      const args: Parameters<typeof npm.list> = [
+      const args: Parameters<typeof npm.uninstall> = [
         opts.packages
       ]
       logOp(cmd, args)
       if (opts.dry === false) {
-        await npm.list(...args);
+        await npm.uninstall(...args);
       }
     }))
 
@@ -78,25 +94,26 @@ export const npm = () => {
     .hook('preAction', loadConfig)
     .addOption(options.packages)
     .action(createAction(async (opts, npm, cmd) => {
-      const args: Parameters<typeof npm.list> = [
+      const args: Parameters<typeof npm.update> = [
         opts.packages
       ]
       logOp(cmd, args)
       if (opts.dry === false) {
-        await npm.list(...args);
+        await npm.update(...args);
       }
     }))
 
   cmd.command('setup-all')
     .description('')
     .hook('preAction', loadConfig)
+    .addOption(options.nodesListFile)
     .action(createAction(async (opts, npm, cmd) => {
-      const args: Parameters<typeof npm.list> = [
-        opts.packages
+      const args: Parameters<typeof npm.setupAll> = [
+        opts.nodesFile || config.nodesListFile
       ]
       logOp(cmd, args)
       if (opts.dry === false) {
-        await npm.list(...args);
+        await npm.setupAll(...args);
       }
     }))
 
