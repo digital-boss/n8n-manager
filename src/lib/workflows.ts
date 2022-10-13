@@ -174,42 +174,42 @@ export class Workflows {
 
   async delete(wfList: IWorkflowsListParams) {
     const ids = await this.getIds(wfList);
-    ids.forEach(async id => {
+    for (const id of ids) {
       await this.publicApiClient.workflow.delete(id);
-    })    
+    }
   }
 
   async activate(wfList: IWorkflowsListParams) {
     const ids = await this.getIds(wfList);
-    ids.forEach(async id => {
+    for (const id of ids) {
       await this.publicApiClient.workflow.activate(id);
-    });
+    };
   }
 
   async deactivate(wfList?: IWorkflowsListParams) {
     const ids = await this.getIds(wfList);
-    ids.forEach(async id => {
+    for (const id of ids) {
       await this.publicApiClient.workflow.deactivate(id);
-    });
+    };
   }
 
   async renameFiles(dir: string, wfList: IWorkflowsListParams) {
     const workflows = await this.getWorkflowsFromSrv(wfList);
     const files = getWorkflowFiles(dir);
 
-    await workflows.forEach(async wf => {
+    for (const wf of workflows) {
       const fileName = getFileNameById(files, wf.id);
       if (fileName) {
         const newName = getFileName(wf)
         fs.renameSync(path.join(dir, fileName), path.join(dir, newName))
       }
-    })
+    }
   }
 
   async save(dir: string, wfList: IWorkflowsListParams, deleteOldFile: boolean) {
     const workflows = await this.getWorkflowsFromSrv(wfList);
     const fileList = getWorkflowFiles(dir);
-    workflows.forEach(async wf => {
+    for (const wf of workflows) {
       const newFileName = getFileName(wf);
       const filePath = path.join(dir, newFileName);
       const content = JSON.stringify(wf, undefined, 2);
@@ -220,7 +220,7 @@ export class Workflows {
         }
       }
       fs.writeFileSync(filePath, content);
-    });
+    };
   }
 
   async publish(dir: string, wfList: IWorkflowsListParams) {
@@ -231,17 +231,17 @@ export class Workflows {
     const wfsToUpdate = workflowsFromDir.filter(wd => workflowsFromSrv.findIndex(ws => ws.id === wd.id) > -1)
     const wfsToCreate = workflowsFromDir.filter(wd => workflowsFromSrv.findIndex(ws => ws.id === wd.id) === -1)
 
-    await wfsToUpdate.forEach(async wf => {
+    for (const wf of wfsToUpdate) {
       console.log(`updating ${wf.id} ${wf.name}`)
       const res = await this.publicApiClient.workflow.update(wf.id, wf);
       console.log(res.status);
-    })
+    }
     
-    await wfsToCreate.forEach(async wf => {
+    for (const wf of wfsToCreate) {
       console.log(`creating ${wf.id} ${wf.name}`)
       const res = await this.publicApiClient.workflow.create(removeReadonlyProps(wf));
       console.log(res.status);
-    })
+    }
 
   }
 
@@ -258,22 +258,22 @@ export class Workflows {
     await this.deactivate();
 
     console.log(`Deleting...`);
-    wfsToDelete.forEach(async wf => {
+    for (const wf of wfsToDelete) {
       const res = await this.publicApiClient.workflow.delete(wf.id);
       console.log(`Deleted ${wf.id}. Result status: ${res.status}`);
-    })
+    }
 
     console.log(`Updating...`);
-    wfsToUpdate.forEach(async wf => {
+    for (const wf of wfsToUpdate) {
       const res = await this.publicApiClient.workflow.update(wf.id, wf);
       console.log(`Updated ${wf.id} ${wf.name}. Result status: ${res.status}`);
-    })
+    }
 
     console.log(`Creating...`);
-    wfsToCreate.forEach(async wf => {
+    for (const wf of wfsToCreate) {
       const res = await this.publicApiClient.workflow.create(wf);
       console.log(`Created ${wf.name}. New id: ${res.data.id}`);
-    })
+    }
 
     console.log('Activate live...');
     await this.activate({id: [], name: [], tag: ['live']})

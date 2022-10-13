@@ -4,7 +4,7 @@ import { config, loadConfig, logOp } from "./common";
 import { Npm } from "src/lib/npm";
 
 const options = {
-  packages: new Option('-p, --package <string...>', 'Package names'),
+  packages: new Option('-p, --packages <string...>', 'Package names'),
   nodesListFile: new Option('--nodes-file <string>', 'Path to text file with nodes list'),
 }
 
@@ -65,9 +65,11 @@ export const npm = () => {
     .description('')
     .hook('preAction', loadConfig)
     .addOption(options.packages)
+    .addOption(options.nodesListFile)
     .action(createAction(async (opts, npm, cmd) => {
       const args: Parameters<typeof npm.install> = [
-        opts.packages
+        opts.packages,
+        opts.nodesListFile
       ]
       logOp(cmd, args)
       if (opts.dry === false) {
@@ -107,9 +109,11 @@ export const npm = () => {
     .description('')
     .hook('preAction', loadConfig)
     .addOption(options.nodesListFile)
+    .option('-re, --reinstall-existing', 'Reinstall packages existed at server and in file. Without this option only packages with different version will be reinstalled.', false)
     .action(createAction(async (opts, npm, cmd) => {
       const args: Parameters<typeof npm.setupAll> = [
-        opts.nodesFile || config.nodesListFile
+        opts.nodesFile || config.nodesListFile,
+        opts.reinstallExisting
       ]
       logOp(cmd, args)
       if (opts.dry === false) {

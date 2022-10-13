@@ -35,7 +35,7 @@ export const wf = () => {
   cmd.command('list')
     .description('List workflows from n8n instance.')
     .hook('preAction', loadConfig)
-    .option('-j, --json', 'Output in json format')
+    .option('-j, --json', 'Output in json format', false)
     .action(createAction(async (opts, wf, cmd) => {
       const args: Parameters<typeof wf.list> = [
         opts.json
