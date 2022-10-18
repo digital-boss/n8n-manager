@@ -1,7 +1,7 @@
 import { Command, Option, OptionValues } from 'commander';
 import { IPrivateApiConfig } from 'src/PrivateApiClient/HttpClient';
 import { config, loadConfig, logOp } from "./common";
-import { Npm } from "src/lib/npm";
+import { Npm } from "src/lib/Npm";
 
 const options = {
   packages: new Option('-p, --packages <string...>', 'Package names'),

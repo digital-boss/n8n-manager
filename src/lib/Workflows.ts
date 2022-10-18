@@ -2,6 +2,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { PublicApiClient } from "src/PublicApiClient";
 import { IPublicApiConfig } from "src/PublicApiClient/HttpClient";
+import { IRestCliConfig, RestCliClient } from "src/RestCliClient";
 
 interface IWorkflowTag {
   id: number;
@@ -34,7 +35,7 @@ const getWorkflowFiles = (dir: string) => {
   return fs.readdirSync(dir, {withFileTypes: true})
     .filter(dirent => dirent.isFile())
     .map(dirent => dirent.name)
-    .filter(i => i.match(/\d+_.*\.json/));
+    .filter(i => i.match(/^\d+_.*\.json$/));
 }
 
 const getFileNameById = (files: string[], id: number) => files.find(f => f.startsWith(id.toString() + '_'));
@@ -74,9 +75,14 @@ const removeReadonlyProps = (wf: IWorkflow) => {
 export class Workflows {
   
   publicApiClient: PublicApiClient
+  restCliClient: RestCliClient
 
-  constructor(public publicApiCfg: IPublicApiConfig) {
+  constructor(
+    public publicApiCfg: IPublicApiConfig,
+    public restCliCfg: IRestCliConfig,
+  ) {
     this.publicApiClient = new PublicApiClient(this.publicApiCfg)
+    this.restCliClient = new RestCliClient(this.restCliCfg)
   }
 
   private async fetchAllWf(): Promise<IWorkflow[]> {
@@ -231,18 +237,11 @@ export class Workflows {
     const wfsToUpdate = workflowsFromDir.filter(wd => workflowsFromSrv.findIndex(ws => ws.id === wd.id) > -1)
     const wfsToCreate = workflowsFromDir.filter(wd => workflowsFromSrv.findIndex(ws => ws.id === wd.id) === -1)
 
-    for (const wf of wfsToUpdate) {
-      console.log(`updating ${wf.id} ${wf.name}`)
-      const res = await this.publicApiClient.workflow.update(wf.id, wf);
-      console.log(res.status);
+    for (const wf of wfsToUpdate.concat(wfsToCreate)) {
+      console.log(`Importing ${wf.id} ${wf.name}`)
+      const res = await this.restCliClient.importWorkflow(wf);
+      console.log(res.status, res.data);
     }
-    
-    for (const wf of wfsToCreate) {
-      console.log(`creating ${wf.id} ${wf.name}`)
-      const res = await this.publicApiClient.workflow.create(removeReadonlyProps(wf));
-      console.log(res.status);
-    }
-
   }
 
   async setupAll(dir: string) {
@@ -263,16 +262,11 @@ export class Workflows {
       console.log(`Deleted ${wf.id}. Result status: ${res.status}`);
     }
 
-    console.log(`Updating...`);
-    for (const wf of wfsToUpdate) {
-      const res = await this.publicApiClient.workflow.update(wf.id, wf);
-      console.log(`Updated ${wf.id} ${wf.name}. Result status: ${res.status}`);
-    }
-
-    console.log(`Creating...`);
-    for (const wf of wfsToCreate) {
-      const res = await this.publicApiClient.workflow.create(wf);
-      console.log(`Created ${wf.name}. New id: ${res.data.id}`);
+    console.log(`Importing...`);
+    for (const wf of wfsToUpdate.concat(wfsToCreate)) {
+      console.log(`Importing ${wf.id} ${wf.name}`)
+      const res = await this.restCliClient.importWorkflow(wf);
+      console.log(res.status, res.data);
     }
 
     console.log('Activate live...');

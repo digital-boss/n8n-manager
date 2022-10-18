@@ -7,7 +7,12 @@ export interface IConfig {
     publicApiKey: string;
     email: string;
     password: string;
-  }
+    importWorkflow: {
+      path: string,
+      user: string,
+      password: string,
+    },
+  },
   workflows: {
     dir: string;
   },
@@ -21,7 +26,12 @@ export const createEmptyConfig = (): IConfig => {
       url: 'http://localhost:5678',
       publicApiKey: '',
       email: '',
-      password: ''
+      password: '',
+      importWorkflow: {
+        path: '/webhook/import-workflow',
+        user: '',
+        password: '',
+      },
     },
     workflows: {
       dir: '.'

@@ -1,7 +1,8 @@
 import { Command, Option, OptionValues } from 'commander';
 import { IPublicApiConfig } from 'src/PublicApiClient/HttpClient';
 import { config, loadConfig, logOp } from "./common";
-import { Workflows } from "../lib/workflows";
+import { Workflows } from "../lib/Workflows";
+import { IRestCliConfig } from 'src/RestCliClient';
 
 const options = {
   name: new Option('-n, --name <string...>', 'Workflow names'),
@@ -16,7 +17,15 @@ const createWorkflowsAgent = (cmd: Command) => {
     apiKey: config.n8n.publicApiKey,
     proxy: config.proxy,
   }
-  return new Workflows(publicApiCfg) 
+  const restCliCfg: IRestCliConfig = {
+    url: config.n8n.url + config.n8n.importWorkflow.path,
+    auth: {
+      user: config.n8n.importWorkflow.user,
+      password: config.n8n.importWorkflow.password
+    },
+    proxy: config.proxy,
+  }
+  return new Workflows(publicApiCfg, restCliCfg);
 } 
 
 const createAction = (
