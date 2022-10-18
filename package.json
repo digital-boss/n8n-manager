@@ -1,17 +1,18 @@
 {
   "name": "@digital-boss/n8n-manager",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "",
   "main": "esbuild.js",
   "bin": {
-    "8man": "dist/8man"
+    "8man": "dist/cli.js"
   },
   "files": [
     "dist"
   ],
   "scripts": {
     "ts-types": "tsc --emitDeclarationOnly --outDir dist",
-    "build": "rimraf dist && node esbuild.js && npm run ts-types && cp ./src/8man dist/",
+    "create-exec": "(echo '#!/usr/bin/env node'; cat dist/index.js) > dist/cli.js && chmod +x dist/cli.js",
+    "build": "rimraf dist && node esbuild.js && npm run ts-types && npm run create-exec",
     "exec": "npm run build && node dist/index.js",
     "genver": "genversion -s -e src/version.ts",
     "test": "jest"
