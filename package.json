@@ -1,5 +1,5 @@
 {
-  "name": "n8n-api-client",
+  "name": "@digital-boss/n8n-manager",
   "version": "0.1.0",
   "description": "",
   "main": "esbuild.js",
