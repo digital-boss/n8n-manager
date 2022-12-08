@@ -1,12 +1,14 @@
 import { Command, Option, OptionValues } from 'commander';
 import { IPublicApiConfig } from 'src/PublicApiClient/HttpClient';
 import { config, loadConfig, logOp } from "./common";
-import { Workflows } from "../lib/Workflows";
+import { IWorkflowsListParams, Workflows } from "../lib/Workflows";
 import { IRestCliConfig } from 'src/RestCliClient';
+import { IConfig } from 'src/lib/utils/config';
 
 const options = {
   name: new Option('-n, --name <string...>', 'Workflow names'),
   id: new Option('--id <numbers...>', 'Workflow ids'),
+  excludeId: new Option('--exclude-id <numbers...>', 'Workflow ids to exclude'),
   dir: new Option('--dir <string>', 'Directory with workflows'),
   tag: new Option('-t, --tag <string...>', 'Workflow tags'),
 }
@@ -38,6 +40,17 @@ const createAction = (
   }
 }
 
+const getWfList = (opts: OptionValues, cfg: IConfig): IWorkflowsListParams => {
+  return {
+    name: opts.name || [],
+    id: (opts.id || []).map((i: string) => Number.parseInt(i)),
+    tag: opts.tag || [],
+    exclude: {
+      id: opts.excludeId || cfg.workflows.exclude.id
+    }
+  }
+}
+
 export const wf = () => {
   const cmd = new Command('wf');
 
@@ -61,13 +74,10 @@ export const wf = () => {
     .addOption(options.id)
     .addOption(options.name)
     .addOption(options.tag)
+    .addOption(options.excludeId)
     .action(createAction(async (opts, wf, cmd) => {
       const args: Parameters<typeof wf.delete> = [
-        {
-          name: opts.name,
-          id: opts.id,
-          tag: opts.tag
-        }
+        getWfList(opts, config)
       ]
       logOp(cmd, args)
       if (opts.dry === false) {
@@ -81,13 +91,10 @@ export const wf = () => {
     .addOption(options.id)
     .addOption(options.name)
     .addOption(options.tag)
+    .addOption(options.excludeId)
     .action(createAction(async (opts, wf, cmd) => {
       const args: Parameters<typeof wf.activate> = [
-        {
-          name: opts.name,
-          id: opts.id,
-          tag: opts.tag
-        }
+        getWfList(opts, config)
       ]
       logOp(cmd, args)
       if (opts.dry === false) {
@@ -101,13 +108,10 @@ export const wf = () => {
     .addOption(options.id)
     .addOption(options.name)
     .addOption(options.tag)
+    .addOption(options.excludeId)
     .action(createAction(async (opts, wf, cmd) => {
       const args: Parameters<typeof wf.deactivate> = [
-        {
-          name: opts.name,
-          id: opts.id,
-          tag: opts.tag
-        }
+        getWfList(opts, config)
       ]
       logOp(cmd, args)
       if (opts.dry === false) {
@@ -121,14 +125,11 @@ export const wf = () => {
     .addOption(options.id)
     .addOption(options.name)
     .addOption(options.tag)
+    .addOption(options.excludeId)
     .action(createAction(async (opts, wf, cmd) => {
       const args: Parameters<typeof wf.renameFiles> = [
         opts.dir || config.workflows.dir,
-        {
-          name: opts.name,
-          id: opts.id,
-          tag: opts.tag
-        },
+        getWfList(opts, config),
       ]
       logOp(cmd, args)
       if (opts.dry === false) {
@@ -143,15 +144,12 @@ export const wf = () => {
     .addOption(options.id)
     .addOption(options.name)
     .addOption(options.tag)
+    .addOption(options.excludeId)
     .option('-d, --delete-old-files', 'Delete old files', true)
     .action(createAction(async (opts, wf, cmd) => {
       const args: Parameters<typeof wf.save> = [
         opts.dir || config.workflows.dir,
-        {
-          name: opts.name,
-          id: opts.id,
-          tag: opts.tag
-        },
+        getWfList(opts, config),
         opts.deleteOldFiles
       ]
       logOp(cmd, args)
@@ -167,14 +165,11 @@ export const wf = () => {
     .addOption(options.id)
     .addOption(options.name)
     .addOption(options.tag)
+    .addOption(options.excludeId)
     .action(createAction(async (opts, wf, cmd) => {
       const args: Parameters<typeof wf.publish> = [
         opts.dir || config.workflows.dir,
-        {
-          name: opts.name,
-          id: opts.id,
-          tag: opts.tag
-        }
+        getWfList(opts, config)
       ]
       logOp(cmd, args)
       if (opts.dry === false) {
@@ -183,12 +178,17 @@ export const wf = () => {
     }))
 
   cmd.command('setup-all')
-    .description('Setup n8n instalce workflows exactly the save as your --dir.')
+    .description('Setup n8n instalce workflows exactly the same as your --dir.')
     .hook('preAction', loadConfig)
     .addOption(options.dir)
+    .addOption(options.id)
+    .addOption(options.name)
+    .addOption(options.tag)
+    .addOption(options.excludeId)
     .action(createAction(async (opts, wf, cmd) => {
       const args: Parameters<typeof wf.setupAll> = [
-        opts.dir || config.workflows.dir
+        opts.dir || config.workflows.dir,
+        getWfList(opts, config)
       ]
       logOp(cmd, args)
       if (opts.dry === false) {

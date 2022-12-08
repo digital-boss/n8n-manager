@@ -15,6 +15,9 @@ export interface IConfig {
   },
   workflows: {
     dir: string;
+    exclude: {
+      id: number[]
+    }
   },
   nodesListFile: string;
   proxy?: AxiosProxyConfig
@@ -34,7 +37,8 @@ export const createEmptyConfig = (): IConfig => {
       },
     },
     workflows: {
-      dir: '.'
+      dir: '.',
+      exclude: {id: []},
     },
     nodesListFile: './packages-nodes.txt'
   }
