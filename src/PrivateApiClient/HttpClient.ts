@@ -16,13 +16,46 @@ export class HttpClient {
   ) {}
 
 	protected setNewCookie = async (): Promise<string> => {
-		const t = await this.internalApiLogin();
-		this.cookie = t;
-		return t;
+		for (let method of [
+			this.checkOwner,
+			this.internalApiLogin
+		]) {
+			const token = await method.call(this);
+			if (token) {
+				this.cookie = token;
+				return token;
+			}
+		}
+		throw new Error("Unexpected result");
 	}
 
 	protected getCookie = async (): Promise<string> => {
 		return this.cookie || this.setNewCookie();
+	}
+
+	async checkOwner (): Promise<string | undefined> {
+		const options: AxiosRequestConfig = {
+			url: `${this.config.url}/rest/login`,
+			method: 'GET',
+			headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+			},
+			proxy: this.config.proxy,
+		};
+	
+		let response;
+		try {
+			response = await axios(options);
+		} catch (res) {
+			throw new Error(`checkOwner: ${res.error}`);
+		}
+	
+		if (response.status === 200 && response.headers?.['set-cookie']) {
+			return response.headers?.['set-cookie'] as unknown as string; // https://github.com/axios/axios/issues/5083 AxiosHeaders get 'set-cookie' returns string instead of array
+		} else {
+			return undefined;
+		}
 	}
 
 	async internalApiLogin (): Promise<string> {

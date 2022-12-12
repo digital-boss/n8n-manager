@@ -15,8 +15,8 @@ export class ApiKey {
   ) {
     const privateApiCfg: IPrivateApiConfig = {
       url: config.n8n.url,
-      email: config.n8n.email,
-      password: config.n8n.password,
+      email: config.n8n.owner.email,
+      password: config.n8n.owner.password,
       proxy: config.proxy
     }
     this.client = new PrivateApiClient(privateApiCfg)

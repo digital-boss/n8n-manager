@@ -14,5 +14,6 @@ program
   .addCommand(cli.creds())
   .addCommand(cli.npm())
   .addCommand(cli.apiKey())
+  .addCommand(cli.owner())
 
 program.parse();

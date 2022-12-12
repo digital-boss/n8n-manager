@@ -5,8 +5,12 @@ export interface IConfig {
   n8n: {
     url: string;
     publicApiKey: string;
-    email: string;
-    password: string;
+    owner: {
+      email: string;
+      password: string;
+      firstName: string;
+      lastName: string;
+    }
     restCliClient: {
       user: string,
       password: string,
@@ -27,8 +31,12 @@ export const createEmptyConfig = (): IConfig => {
     n8n: {
       url: 'http://localhost:5678',
       publicApiKey: '',
-      email: '',
-      password: '',
+      owner: {
+        email: '',
+        password: '',
+        firstName: '',
+        lastName: '',
+      },
       restCliClient: {
         user: '',
         password: '',
