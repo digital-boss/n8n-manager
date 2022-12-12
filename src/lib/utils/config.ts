@@ -7,8 +7,7 @@ export interface IConfig {
     publicApiKey: string;
     email: string;
     password: string;
-    importWorkflow: {
-      path: string,
+    restCliClient: {
       user: string,
       password: string,
     },
@@ -30,8 +29,7 @@ export const createEmptyConfig = (): IConfig => {
       publicApiKey: '',
       email: '',
       password: '',
-      importWorkflow: {
-        path: '/webhook/import-workflow',
+      restCliClient: {
         user: '',
         password: '',
       },

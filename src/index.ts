@@ -11,6 +11,7 @@ program
   .option('--dry', 'Dry run. Only show config and input parameters.', false)
   .version(version)
   .addCommand(cli.wf())
+  .addCommand(cli.creds())
   .addCommand(cli.npm())
 
 program.parse();

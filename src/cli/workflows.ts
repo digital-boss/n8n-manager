@@ -20,10 +20,10 @@ const createWorkflowsAgent = (cmd: Command) => {
     proxy: config.proxy,
   }
   const restCliCfg: IRestCliConfig = {
-    url: config.n8n.url + config.n8n.importWorkflow.path,
+    url: config.n8n.url,
     auth: {
-      user: config.n8n.importWorkflow.user,
-      password: config.n8n.importWorkflow.password
+      user: config.n8n.restCliClient.user,
+      password: config.n8n.restCliClient.password
     },
     proxy: config.proxy,
   }

@@ -239,7 +239,7 @@ export class Workflows {
   async publish(dir: string, wfList: IWorkflowsListParams) {
     const workflowsFromSrv = await this.getWorkflowsFromSrv();
     const workflowsFromDir = this.getWorkflowsFromDir(dir, wfList);
-console.log(workflowsFromDir);
+
     // group workflows by action
     const wfsToUpdate = workflowsFromDir.filter(wd => workflowsFromSrv.findIndex(ws => ws.id === wd.id) > -1)
     const wfsToCreate = workflowsFromDir.filter(wd => workflowsFromSrv.findIndex(ws => ws.id === wd.id) === -1)

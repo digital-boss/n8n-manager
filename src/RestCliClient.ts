@@ -2,7 +2,7 @@ import axios, { AxiosProxyConfig, AxiosRequestConfig, AxiosResponse } from 'axio
 
 export interface IRestCliConfig {
   /**
-   * webhook url for import workflow
+   * url of n8n instance
    */
   url: string,
   auth: IBasicAuth,
@@ -32,7 +32,7 @@ export class RestCliClient {
 
   async importWorkflow (json: any) {
     const opts: AxiosRequestConfig = {
-      url: this.config.url,
+      url: this.config.url + '/webhook/import-workflow',
       headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
@@ -44,6 +44,48 @@ export class RestCliClient {
       },
       proxy: this.config.proxy,
       data: json,
+    }
+
+    return await axios(opts).catch(this.errHandler);
+  }
+
+  async importCreds (json: any) {
+    const opts: AxiosRequestConfig = {
+      url: this.config.url + '/webhook/import-credentials',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+      },
+      method: 'POST',
+      auth: {
+        username: this.config.auth.user,
+        password: this.config.auth.password,
+      },
+      proxy: this.config.proxy,
+      data: json,
+    }
+
+    return await axios(opts).catch(this.errHandler);
+  }
+
+  async exportCreds (decrypted: boolean) {
+    const opts: AxiosRequestConfig = {
+      url: this.config.url + '/webhook/export-credentials',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+      },
+      method: 'GET',
+      auth: {
+        username: this.config.auth.user,
+        password: this.config.auth.password,
+      },
+      params: {},
+      proxy: this.config.proxy,
+    }
+
+    if (decrypted) {
+      opts.params.decrypted = 1;
     }
 
     return await axios(opts).catch(this.errHandler);
