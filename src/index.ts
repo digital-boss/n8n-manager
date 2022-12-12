@@ -13,5 +13,6 @@ program
   .addCommand(cli.wf())
   .addCommand(cli.creds())
   .addCommand(cli.npm())
+  .addCommand(cli.apiKey())
 
 program.parse();
