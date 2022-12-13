@@ -1,10 +1,19 @@
-import { add } from "./lib";
+import { Command } from 'commander';
+import { version } from './version';
+import * as cli from "./cli";
 
-const args = process.argv.slice(2);
+const program = new Command();
 
-const [a, b] = args;
+program
+  .name('n8n-api-client')
+  .description('CLI to interact with N8N API')
+  .option('--config <string>', 'Path to json configuration file', 'n8n-apiclient-config.json')
+  .option('--dry', 'Dry run. Only show config and input parameters.', false)
+  .version(version)
+  .addCommand(cli.wf())
+  .addCommand(cli.creds())
+  .addCommand(cli.npm())
+  .addCommand(cli.apiKey())
+  .addCommand(cli.owner())
 
-const res = add(1, 2);
-
-
-console.log(res);
+program.parse();
