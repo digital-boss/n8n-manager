@@ -47,8 +47,12 @@ export class HttpClient {
 		let response;
 		try {
 			response = await axios(options);
-		} catch (res) {
-			throw new Error(`checkOwner: ${res.error}`);
+		} catch (err: any | AxiosError) {
+			if (axios.isAxiosError(err)) {
+				return undefined; // reason: status 401
+			} else {
+				throw new Error(`checkOwner: ${err}`);
+			}
 		}
 	
 		if (response.status === 200 && response.headers?.['set-cookie']) {

@@ -3,3 +3,4 @@ dist
 tmp
 workflows
 8man-*.json
+*.tgz
