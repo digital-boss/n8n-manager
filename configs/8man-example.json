@@ -1,0 +1,23 @@
+{
+  "n8n": {
+    "url": "http://localhost:5678",
+    "publicApiKey": "",
+    "owner": {
+      "email": "admin@localhost",
+      "password": "",
+      "firstName": "Admin",
+      "lastName": "Admin"
+    },
+    "restCliClient": {
+      "user": "",
+      "password": ""
+    }
+  },
+  "workflows": {
+    "dir": "/workflows",
+    "exclude": {
+      "id": [51]
+    }
+  },
+  "nodesListFile": "/workflows/packages-nodes.txt"
+}
