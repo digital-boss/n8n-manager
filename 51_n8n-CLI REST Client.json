@@ -1,0 +1,371 @@
+{
+  "createdAt": "2022-10-18T12:17:52.673Z",
+  "updatedAt": "2022-12-15T15:31:38.892Z",
+  "id": 51,
+  "name": "n8n-CLI REST Client",
+  "active": true,
+  "nodes": [
+    {
+      "id": "b460aff3-82eb-46d6-b8bb-1b4756df7c88",
+      "name": "Start",
+      "type": "n8n-nodes-base.start",
+      "position": [
+        -60,
+        -40
+      ],
+      "parameters": {},
+      "typeVersion": 1
+    },
+    {
+      "id": "3bd0368f-ca64-4fbe-ae9a-976e06f7ff46",
+      "name": "Import Workflow",
+      "type": "n8n-nodes-base.executeCommand",
+      "position": [
+        540,
+        160
+      ],
+      "parameters": {
+        "command": "n8n import:workflow --input=/home/node/.n8n/workflow-to-import.json && rm /home/node/.n8n/workflow-to-import.json"
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "c5bf6441-5acf-4f2d-b976-25da659adfae",
+      "name": "import-workflow",
+      "type": "n8n-nodes-base.webhook",
+      "position": [
+        -60,
+        160
+      ],
+      "webhookId": "452aa74d-7a4b-4fa2-bd42-34f4bd3f2811",
+      "parameters": {
+        "path": "import-workflow",
+        "options": {},
+        "httpMethod": "POST",
+        "responseMode": "lastNode",
+        "authentication": "basicAuth"
+      },
+      "credentials": {
+        "httpBasicAuth": {
+          "id": "2",
+          "name": "Install Package"
+        }
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "4668ba09-b249-4426-8e31-cf1d9574218c",
+      "name": "JSON to Binary1",
+      "type": "n8n-nodes-base.moveBinaryData",
+      "position": [
+        140,
+        340
+      ],
+      "parameters": {
+        "mode": "jsonToBinary",
+        "options": {},
+        "sourceKey": "body",
+        "convertAllData": false
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "ba9d79fc-bab6-49bd-9763-b49a7c58ba1e",
+      "name": "Write Binary File1",
+      "type": "n8n-nodes-base.writeBinaryFile",
+      "position": [
+        340,
+        340
+      ],
+      "parameters": {
+        "options": {},
+        "fileName": "/home/node/.n8n/credentials-to-import.json"
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "9675db3c-fbf2-4362-a5ed-caf827044323",
+      "name": "Import Credentials",
+      "type": "n8n-nodes-base.executeCommand",
+      "position": [
+        540,
+        340
+      ],
+      "parameters": {
+        "command": "n8n import:credentials --input=/home/node/.n8n/credentials-to-import.json && rm /home/node/.n8n/credentials-to-import.json"
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "b8aea9e8-1688-4e2a-8360-5b75f67157fd",
+      "name": "import-credentials",
+      "type": "n8n-nodes-base.webhook",
+      "position": [
+        -60,
+        340
+      ],
+      "webhookId": "99beee3c-78c7-4938-86b3-84b1604caf54",
+      "parameters": {
+        "path": "import-credentials",
+        "options": {},
+        "httpMethod": "POST",
+        "responseMode": "lastNode",
+        "authentication": "basicAuth"
+      },
+      "credentials": {
+        "httpBasicAuth": {
+          "id": "2",
+          "name": "Install Package"
+        }
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "1eee4721-6b91-49b6-bb6b-ac3df3a96c23",
+      "name": "Read Binary File",
+      "type": "n8n-nodes-base.readBinaryFile",
+      "position": [
+        340,
+        520
+      ],
+      "parameters": {
+        "filePath": "/home/node/.n8n/credentials-to-export.json"
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "96d22bd6-3dbf-4e8b-b534-82ae0044d046",
+      "name": "Respond to Webhook",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "position": [
+        780,
+        520
+      ],
+      "parameters": {
+        "options": {}
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "1d62377f-9221-4f8d-b1af-c5d8d51eafab",
+      "name": "rm",
+      "type": "n8n-nodes-base.executeCommand",
+      "position": [
+        780,
+        680
+      ],
+      "parameters": {
+        "command": "rm /home/node/.n8n/credentials-to-export.json"
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "a736fb2b-86ad-4a97-8534-fb359a9203a4",
+      "name": "export-credentials",
+      "type": "n8n-nodes-base.webhook",
+      "position": [
+        -60,
+        520
+      ],
+      "webhookId": "714e6b91-b2fa-4800-a691-3fcb97d5418e",
+      "parameters": {
+        "path": "export-credentials",
+        "options": {},
+        "responseMode": "responseNode",
+        "authentication": "basicAuth"
+      },
+      "credentials": {
+        "httpBasicAuth": {
+          "id": "2",
+          "name": "Install Package"
+        }
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "ea6ffea4-b5ec-4c90-8711-100a52b166ac",
+      "name": "Export Credentials1",
+      "type": "n8n-nodes-base.executeCommand",
+      "position": [
+        140,
+        520
+      ],
+      "parameters": {
+        "command": "=n8n export:credentials --all {{$json[\"query\"].decrypted ? '--decrypted' : ''}} --output=/home/node/.n8n/credentials-to-export.json"
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "a8c2c17a-bbce-4409-b277-02d279087869",
+      "name": "Move Binary Data",
+      "type": "n8n-nodes-base.moveBinaryData",
+      "position": [
+        540,
+        520
+      ],
+      "parameters": {
+        "options": {}
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "dd1031e1-afbc-4e07-8178-89eb6487f379",
+      "name": "Write Binary File2",
+      "type": "n8n-nodes-base.writeBinaryFile",
+      "position": [
+        340,
+        160
+      ],
+      "parameters": {
+        "options": {},
+        "fileName": "/home/node/.n8n/workflow-to-import.json"
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "7d4536b5-e1d1-439b-b528-b40d76cd065e",
+      "name": "Move Binary Data1",
+      "type": "n8n-nodes-base.moveBinaryData",
+      "position": [
+        140,
+        160
+      ],
+      "parameters": {
+        "mode": "jsonToBinary",
+        "options": {},
+        "sourceKey": "body",
+        "convertAllData": false
+      },
+      "typeVersion": 1
+    }
+  ],
+  "connections": {
+    "JSON to Binary1": {
+      "main": [
+        [
+          {
+            "node": "Write Binary File1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "import-workflow": {
+      "main": [
+        [
+          {
+            "node": "Move Binary Data1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Move Binary Data": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "rm",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Read Binary File": {
+      "main": [
+        [
+          {
+            "node": "Move Binary Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Move Binary Data1": {
+      "main": [
+        [
+          {
+            "node": "Write Binary File2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Write Binary File1": {
+      "main": [
+        [
+          {
+            "node": "Import Credentials",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Write Binary File2": {
+      "main": [
+        [
+          {
+            "node": "Import Workflow",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "export-credentials": {
+      "main": [
+        [
+          {
+            "node": "Export Credentials1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "import-credentials": {
+      "main": [
+        [
+          {
+            "node": "JSON to Binary1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Export Credentials1": {
+      "main": [
+        [
+          {
+            "node": "Read Binary File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {},
+  "staticData": null,
+  "pinData": {},
+  "tags": [
+    {
+      "createdAt": "2022-12-15T14:41:14.743Z",
+      "updatedAt": "2022-12-15T14:41:14.743Z",
+      "id": "1",
+      "name": "Admin"
+    }
+  ],
+  "hash": "20fc7f037c2e1fc89c735074affc055a"
+}
