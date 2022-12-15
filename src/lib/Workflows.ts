@@ -22,7 +22,7 @@ export interface IWorkflowsListParams {
   tag: string[];
   exclude: {
     id: number[];
-  }
+  };
 }
 
 const getFileName = (wf: IWorkflow) => {
@@ -244,11 +244,20 @@ export class Workflows {
     const wfsToUpdate = workflowsFromDir.filter(wd => workflowsFromSrv.findIndex(ws => ws.id === wd.id) > -1)
     const wfsToCreate = workflowsFromDir.filter(wd => workflowsFromSrv.findIndex(ws => ws.id === wd.id) === -1)
 
-    for (const wf of wfsToUpdate.concat(wfsToCreate)) {
-      console.log(`Importing ${wf.id} ${wf.name}`)
-      const res = await this.restCliClient.importWorkflow(wf);
-      console.log(res.status, res.data);
-    }
+    const all = this.getWorkflowsFromDir(
+        dir, 
+        {
+          name: [],
+          id: wfsToUpdate.concat(wfsToCreate).map(i => i.id),
+          tag: [],
+          exclude: {id:[]}
+        }
+      );
+
+    const outputIdsList = all.map(i => i.id).sort((a, b) => a-b).join()
+    console.log(`Importing ${outputIdsList}`)
+    const res = await this.restCliClient.importWorkflow(all);
+    console.log(res.status, res.data);
   }
 
   async setupAll(dir: string, wfList: IWorkflowsListParams) {
