@@ -34,7 +34,7 @@ export class Nodes extends ResourceBase {
     return this.httpClient.request({
       url: nodesUrl,
       method: 'DELETE',
-      data: {
+      params: {
         name: packageName
       }
     })
