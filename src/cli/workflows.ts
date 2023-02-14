@@ -41,6 +41,7 @@ const createAction = (
 }
 
 const getWfList = (opts: OptionValues, cfg: IConfig): IWorkflowsListParams => {
+  //console.log(opts);
   return {
     name: opts.name || [],
     id: (opts.id || []).map((i: string) => Number.parseInt(i)),
