@@ -5,3 +5,4 @@ workflows
 configs/*
 !configs/8man-example.json
 *.tgz
+.idea
