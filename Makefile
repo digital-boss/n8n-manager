@@ -3,3 +3,6 @@ docker/build:
 
 docker/push:
 	docker push maestrow/8man:latest
+
+clean:
+	rm -rf ./workflows/*

@@ -30,16 +30,16 @@ describe('Environmental Variables', () => {
     }
   
     // set env
-    process.env.N8NCLIENT_N8N_PASSWORD = 'passwordFromEnv',
-    process.env.N8NCLIENT_WORKFLOWS_DIR = 'dirFromEnv' 
+    process.env.N8NM_n8n_publicApiKey = 'keyFromEnv',
+    process.env.N8NM_workflows_dir = 'dirFromEnv' 
   
     traverse(obj, overrideWithEnv);
     //console.log(obj);
 
     expect(obj.n8n.url).toEqual('url1');
-    expect(obj.n8n.publicApiKey).toEqual('key1');
+    expect(obj.n8n.publicApiKey).toEqual('keyFromEnv');
     expect(obj.n8n.email).toEqual('email1');
-    expect(obj.n8n.password).toEqual('passwordFromEnv');
+    expect(obj.n8n.password).toEqual('password1');
     expect(obj.workflows.dir).toEqual('dirFromEnv');
   });
 })

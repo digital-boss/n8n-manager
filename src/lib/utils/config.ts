@@ -53,7 +53,7 @@ export const createEmptyConfig = (): IConfig => {
 const envVarsPrefix = 'N8NM'
 
 export const overrideWithEnv = <T>(obj: T, path: Array<string | number>) => {
-  const envVarName = [envVarsPrefix, ...path].map(i => i.toString().toUpperCase()).join('_');
+  const envVarName = [envVarsPrefix, ...path].map(i => i.toString()).join('_');
   const value = process.env[envVarName];
 
   if (value === undefined) {

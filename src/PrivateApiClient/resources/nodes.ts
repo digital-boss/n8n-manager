@@ -14,9 +14,8 @@ export class Nodes extends ResourceBase {
   }
   
   private errHandler = (err: any) => {
-    console.log(err.config);
-    console.log(err.response.data);
-    throw new Error(err.response.data.message);
+    console.log('Response: ', err.response);
+    throw new Error(err);
   }
 
   install (packageName: string) {
