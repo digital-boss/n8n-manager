@@ -145,11 +145,13 @@ export const wf = () => {
     .addOption(options.tag)
     .addOption(options.excludeId)
     .option('-kf, --keep-files', 'If no filters scpecified (id, name, tag) and --keep-files=false, then all workflow files before saving will be deleted. This is useful when you want to have exact copy of workflows in directory.', false)
+    .option('-sai, --save-as-is', 'If --save-as-is=false, then workflows which differs only with updatedAt property from existing file will not be overriten', false)
     .action(createAction(async (opts, wf, cmd) => {
       const args: Parameters<typeof wf.save> = [
         opts.dir || config.workflows.dir,
         getWfFilter(opts, config),
-        opts.keepFiles
+        opts.keepFiles,
+        opts.saveAsIs
       ]
       logOp(cmd, args)
       if (opts.dry === false) {

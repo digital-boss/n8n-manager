@@ -13,6 +13,7 @@ interface IWorkflowTag {
 }
 
 interface IWorkflow {
+  updatedAt: string;
   id: string;
   name: string;
   active: boolean;
@@ -66,6 +67,13 @@ const getIdFromFileName = (fileName: string): number => {
 const getWfFromFile = (file: string): IWorkflow => {
   const content = fs.readFileSync(file, 'utf-8');
   return JSON.parse(content);
+}
+
+const areWfsEqual = (a: IWorkflow, b: IWorkflow): boolean => {
+  const x = {...a}
+  const y = {...b}
+  x.updatedAt = y.updatedAt
+  return equal(x, y);
 }
 
 export class Workflows {
@@ -220,21 +228,32 @@ export class Workflows {
     dir: string, 
     wfFilter: WorkflowsFilter, 
     keepFiles: boolean,
+    saveAsIs: boolean,
   ) {
-    const workflows = await this.getWorkflowsFromSrv(wfFilter);
-    const fileList = getWorkflowFiles(dir);
+    const wfsFromSrv = await this.getWorkflowsFromSrv(wfFilter);
+    const filesList = getWorkflowFiles(dir)
+      .filter(byIds(wfFilter)); // filter needed to exclude system workflow from deletion.
     
-    if (!keepFiles && wfFilter.isEmpty()) {
-      for (const file of fileList) {
+    const wfsToDelete = filesList.filter(f => wfsFromSrv.findIndex(srv => parseInt(srv.id) === getIdFromFileName(f)) === -1);
+
+    if (!keepFiles) {
+      for (const file of wfsToDelete) {
         fs.unlinkSync(path.join(dir, file));
       }
     }
 
-    for (const wf of workflows) {
-      const newFileName = getFileName(wf);
-      const filePath = path.join(dir, newFileName);
-      const content = JSON.stringify(wf, undefined, 2);
-      fs.writeFileSync(filePath, content);
+    for (const wf of wfsFromSrv) {
+      const fileName = getFileName(wf);
+      const filePath = path.join(dir, fileName);
+      
+      if (
+        saveAsIs 
+        || !fs.existsSync(filePath) 
+        || !areWfsEqual(getWfFromFile(filePath), wf)
+      ) {
+        const content = JSON.stringify(wf, undefined, 2);
+        fs.writeFileSync(filePath, content);
+      }
     }
   }
 
@@ -244,8 +263,10 @@ export class Workflows {
   }
 
   async setupAll(dir: string, wfFilter: WorkflowsFilter) {
+    const excludeFilted = WorkflowsFilter.create(i => i.exclude.id = [...wfFilter.exclude.id])
+    
     // Workflows
-    const wfsFromSrv = await this.getWorkflowsFromSrv();
+    const wfsFromSrv = await this.getWorkflowsFromSrv(excludeFilted);
     const wfsFromDir = this.getWorkflowsFromDir(dir, wfFilter);
     const wfsToDelete = wfsFromSrv.filter(i => wfsFromDir.findIndex(j => i.id === j.id) === -1);
 
