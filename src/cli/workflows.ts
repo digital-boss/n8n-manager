@@ -1,9 +1,10 @@
 import { Command, Option, OptionValues } from 'commander';
 import { IPublicApiConfig } from 'src/PublicApiClient/HttpClient';
 import { config, loadConfig, logOp } from "./common";
-import { IWorkflowsListParams, Workflows } from "../lib/Workflows";
+import { Workflows } from "../lib/Workflows";
 import { IRestCliConfig } from 'src/RestCliClient';
 import { IConfig } from 'src/lib/utils/config';
+import { WorkflowsFilter } from 'src/lib/utils/WorkflowsFilter';
 
 const options = {
   name: new Option('-n, --name <string...>', 'Workflow names'),
@@ -40,16 +41,13 @@ const createAction = (
   }
 }
 
-const getWfList = (opts: OptionValues, cfg: IConfig): IWorkflowsListParams => {
-  //console.log(opts);
-  return {
-    name: opts.name || [],
-    id: (opts.id || []).map((i: string) => Number.parseInt(i)),
-    tag: opts.tag || [],
-    exclude: {
-      id: opts.excludeId || cfg.workflows.exclude.id
-    }
-  }
+const getWfFilter = (opts: OptionValues, cfg: IConfig): WorkflowsFilter => {
+  const f = new WorkflowsFilter();
+  f.name = opts.name || []
+  f.id = (opts.id || []).map((i: string) => Number.parseInt(i));
+  f.tag = opts.tag || [];
+  f.exclude.id = opts.excludeId || cfg.workflows.exclude.id;
+  return f;
 }
 
 export const wf = () => {
@@ -78,7 +76,7 @@ export const wf = () => {
     .addOption(options.excludeId)
     .action(createAction(async (opts, wf, cmd) => {
       const args: Parameters<typeof wf.delete> = [
-        getWfList(opts, config)
+        getWfFilter(opts, config)
       ]
       logOp(cmd, args)
       if (opts.dry === false) {
@@ -95,7 +93,7 @@ export const wf = () => {
     .addOption(options.excludeId)
     .action(createAction(async (opts, wf, cmd) => {
       const args: Parameters<typeof wf.activate> = [
-        getWfList(opts, config)
+        getWfFilter(opts, config)
       ]
       logOp(cmd, args)
       if (opts.dry === false) {
@@ -112,7 +110,7 @@ export const wf = () => {
     .addOption(options.excludeId)
     .action(createAction(async (opts, wf, cmd) => {
       const args: Parameters<typeof wf.deactivate> = [
-        getWfList(opts, config)
+        getWfFilter(opts, config)
       ]
       logOp(cmd, args)
       if (opts.dry === false) {
@@ -130,7 +128,7 @@ export const wf = () => {
     .action(createAction(async (opts, wf, cmd) => {
       const args: Parameters<typeof wf.renameFiles> = [
         opts.dir || config.workflows.dir,
-        getWfList(opts, config),
+        getWfFilter(opts, config),
       ]
       logOp(cmd, args)
       if (opts.dry === false) {
@@ -146,12 +144,14 @@ export const wf = () => {
     .addOption(options.name)
     .addOption(options.tag)
     .addOption(options.excludeId)
-    .option('-d, --delete-old-files', 'Delete old files', true)
+    .option('-kf, --keep-files', 'If no filters scpecified (id, name, tag) and --keep-files=false, then all workflow files before saving will be deleted. This is useful when you want to have exact copy of workflows in directory.', false)
+    .option('-sai, --save-as-is', 'If --save-as-is=false, then workflows which differs only with updatedAt property from existing file will not be overriten', false)
     .action(createAction(async (opts, wf, cmd) => {
       const args: Parameters<typeof wf.save> = [
         opts.dir || config.workflows.dir,
-        getWfList(opts, config),
-        opts.deleteOldFiles
+        getWfFilter(opts, config),
+        opts.keepFiles,
+        opts.saveAsIs
       ]
       logOp(cmd, args)
       if (opts.dry === false) {
@@ -170,7 +170,7 @@ export const wf = () => {
     .action(createAction(async (opts, wf, cmd) => {
       const args: Parameters<typeof wf.publish> = [
         opts.dir || config.workflows.dir,
-        getWfList(opts, config)
+        getWfFilter(opts, config)
       ]
       logOp(cmd, args)
       if (opts.dry === false) {
@@ -189,7 +189,7 @@ export const wf = () => {
     .action(createAction(async (opts, wf, cmd) => {
       const args: Parameters<typeof wf.setupAll> = [
         opts.dir || config.workflows.dir,
-        getWfList(opts, config)
+        getWfFilter(opts, config)
       ]
       logOp(cmd, args)
       if (opts.dry === false) {
