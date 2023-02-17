@@ -3,6 +3,8 @@ import path from "node:path";
 import { PublicApiClient } from "src/PublicApiClient";
 import { IPublicApiConfig } from "src/PublicApiClient/HttpClient";
 import { IRestCliConfig, RestCliClient } from "src/RestCliClient";
+import equal from 'fast-deep-equal';
+
 
 interface IWorkflowTag {
   id: number;
@@ -38,6 +40,11 @@ const createWfListParams = (updateFn: (i: IWorkflowsListParams) => void = () => 
   return o;
 }
 
+
+const isEmptyWfList = (wff: IWorkflowsListParams) => {
+  const empty = createWfListParams();
+  return equal(wff, empty);
+}
 
 const getFileName = (wf: IWorkflow) => {
   const name = wf.name
@@ -243,11 +250,15 @@ export class Workflows {
     }
   }
 
-  async save(dir: string, wfList: IWorkflowsListParams, deleteOldFiles: boolean) {
+  async save(
+    dir: string, 
+    wfList: IWorkflowsListParams, 
+    keepFiles: boolean,
+  ) {
     const workflows = await this.getWorkflowsFromSrv(wfList);
-    const fileList = getWorkflowFiles(dir).filter(byIds(wfList));
+    const fileList = getWorkflowFiles(dir);
     
-    if (deleteOldFiles) {
+    if (!keepFiles && isEmptyWfList(wfList)) {
       for (const file of fileList) {
         fs.unlinkSync(path.join(dir, file));
       }

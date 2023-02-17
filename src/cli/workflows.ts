@@ -146,12 +146,12 @@ export const wf = () => {
     .addOption(options.name)
     .addOption(options.tag)
     .addOption(options.excludeId)
-    .option('-d, --delete-old-files', 'Delete old files', true)
+    .option('-kf, --keep-files', 'If no filters scpecified (id, name, tag) and --keep-files=false, then all workflow files before saving will be deleted. This is useful when you want to have exact copy of workflows in directory.', false)
     .action(createAction(async (opts, wf, cmd) => {
       const args: Parameters<typeof wf.save> = [
         opts.dir || config.workflows.dir,
         getWfList(opts, config),
-        opts.deleteOldFiles
+        opts.keepFiles
       ]
       logOp(cmd, args)
       if (opts.dry === false) {
