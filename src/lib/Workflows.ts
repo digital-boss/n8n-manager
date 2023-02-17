@@ -4,6 +4,7 @@ import { PublicApiClient } from "src/PublicApiClient";
 import { IPublicApiConfig } from "src/PublicApiClient/HttpClient";
 import { IRestCliConfig, RestCliClient } from "src/RestCliClient";
 import equal from 'fast-deep-equal';
+import { WorkflowsFilter } from "./utils/WorkflowsFilter";
 
 
 interface IWorkflowTag {
@@ -16,34 +17,6 @@ interface IWorkflow {
   name: string;
   active: boolean;
   tags: IWorkflowTag[];
-}
-
-export interface IWorkflowsListParams {
-  name: string[];
-  id: number[];
-  tag: string[];
-  exclude: {
-    id: number[];
-  };
-}
-
-const createWfListParams = (updateFn: (i: IWorkflowsListParams) => void = () => {}): IWorkflowsListParams => {
-  const o = {
-    name: [],
-    id: [],
-    tag: [],
-    exclude: {
-      id: []
-    }
-  };
-  updateFn(o);
-  return o;
-}
-
-
-const isEmptyWfList = (wff: IWorkflowsListParams) => {
-  const empty = createWfListParams();
-  return equal(wff, empty);
 }
 
 const getFileName = (wf: IWorkflow) => {
@@ -63,17 +36,17 @@ const getWorkflowFiles = (dir: string): string[] => {
 }
 
 
-const byIds = (wfList?: IWorkflowsListParams) => (item: string): boolean => {
-  if (wfList === undefined) {
+const byIds = (wfFilter?: WorkflowsFilter) => (item: string): boolean => {
+  if (wfFilter === undefined) {
     return true;
   }
 
   const id = getIdFromFileName(item);
-  if (wfList.id.length && !wfList.id.includes(id)) {
+  if (wfFilter.id.length && !wfFilter.id.includes(id)) {
     return false;
   }
 
-  if (wfList.exclude.id.length && wfList.exclude.id.includes(id)) {
+  if (wfFilter.exclude.id.length && wfFilter.exclude.id.includes(id)) {
     return false;
   }
 
@@ -94,13 +67,6 @@ const getWfFromFile = (file: string): IWorkflow => {
   const content = fs.readFileSync(file, 'utf-8');
   return JSON.parse(content);
 }
-
-const hasIds = (wfList?: IWorkflowsListParams) => wfList && wfList.id && wfList.id.length;
-const hasNames = (wfList?: IWorkflowsListParams) => wfList && wfList.name && wfList.name.length;
-const hasTags = (wfList?: IWorkflowsListParams) => wfList && wfList.tag && wfList.tag.length;
-const hasExcludedIds = (wfList?: IWorkflowsListParams) => wfList && wfList.exclude.id.length;
-
-const getIds = (wfList: IWorkflowsListParams) => wfList.id.filter(i => !wfList.exclude.id.includes(i));
 
 export class Workflows {
   
@@ -125,12 +91,12 @@ export class Workflows {
 
   /**
    * Fetch from n8n instance
-   * @param wfList 
+   * @param wfFilter 
    * @returns 
    */
-  private async getWorkflowsFromSrv(wfList?: IWorkflowsListParams): Promise<IWorkflow[]> {
-    if (hasIds(wfList)) {
-      const workflows = getIds(wfList!).map(
+  private async getWorkflowsFromSrv(wfFilter: WorkflowsFilter = new WorkflowsFilter()): Promise<IWorkflow[]> {
+    if (wfFilter.hasIds()) {
+      const workflows = wfFilter.getIds().map(
         async id => await this.publicApiClient.workflow
           .get(id)
           .then(r => r.data as IWorkflow)
@@ -138,24 +104,24 @@ export class Workflows {
       return await Promise.all(workflows);
     } else {
       let wfs = await this.fetchAllWf();
-      if (hasNames(wfList)) {
-        wfs = wfs.filter(i => wfList!.name.includes(i.name))
+      if (wfFilter.hasNames()) {
+        wfs = wfs.filter(i => wfFilter!.name.includes(i.name))
       }
-      if (hasTags(wfList)) {
-        wfs = wfs.filter(i => i.tags.findIndex(tag => wfList!.tag.includes(tag.name)) > -1)
+      if (wfFilter.hasTags()) {
+        wfs = wfs.filter(i => i.tags.findIndex(tag => wfFilter!.tag.includes(tag.name)) > -1)
       }
-      if (hasExcludedIds(wfList)) {
-        wfs = wfs.filter(i => !wfList!.exclude.id.includes(parseInt(i.id)))
+      if (wfFilter.hasExcludedIds()) {
+        wfs = wfs.filter(i => !wfFilter!.exclude.id.includes(parseInt(i.id)))
       }
       return wfs;
     }
   }
 
-  private async getIds(wfList?: IWorkflowsListParams): Promise<number[]> {
-    if (hasIds(wfList)) {
-      return getIds(wfList!)
+  private async getIds(wfFilter: WorkflowsFilter = new WorkflowsFilter()): Promise<number[]> {
+    if (wfFilter.hasIds()) {
+      return wfFilter.getIds()
     } else {
-      const wfs = await this.getWorkflowsFromSrv(wfList);
+      const wfs = await this.getWorkflowsFromSrv(wfFilter);
       const ids = wfs.map(i => parseInt(i.id));
       return Promise.resolve(ids);
     }
@@ -164,20 +130,20 @@ export class Workflows {
   /**
    * Get From Directory
    * @param dir 
-   * @param wfList 
+   * @param wfFilter 
    * @returns 
    */
-  private getWorkflowsFromDir(dir: string, wfList?: IWorkflowsListParams): IWorkflow[] {
+  private getWorkflowsFromDir(dir: string, wfFilter: WorkflowsFilter = new WorkflowsFilter()): IWorkflow[] {
     const fromFileFn = (fileName: string) => getWfFromFile(path.join(dir, fileName))
-    const filesList = getWorkflowFiles(dir).filter(byIds(wfList));
+    const filesList = getWorkflowFiles(dir).filter(byIds(wfFilter));
     let workflows = filesList.map(fromFileFn);
 
-    if (hasNames(wfList)) {
-      workflows = workflows.filter(wf => wfList!.name.includes(wf.name))
+    if (wfFilter.hasNames()) {
+      workflows = workflows.filter(wf => wfFilter!.name.includes(wf.name))
     }
     
-    if (hasTags(wfList)) {
-      workflows = workflows.filter(wf => wf.tags.findIndex(tag => wfList!.tag.includes(tag.name)) > -1)
+    if (wfFilter.hasTags()) {
+      workflows = workflows.filter(wf => wf.tags.findIndex(tag => wfFilter!.tag.includes(tag.name)) > -1)
     }
 
     return workflows;
@@ -216,29 +182,29 @@ export class Workflows {
     }
   }
 
-  async delete(wfList: IWorkflowsListParams) {
-    const ids = await this.getIds(wfList);
+  async delete(wfFilter: WorkflowsFilter) {
+    const ids = await this.getIds(wfFilter);
     for (const id of ids) {
       await this.publicApiClient.workflow.delete(id);
     }
   }
 
-  async activate(wfList: IWorkflowsListParams) {
-    const ids = await this.getIds(wfList);
+  async activate(wfFilter: WorkflowsFilter) {
+    const ids = await this.getIds(wfFilter);
     for (const id of ids) {
       await this.publicApiClient.workflow.activate(id);
     }
   }
 
-  async deactivate(wfList?: IWorkflowsListParams) {
-    const ids = await this.getIds(wfList);
+  async deactivate(wfFilter?: WorkflowsFilter) {
+    const ids = await this.getIds(wfFilter);
     for (const id of ids) {
       await this.publicApiClient.workflow.deactivate(id);
     }
   }
 
-  async renameFiles(dir: string, wfList: IWorkflowsListParams) {
-    const workflows = await this.getWorkflowsFromSrv(wfList);
+  async renameFiles(dir: string, wfFilter: WorkflowsFilter) {
+    const workflows = await this.getWorkflowsFromSrv(wfFilter);
     const files = getWorkflowFiles(dir);
 
     for (const wf of workflows) {
@@ -252,13 +218,13 @@ export class Workflows {
 
   async save(
     dir: string, 
-    wfList: IWorkflowsListParams, 
+    wfFilter: WorkflowsFilter, 
     keepFiles: boolean,
   ) {
-    const workflows = await this.getWorkflowsFromSrv(wfList);
+    const workflows = await this.getWorkflowsFromSrv(wfFilter);
     const fileList = getWorkflowFiles(dir);
     
-    if (!keepFiles && isEmptyWfList(wfList)) {
+    if (!keepFiles && wfFilter.isEmpty()) {
       for (const file of fileList) {
         fs.unlinkSync(path.join(dir, file));
       }
@@ -272,15 +238,15 @@ export class Workflows {
     }
   }
 
-  async publish(dir: string, wfList: IWorkflowsListParams) {
-    const wfs = this.getWorkflowsFromDir(dir, wfList);
+  async publish(dir: string, wfFilter: WorkflowsFilter) {
+    const wfs = this.getWorkflowsFromDir(dir, wfFilter);
     await this.publishWfs(wfs);
   }
 
-  async setupAll(dir: string, wfList: IWorkflowsListParams) {
+  async setupAll(dir: string, wfFilter: WorkflowsFilter) {
     // Workflows
     const wfsFromSrv = await this.getWorkflowsFromSrv();
-    const wfsFromDir = this.getWorkflowsFromDir(dir, wfList);
+    const wfsFromDir = this.getWorkflowsFromDir(dir, wfFilter);
     const wfsToDelete = wfsFromSrv.filter(i => wfsFromDir.findIndex(j => i.id === j.id) === -1);
 
     if (wfsToDelete.length > 0) {
