@@ -25,6 +25,20 @@ export interface IWorkflowsListParams {
   };
 }
 
+const createWfListParams = (updateFn: (i: IWorkflowsListParams) => void = () => {}): IWorkflowsListParams => {
+  const o = {
+    name: [],
+    id: [],
+    tag: [],
+    exclude: {
+      id: []
+    }
+  };
+  updateFn(o);
+  return o;
+}
+
+
 const getFileName = (wf: IWorkflow) => {
   const name = wf.name
     .replace(/::|: /g, ' - ')
@@ -162,6 +176,17 @@ export class Workflows {
     return workflows;
   }
 
+  private async publishWfs(wfs: IWorkflow[]) {
+    if (wfs.length > 0) {
+      const outputIdsList = wfs.map(i => parseInt(i.id)).sort((a, b) => a-b).join()
+      console.log(`Publishing [${outputIdsList}]`)
+      const res = await this.restCliClient.importWorkflow(wfs);
+      console.log(res.status, res.data);
+    } else {
+      console.log('There is no workflows to publish.')
+    }
+  }
+
 
   /****************************************************************************
    * Public
@@ -237,59 +262,26 @@ export class Workflows {
   }
 
   async publish(dir: string, wfList: IWorkflowsListParams) {
-    const workflowsFromSrv = await this.getWorkflowsFromSrv();
-    const workflowsFromDir = this.getWorkflowsFromDir(dir, wfList);
-
-    // group workflows by action
-    const wfsToUpdate = workflowsFromDir.filter(wd => workflowsFromSrv.findIndex(ws => ws.id === wd.id) > -1)
-    const wfsToCreate = workflowsFromDir.filter(wd => workflowsFromSrv.findIndex(ws => ws.id === wd.id) === -1)
-
-    const all = this.getWorkflowsFromDir(
-        dir,
-        {
-          name: [],
-          id: wfsToUpdate.concat(wfsToCreate).map(i => parseInt(i.id)),
-          tag: [],
-          exclude: {id:[]}
-        }
-      );
-
-    if (all.length > 0) {
-      const outputIdsList = all.map(i => parseInt(i.id)).sort((a, b) => a-b).join()
-      console.log(`Importing [${outputIdsList}]`)
-      const res = await this.restCliClient.importWorkflow(all);
-      console.log(res.status, res.data);
-    } else {
-      console.log('There is no workflows to publish.')
-    }
+    const wfs = this.getWorkflowsFromDir(dir, wfList);
+    await this.publishWfs(wfs);
   }
 
   async setupAll(dir: string, wfList: IWorkflowsListParams) {
-    const workflowsFromSrv = await this.getWorkflowsFromSrv();
-    const workflowsFromDir = this.getWorkflowsFromDir(dir, wfList);
-
     // Workflows
-    const wfsToDelete = workflowsFromSrv.filter(i => workflowsFromDir.findIndex(j => i.id === j.id) === -1);
-    const wfsToUpdate = workflowsFromDir.filter(i => workflowsFromSrv.findIndex(j => i.id === j.id) > -1);
-    const wfsToCreate = workflowsFromDir.filter(i => workflowsFromSrv.findIndex(j => i.id === j.id) === -1);
+    const wfsFromSrv = await this.getWorkflowsFromSrv();
+    const wfsFromDir = this.getWorkflowsFromDir(dir, wfList);
+    const wfsToDelete = wfsFromSrv.filter(i => wfsFromDir.findIndex(j => i.id === j.id) === -1);
 
-    console.log('Deactivate all...');
-    await this.deactivate();
-
-    console.log(`Deleting...`);
-    for (const wf of wfsToDelete) {
-      const res = await this.publicApiClient.workflow.delete(parseInt(wf.id));
-      console.log(`Deleted ${wf.id}. Result status: ${res.status}`);
+    if (wfsToDelete.length > 0) {
+      console.log(`Deleting...`);
+      for (const wf of wfsToDelete) {
+        const res = await this.publicApiClient.workflow.delete(parseInt(wf.id));
+        console.log(`Deleted ${wf.id}. Result status: ${res.status}`);
+      }
+    } else {
+      console.log('There is no workflows at n8n instance which doesn\' present in workdlows directory. So nothing to delete.')
     }
 
-    console.log(`Importing...`);
-    for (const wf of wfsToUpdate.concat(wfsToCreate)) {
-      console.log(`Importing ${wf.id} ${wf.name}`)
-      const res = await this.restCliClient.importWorkflow(wf);
-      console.log(res.status, res.data);
-    }
-
-    console.log('Activate live...');
-    await this.activate({id: [], name: [], tag: ['live'], exclude: {id:[]}}) // ToDo: that looks ugly
+    await this.publishWfs(wfsFromDir);
   }
 }
