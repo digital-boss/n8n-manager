@@ -1,4 +1,5 @@
 import equal from 'fast-deep-equal';
+import { IWorkflow } from './Workflow';
 
 export class WorkflowsFilter {
   name: string[] = [];
@@ -36,6 +37,20 @@ export class WorkflowsFilter {
   
   getIds () {
     return this.id.filter(i => !this.exclude.id.includes(i));
+  }
+
+  apply (source: IWorkflow[]): IWorkflow[] {
+    let wfs = source;
+    if (this.hasNames()) {
+      wfs = wfs.filter(i => this.name.includes(i.name))
+    }
+    if (this.hasTags()) {
+      wfs = wfs.filter(i => i.tags.findIndex(tag => this.tag.includes(tag.name)) > -1)
+    }
+    if (this.hasExcludedIds()) {
+      wfs = wfs.filter(i => !this.exclude.id.includes(parseInt(i.id)))
+    }
+    return wfs;
   }
 
 }

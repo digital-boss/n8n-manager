@@ -37,3 +37,20 @@ To run:
 ## Installing nodes from npm.digital-boss.cloud registry
 
 If you want to use https://npm.digital-boss.cloud as npm registry, then install https://www.npmjs.com/package/@digital-boss/n8n-nodes-market Community node, specify credentials and execute Setup operation to setup digital-boss npm registry as default. This will write `/home/node/.npmrc` file with proper settings. After that you can use this CLI tool to install nodes from digital-boss registry. 
+
+
+## Issues
+
+### The requested webhook "POST import-workflow" is not registered
+
+Problem: `8man --config ... wf publish` responds with error
+
+```js
+{
+  code: 404,
+  message: 'The requested webhook "POST import-workflow" is not registered.',
+  hint: "The workflow must be active for a production URL to run successfully. You can activate the workflow using the toggle in the top-right of the editor. Note that unlike test URL calls, production URL calls aren't shown on the canvas (only in the executions list)"
+}
+```
+
+Solution: Restart n8n or ReActivate system workflow manually. 

@@ -5,20 +5,8 @@ import { IPublicApiConfig } from "src/PublicApiClient/HttpClient";
 import { IRestCliConfig, RestCliClient } from "src/RestCliClient";
 import equal from 'fast-deep-equal';
 import { WorkflowsFilter } from "./utils/WorkflowsFilter";
+import { IWorkflow } from "./utils/Workflow";
 
-
-interface IWorkflowTag {
-  id: number;
-  name: string;
-}
-
-interface IWorkflow {
-  updatedAt: string;
-  id: string;
-  name: string;
-  active: boolean;
-  tags: IWorkflowTag[];
-}
 
 const getFileName = (wf: IWorkflow) => {
   const name = wf.name
@@ -112,19 +100,12 @@ export class Workflows {
       return await Promise.all(workflows);
     } else {
       let wfs = await this.fetchAllWf();
-      if (wfFilter.hasNames()) {
-        wfs = wfs.filter(i => wfFilter!.name.includes(i.name))
-      }
-      if (wfFilter.hasTags()) {
-        wfs = wfs.filter(i => i.tags.findIndex(tag => wfFilter!.tag.includes(tag.name)) > -1)
-      }
-      if (wfFilter.hasExcludedIds()) {
-        wfs = wfs.filter(i => !wfFilter!.exclude.id.includes(parseInt(i.id)))
-      }
+      wfs = wfFilter.apply(wfs)
       return wfs;
     }
   }
 
+  // ToDo: It is not obvious why it goes to getWorkflowsFromSrv? Not clear semamtics. 
   private async getIds(wfFilter: WorkflowsFilter = new WorkflowsFilter()): Promise<number[]> {
     if (wfFilter.hasIds()) {
       return wfFilter.getIds()
@@ -192,8 +173,11 @@ export class Workflows {
 
   async delete(wfFilter: WorkflowsFilter) {
     const ids = await this.getIds(wfFilter);
+    console.log('ids to delete: ', ids);
     for (const id of ids) {
+      process.stdout.write(`Deleting ${id}... `);
       await this.publicApiClient.workflow.delete(id);
+      console.log('Done.');
     }
   }
 
