@@ -46,7 +46,7 @@ const getWfFilter = (opts: OptionValues, cfg: IConfig): WorkflowsFilter => {
   f.name = opts.name || []
   f.id = (opts.id || []).map((i: string) => Number.parseInt(i));
   f.tag = opts.tag || [];
-  f.exclude.id = opts.excludeId || cfg.workflows.exclude.id;
+  f.exclude.id = (opts.excludeId || cfg.workflows.exclude.id).map((i: string) => parseInt(i));
   return f;
 }
 
