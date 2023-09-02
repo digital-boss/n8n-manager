@@ -1,10 +1,9 @@
-import { Command, Option, OptionValues } from 'commander';
-import { config, loadConfig, logOp } from "./common";
-import { IRestCliConfig, RestCliClient } from 'src/RestCliClient';
-import { Credentials } from 'src/lib/Credentials';
+import { Command, OptionValues } from 'commander';
 import { IPrivateApiConfig } from 'src/PrivateApiClient/HttpClient';
-import { ApiKey } from 'src/lib/ApiKey';
 import { PrivateApiClient } from 'src/PrivateApiClient';
+import { errorHandler } from './common/errorHandling';
+import { config, loadConfig } from './common/loadConfig';
+import { logOp } from './common/log';
 
 const createAction = (
   fn: (opts: OptionValues, api: PrivateApiClient, cmd: Command) => Promise<void>
@@ -18,7 +17,7 @@ const createAction = (
     }
     const api = new PrivateApiClient(privateApiCfg)
     const opts = this.optsWithGlobals();
-    return fn(opts, api, this);
+    return fn(opts, api, this).catch(errorHandler(opts, this));
   }
 }
 

@@ -12,12 +12,6 @@ export class HttpClient {
     public config: IPublicApiConfig,
   ) {}
 
-  private errHandler = (err: any) => {
-    console.log(err.config);
-    console.log(err.response.data);
-    throw new Error(err.response.data.message);
-  }
-
   request (opts: AxiosRequestConfig) {
     const defaultOpts: AxiosRequestConfig = {
       baseURL: this.config.url + '/api/v1',
@@ -31,6 +25,6 @@ export class HttpClient {
 
     const instance = axios.create(defaultOpts)
 
-    return instance.request(opts).catch(this.errHandler)
+    return instance.request(opts)
   }
 }

@@ -1,10 +1,12 @@
 import { Command, Option, OptionValues } from 'commander';
 import { IPublicApiConfig } from 'src/PublicApiClient/HttpClient';
-import { config, loadConfig, logOp } from "./common";
 import { Workflows } from "../lib/Workflows";
 import { IRestCliConfig } from 'src/RestCliClient';
 import { IConfig } from 'src/lib/utils/config';
 import { WorkflowsFilter } from 'src/lib/utils/WorkflowsFilter';
+import { config, loadConfig } from './common/loadConfig';
+import { logOp } from './common/log';
+import { errorHandler } from './common/errorHandling';
 
 const options = {
   name: new Option('-n, --name <string...>', 'Workflow names'),
@@ -37,7 +39,7 @@ const createAction = (
   return async function(this: Command) {
     const opts = this.optsWithGlobals();
     const wf = createWorkflowsAgent(this);
-    return fn(opts, wf, this);
+    return fn(opts, wf, this).catch(errorHandler(opts, this));
   }
 }
 

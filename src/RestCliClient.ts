@@ -24,12 +24,6 @@ export class RestCliClient {
     public config: IRestCliConfig
   ) {}
   
-  private errHandler = (err: any) => {
-    console.log(err.config);
-    console.log(err.response.data);
-    throw new Error(err.response.data.message);
-  }
-
   async importWorkflow (json: any) {
     const opts: AxiosRequestConfig = {
       url: this.config.url + '/webhook/import-workflow',
@@ -46,7 +40,7 @@ export class RestCliClient {
       data: json,
     }
 
-    return await axios(opts).catch(this.errHandler);
+    return await axios(opts);
   }
 
   async importCreds (json: any) {
@@ -65,7 +59,7 @@ export class RestCliClient {
       data: json,
     }
 
-    return await axios(opts).catch(this.errHandler);
+    return await axios(opts);
   }
 
   async exportCreds (decrypted: boolean) {
@@ -88,6 +82,6 @@ export class RestCliClient {
       opts.params.decrypted = 1;
     }
 
-    return await axios(opts).catch(this.errHandler);
+    return await axios(opts);
   }
 }

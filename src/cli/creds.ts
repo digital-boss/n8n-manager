@@ -1,7 +1,9 @@
-import { Command, Option, OptionValues } from 'commander';
-import { config, loadConfig, logOp } from "./common";
-import { IRestCliConfig, RestCliClient } from 'src/RestCliClient';
+import { Command, OptionValues } from 'commander';
+import { IRestCliConfig } from 'src/RestCliClient';
 import { Credentials } from 'src/lib/Credentials';
+import { config, loadConfig } from './common/loadConfig';
+import { errorHandler } from './common/errorHandling';
+import { logOp } from './common/log';
 
 const createCredsAgent = (): Credentials => {
   const restCliCfg: IRestCliConfig = {
@@ -21,7 +23,7 @@ const createAction = (
   return async function(this: Command) {
     const opts = this.optsWithGlobals();
     const creds = createCredsAgent();
-    return fn(opts, creds, this);
+    return fn(opts, creds, this).catch(errorHandler(opts, this));
   }
 }
 
