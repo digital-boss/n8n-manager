@@ -39,6 +39,21 @@ To run:
 If you want to use https://npm.digital-boss.cloud as npm registry, then install https://www.npmjs.com/package/@digital-boss/n8n-nodes-market Community node, specify credentials and execute Setup operation to setup digital-boss npm registry as default. This will write `/home/node/.npmrc` file with proper settings. After that you can use this CLI tool to install nodes from digital-boss registry. 
 
 
+## Development
+
+### Publish new version
+
+Commit new version and tag:
+- patch `src/version.ts`
+- commit
+- `npm version patch`
+- `git push`
+- push tag, for example: `git push origin v0.1.1`
+
+Publish to npm:
+- npm login
+- npm publish
+
 ## Issues
 
 ### The requested webhook "POST import-workflow" is not registered
