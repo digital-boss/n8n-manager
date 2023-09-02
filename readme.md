@@ -45,6 +45,7 @@ If you want to use https://npm.digital-boss.cloud as npm registry, then install 
 
 Commit new version and tag:
 - patch `src/version.ts`
+- `npm run build`
 - commit
 - `npm version patch`
 - `git push`
