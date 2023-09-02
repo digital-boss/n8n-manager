@@ -1,9 +1,8 @@
-import { Command, Option, OptionValues } from 'commander';
-import { config, loadConfig, logOp } from "./common";
-import { IRestCliConfig, RestCliClient } from 'src/RestCliClient';
-import { Credentials } from 'src/lib/Credentials';
-import { IPrivateApiConfig } from 'src/PrivateApiClient/HttpClient';
+import { Command, OptionValues } from 'commander';
 import { ApiKey } from 'src/lib/ApiKey';
+import { config, loadConfig } from './common/loadConfig';
+import { logOp } from './common/log';
+import { errorHandler } from './common/errorHandling';
 
 const createAction = (
   fn: (opts: OptionValues, apiKey: ApiKey, cmd: Command) => Promise<void>
@@ -11,7 +10,7 @@ const createAction = (
   return async function(this: Command) {
     const opts = this.optsWithGlobals();
     const apiKey = new ApiKey(config, opts.config);
-    return fn(opts, apiKey, this);
+    return fn(opts, apiKey, this).catch(errorHandler(opts, this));
   }
 }
 

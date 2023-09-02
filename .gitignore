@@ -1,8 +1,10 @@
 node_modules
-dist
+/dist
 tmp
 workflows
 configs/*
 !configs/8man-example.json
 *.tgz
 .idea
+/data
+/*.log

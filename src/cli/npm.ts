@@ -1,7 +1,9 @@
 import { Command, Option, OptionValues } from 'commander';
 import { IPrivateApiConfig } from 'src/PrivateApiClient/HttpClient';
-import { config, loadConfig, logOp } from "./common";
 import { Npm } from "src/lib/Npm";
+import { config, loadConfig } from './common/loadConfig';
+import { logOp } from './common/log';
+import { errorHandler } from './common/errorHandling';
 
 const options = {
   packages: new Option('-p, --packages <string...>', 'Package names'),
@@ -25,7 +27,7 @@ const createAction = (
   return async function(this: Command) {
     const opts = this.optsWithGlobals();
     const wf = createNpmAgent(this);
-    return fn(opts, wf, this);
+    return fn(opts, wf, this).catch(errorHandler(opts, this));
   }
 }
 

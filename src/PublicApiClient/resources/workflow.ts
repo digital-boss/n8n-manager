@@ -11,18 +11,11 @@ export class Workflow extends ResourceBase {
   //   }
   // }
 
-  private errHandler = (err: any) => {
-    console.log(err.config);
-    console.log(err.response.data);
-    throw new Error(err.response.data.message);
-  }
-
   getAll () {
     return this.httpClient.request({
       url: '/workflows',
       method: 'GET',
     })
-    .catch(this.errHandler)
   }
   
   get (id: number) {
@@ -30,7 +23,6 @@ export class Workflow extends ResourceBase {
       url: `/workflows/${id}`,
       method: 'GET',
     })
-    .catch(this.errHandler)
   }
   
   delete (id: number) {
@@ -38,7 +30,6 @@ export class Workflow extends ResourceBase {
       url: `/workflows/${id}`,
       method: 'DELETE',
     })
-    .catch(this.errHandler)
   }
 
   create (wf: any) {
@@ -47,7 +38,6 @@ export class Workflow extends ResourceBase {
       method: 'POST',
       data: wf
     })
-    .catch(this.errHandler)
   }
 
   update (id: number, wf: any) {
@@ -56,7 +46,6 @@ export class Workflow extends ResourceBase {
       method: 'PUT',
       data: wf
     })
-    .catch(this.errHandler)
   }
   
   activate (id: number) {
@@ -64,7 +53,6 @@ export class Workflow extends ResourceBase {
       url: `/workflows/${id}/activate`,
       method: 'POST',
     })
-    .catch(this.errHandler)
   }
   
   deactivate (id: number) {
@@ -72,6 +60,5 @@ export class Workflow extends ResourceBase {
       url: `/workflows/${id}/deactivate`,
       method: 'POST',
     })
-    .catch(this.errHandler)
   }
 }

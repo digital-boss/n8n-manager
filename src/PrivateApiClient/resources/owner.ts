@@ -1,7 +1,7 @@
 import { ResourceBase } from "./resourceBase";
 import { AxiosResponse } from "axios";
 
-const url = '/rest/owner';
+const url = '/rest/owner/setup';
 
 interface IOwner {
   email: string;
