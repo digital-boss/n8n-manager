@@ -267,64 +267,51 @@ export function modifyItemListsNode(node: any): void {
   node.typeVersion = 3;
 
   if (node.parameters.operation === 'aggregateItems') {
-    node.parameters.operation = 'concatenateItems';
-    if (node.parameters.include === 'specifiedFields' && node.parameters.fieldsToInclude && node.parameters.fieldsToInclude.fields) {
-      // Update 'fieldsToInclude' based on 'fieldsName'
-      const fieldsToInclude = Array.isArray(node.parameters.fieldsToInclude.fields)
-        ? node.parameters.fieldsToInclude.fields.map((field: any) => field.fieldName)
-        : node.parameters.fieldsToInclude.fields;
+      node.parameters.operation = 'concatenateItems';
 
-      // Set 'fieldsToInclude' as a string if there's only one field
+      if (node.parameters.include === 'specifiedFields' && node.parameters.fieldsToInclude && node.parameters.fieldsToInclude.fields) {
+          const fieldsToInclude = Array.isArray(node.parameters.fieldsToInclude.fields)
+              ? node.parameters.fieldsToInclude.fields.map((field: any) => field.fieldName)
+              : node.parameters.fieldsToInclude.fields;
+
+          node.parameters.fieldsToInclude = fieldsToInclude.length === 1 ? fieldsToInclude[0] : fieldsToInclude;
+
+          delete node.parameters.fieldsToInclude.fields;
+      } else if (node.parameters.include === 'allFieldsExcept' && node.parameters.fieldsToExclude && node.parameters.fieldsToExclude.fields) {
+          const fieldsToExclude = Array.isArray(node.parameters.fieldsToExclude.fields)
+              ? node.parameters.fieldsToExclude.fields.map((field: any) => field.fieldName)
+              : node.parameters.fieldsToExclude.fields;
+
+          node.parameters.fieldsToExclude = fieldsToExclude.length === 1 ? fieldsToExclude[0] : fieldsToExclude;
+
+          delete node.parameters.fieldsToExclude.fields;
+      }
+  } else if (node.parameters.operation === 'removeDuplicates') {
+      if (node.parameters.fieldsToCompare && node.parameters.fieldsToCompare.fields) {
+          const fieldsToCompare = Array.isArray(node.parameters.fieldsToCompare.fields)
+              ? node.parameters.fieldsToCompare.fields.map((field: any) => field.fieldName)
+              : node.parameters.fieldsToCompare.fields;
+
+          node.parameters.fieldsToCompare = fieldsToCompare.length === 1 ? fieldsToCompare[0] : fieldsToCompare;
+
+          delete node.parameters.fieldsToCompare.fields;
+      } else if (node.parameters.fieldsToExclude && node.parameters.fieldsToExclude.fields) {
+          const fieldsToExclude = Array.isArray(node.parameters.fieldsToExclude.fields)
+              ? node.parameters.fieldsToExclude.fields.map((field: any) => field.fieldName)
+              : node.parameters.fieldsToExclude.fields;
+
+          node.parameters.fieldsToExclude = fieldsToExclude.length === 1 ? fieldsToExclude[0] : fieldsToExclude;
+
+          delete node.parameters.fieldsToExclude.fields;
+      }
+  } else if (node.parameters.fieldToSplitOut && node.parameters.include === 'selectedOtherFields') {
+      const fieldsToInclude = Array.isArray(node.parameters.fieldsToInclude.fields)
+          ? node.parameters.fieldsToInclude.fields.map((field: any) => field.fieldName)
+          : node.parameters.fieldsToInclude.fields;
+
       node.parameters.fieldsToInclude = fieldsToInclude.length === 1 ? fieldsToInclude[0] : fieldsToInclude;
 
-      // Remove the unnecessary 'fields' field
       delete node.parameters.fieldsToInclude.fields;
-    } else if (node.parameters.include === 'allFieldsExcept' && node.parameters.fieldsToExclude && node.parameters.fieldsToExclude.fields) {
-      // Update 'fieldsToExclude' based on 'fieldsName'
-      const fieldsToExclude = Array.isArray(node.parameters.fieldsToExclude.fields)
-        ? node.parameters.fieldsToExclude.fields.map((field: any) => field.fieldName)
-        : node.parameters.fieldsToExclude.fields;
-
-      // Set 'fieldsToExclude' as a string if there's only one field
-      node.parameters.fieldsToExclude = fieldsToExclude.length === 1 ? fieldsToExclude[0] : fieldsToExclude;
-
-      // Remove the unnecessary 'fields' field
-      delete node.parameters.fieldsToExclude.fields;
-    }
-  } else if (node.parameters.operation === 'removeDuplicates') {
-    // Update 'fieldsToCompare' based on 'fieldsName'
-    if (node.parameters.fieldsToCompare && node.parameters.fieldsToCompare.fields) {
-      const fieldsToCompare = Array.isArray(node.parameters.fieldsToCompare.fields)
-        ? node.parameters.fieldsToCompare.fields.map((field: any) => field.fieldName)
-        : node.parameters.fieldsToCompare.fields;
-
-      // Set 'fieldsToCompare' as a string if there's only one field
-      node.parameters.fieldsToCompare = fieldsToCompare.length === 1 ? fieldsToCompare[0] : fieldsToCompare;
-
-      // Remove the unnecessary 'fields' field
-      delete node.parameters.fieldsToCompare.fields;
-    } else if (node.parameters.fieldsToExclude && node.parameters.fieldsToExclude.fields) {
-      const fieldsToExclude = Array.isArray(node.parameters.fieldsToExclude.fields)
-        ? node.parameters.fieldsToExclude.fields.map((field: any) => field.fieldName)
-        : node.parameters.fieldsToExclude.fields;
-
-      // Set 'fieldsToExclude' as a string if there's only one field
-      node.parameters.fieldsToExclude = fieldsToExclude.length === 1 ? fieldsToExclude[0] : fieldsToExclude;
-
-      // Remove the unnecessary 'fields' field
-      delete node.parameters.fieldsToExclude.fields;
-    }
-  } else if (node.parameters.fieldToSplitOut && node.parameters.include === 'selectedOtherFields') {
-    // Update 'fieldsToInclude' based on 'fieldsName'
-    const fieldsToInclude = Array.isArray(node.parameters.fieldsToInclude.fields)
-      ? node.parameters.fieldsToInclude.fields.map((field: any) => field.fieldName)
-      : node.parameters.fieldsToInclude.fields;
-
-    // Set 'fieldsToInclude' as a string if there's only one field
-    node.parameters.fieldsToInclude = fieldsToInclude.length === 1 ? fieldsToInclude[0] : fieldsToInclude;
-
-    // Remove the unnecessary 'fields' field
-    delete node.parameters.fieldsToInclude.fields;
   }
 }
 
@@ -387,17 +374,26 @@ export function modifySetNode(node: any): void {
 }
 
 export function modifyIntervalNode(node: any): void {
-  if (node.parameters.mode === 'everyMinutes') {
-    node.parameters.everyMinutes = node.parameters.minutes;
-    delete node.parameters.minutes;
-    delete node.parameters.interval;
-    delete node.parameters.mode;
-  } else {
-    delete node.parameters.minutes;
-    delete node.parameters.interval;
-    delete node.parameters.mode;
+  node.type = 'n8n-nodes-base.scheduleTrigger';
+    node.typeVersion = 1.1;
+
+    // Set the appropriate interval field based on the unit or default to seconds
+    const intervalField = node.parameters.unit
+        ? `${node.parameters.unit}Interval`
+        : 'secondsInterval';
+
+    // Update the parameters with the correct interval field
+    node.parameters = {
+        rule: {
+            interval: [
+                {
+                    field: node.parameters.unit || 'seconds',
+                    [intervalField]: node.parameters.interval
+                }
+            ]
+        }
+    };
   }
-}
 
 export function generateChangesReport(changesReport: any, filePath: string): void {
     let reportContent = '# Changes Report\n\n';
@@ -445,7 +441,7 @@ export function generateChangesReport(changesReport: any, filePath: string): voi
             reportContent += '\n';
         });
     }
-    fs.writeFile(filePath, reportContent, err => {
+    fs.writeFile(filePath, reportContent, (err: any) => {
         if (err) {
             console.error('Error writing changes report file:', err);
         } else {

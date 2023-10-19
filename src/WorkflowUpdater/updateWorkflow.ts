@@ -17,8 +17,8 @@ interface TodoItem {
   additionalText: string;
 }
 
-const oldNodesDirectoryPath = '././tests/WorkflowUpdatorTestWorkflows'; // Update with your directory path
-const updatedNodesDirectoryPath = './updatedNodes'; // Update with the path of the folder to store updated files
+const oldNodesDirectoryPath = '././tests/WorkflowUpdatorTestWorkflows';
+const updatedNodesDirectoryPath = './updatedWorkflows'; // Update with the path of the folder to store updated files
 
 // Check if the "updatedNodes" folder exists, and if not, create it
 if (!fs.existsSync(updatedNodesDirectoryPath)) {
