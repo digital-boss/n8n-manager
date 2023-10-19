@@ -15,5 +15,6 @@ program
   .addCommand(cli.npm())
   .addCommand(cli.apiKey())
   .addCommand(cli.owner())
+  //TODO .addCommand(cli.uwf())
 
 program.parse();
