@@ -8,7 +8,7 @@
       "id": "17a7b2dd-2f1d-4bbc-b771-58ef6a273c4e",
       "name": "POST request",
       "type": "n8n-nodes-base.code",
-      "typeVersion": 1,
+      "typeVersion": 2,
       "position": [
         340,
         -200
@@ -21,7 +21,7 @@
       "id": "c31a3603-d077-4cf4-8fa6-8578b899ccff",
       "name": "GET request",
       "type": "n8n-nodes-base.code",
-      "typeVersion": 1,
+      "typeVersion": 2,
       "position": [
         340,
         -40
@@ -34,7 +34,7 @@
       "id": "314fad9b-755a-4b43-843d-136063594039",
       "name": "HEAD request",
       "type": "n8n-nodes-base.code",
-      "typeVersion": 1,
+      "typeVersion": 2,
       "position": [
         340,
         120
@@ -47,7 +47,7 @@
       "id": "274cc4d9-7528-42fa-8007-3d56184e301f",
       "name": "PATCH request",
       "type": "n8n-nodes-base.code",
-      "typeVersion": 1,
+      "typeVersion": 2,
       "position": [
         540,
         -40
@@ -60,7 +60,7 @@
       "id": "844b1bac-0156-47bc-837f-695c94646130",
       "name": "PUT request",
       "type": "n8n-nodes-base.code",
-      "typeVersion": 1,
+      "typeVersion": 2,
       "position": [
         540,
         -200
@@ -73,7 +73,7 @@
       "id": "df479422-3328-4ce5-b2fc-4c9b4c037eeb",
       "name": "DELETE request",
       "type": "n8n-nodes-base.code",
-      "typeVersion": 1,
+      "typeVersion": 2,
       "position": [
         540,
         120
@@ -338,7 +338,7 @@
       "id": "4c53b2f2-fa32-4fcd-9fb0-ee31d887c824",
       "name": "Return Data",
       "type": "n8n-nodes-base.code",
-      "typeVersion": 1,
+      "typeVersion": 2,
       "position": [
         -620,
         460
@@ -351,7 +351,7 @@
       "id": "20e7fb9b-7fe9-41b6-a9ca-93a25287ce73",
       "name": "Return Data1",
       "type": "n8n-nodes-base.code",
-      "typeVersion": 1,
+      "typeVersion": 2,
       "position": [
         -620,
         660

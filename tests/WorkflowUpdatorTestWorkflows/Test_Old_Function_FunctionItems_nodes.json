@@ -103,7 +103,7 @@
       "id": "331f62a7-35bf-4ed5-a441-023b7e34d2ef",
       "name": "Assert",
       "type": "n8n-nodes-base.code",
-      "typeVersion": 1,
+      "typeVersion": 2,
       "position": [
         340,
         1860
@@ -116,7 +116,7 @@
       "id": "9e8df8f7-cb67-456a-9311-7f8372c48202",
       "name": "Assert1",
       "type": "n8n-nodes-base.code",
-      "typeVersion": 1,
+      "typeVersion": 2,
       "position": [
         340,
         2000
@@ -130,7 +130,7 @@
       "id": "b058bcdb-5022-4f30-a6a5-48007155104f",
       "name": "Assert2",
       "type": "n8n-nodes-base.code",
-      "typeVersion": 1,
+      "typeVersion": 2,
       "position": [
         340,
         2180
@@ -143,7 +143,7 @@
       "id": "aa371bf6-01e1-496f-9a6f-dd780abfa7c9",
       "name": "Assert3",
       "type": "n8n-nodes-base.code",
-      "typeVersion": 1,
+      "typeVersion": 2,
       "position": [
         340,
         2380

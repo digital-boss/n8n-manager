@@ -181,7 +181,7 @@
       "id": "b820190a-9fb7-4aae-8f40-a05c12faa314",
       "name": "Assert1",
       "type": "n8n-nodes-base.code",
-      "typeVersion": 1,
+      "typeVersion": 2,
       "position": [
         -1180,
         600
@@ -195,7 +195,7 @@
       "id": "78dfd5b6-33df-4cff-b4d3-2104545b21c8",
       "name": "Assert",
       "type": "n8n-nodes-base.code",
-      "typeVersion": 1,
+      "typeVersion": 2,
       "position": [
         -220,
         580
@@ -208,7 +208,7 @@
       "id": "7e65adfb-c38e-456f-87a3-89a72d722d69",
       "name": "Assert2",
       "type": "n8n-nodes-base.code",
-      "typeVersion": 1,
+      "typeVersion": 2,
       "position": [
         -220,
         760
@@ -221,7 +221,7 @@
       "id": "3ac1ccdc-63b3-443b-95ed-c06bba134671",
       "name": "Assert3",
       "type": "n8n-nodes-base.code",
-      "typeVersion": 1,
+      "typeVersion": 2,
       "position": [
         200,
         560
@@ -234,7 +234,7 @@
       "id": "1191e8e0-2572-4671-b787-c506571d29d6",
       "name": "Assert4",
       "type": "n8n-nodes-base.code",
-      "typeVersion": 1,
+      "typeVersion": 2,
       "position": [
         200,
         740
@@ -247,7 +247,7 @@
       "id": "68c707bd-eb83-4788-beba-a383b62ea6ab",
       "name": "Assert5",
       "type": "n8n-nodes-base.code",
-      "typeVersion": 1,
+      "typeVersion": 2,
       "position": [
         200,
         920
@@ -260,7 +260,7 @@
       "id": "aa02982a-f364-46e1-b558-da3cea975a98",
       "name": "Assert6",
       "type": "n8n-nodes-base.code",
-      "typeVersion": 1,
+      "typeVersion": 2,
       "position": [
         -720,
         580
@@ -273,7 +273,7 @@
       "id": "aaa7ff2b-9aae-48bd-a7b1-ddafc0a9db48",
       "name": "Assert7",
       "type": "n8n-nodes-base.code",
-      "typeVersion": 1,
+      "typeVersion": 2,
       "position": [
         -720,
         740
