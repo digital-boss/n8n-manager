@@ -1,0 +1,442 @@
+{
+  "name": "Test Old Start/DateTime Nodes",
+  "nodes": [
+    {
+      "parameters": {},
+      "name": "Start",
+      "type": "n8n-nodes-base.start",
+      "typeVersion": 1,
+      "position": [
+        220,
+        340
+      ],
+      "id": "bb48d30c-5fc7-4317-9265-bdece7af68fb"
+    },
+    {
+      "parameters": {
+        "content": "## Operation Add",
+        "height": 551.962248430391,
+        "width": 1368.9682642207774
+      },
+      "id": "d8239bb1-bb9b-4b97-ae41-64e62a2639b9",
+      "name": "Sticky Note",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -1040,
+        520
+      ]
+    },
+    {
+      "parameters": {
+        "action": "calculate",
+        "value": "=2023-10-13",
+        "operation": "subtract",
+        "duration": 12,
+        "timeUnit": "hours",
+        "dataPropertyName": "time",
+        "options": {
+          "fromFormat": ""
+        }
+      },
+      "name": "Calculate Date",
+      "type": "n8n-nodes-base.dateTime",
+      "typeVersion": 1,
+      "position": [
+        -1360,
+        600
+      ],
+      "id": "4e0b318c-b51a-486d-8121-51af8dbfb2a4"
+    },
+    {
+      "parameters": {
+        "content": "## Operation Subtract",
+        "height": 205.45454470391633,
+        "width": 313.1764420718671
+      },
+      "id": "852e15cf-92e8-4fea-83e9-95a236b9ddfc",
+      "name": "Sticky Note1",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -1380,
+        520
+      ]
+    },
+    {
+      "parameters": {
+        "value": "2023-10-13T14:25:23.041+02:00",
+        "dataPropertyName": "time",
+        "options": {}
+      },
+      "name": "MM/DD/YYYY",
+      "type": "n8n-nodes-base.dateTime",
+      "typeVersion": 1,
+      "position": [
+        -920,
+        580
+      ],
+      "id": "46f5ee34-37da-435a-807e-23371e5020ea"
+    },
+    {
+      "parameters": {
+        "value": "=2023-10-13T14:25:23.041+02:00",
+        "dataPropertyName": "time",
+        "toFormat": "YYYY/MM/DD",
+        "options": {}
+      },
+      "name": "YYYY/MM/DD",
+      "type": "n8n-nodes-base.dateTime",
+      "typeVersion": 1,
+      "position": [
+        -920,
+        740
+      ],
+      "id": "0dbd90ed-470b-47f8-8819-9d9372d11e72"
+    },
+    {
+      "parameters": {
+        "value": "=2023-10-13T14:25:23.041+02:00",
+        "dataPropertyName": "time",
+        "toFormat": "MMMM DD YYYY",
+        "options": {}
+      },
+      "name": "MMMM DD YYYY",
+      "type": "n8n-nodes-base.dateTime",
+      "typeVersion": 1,
+      "position": [
+        -420,
+        580
+      ],
+      "id": "c42d3a6c-45cc-4574-a5a4-d4f7aa7cdb48"
+    },
+    {
+      "parameters": {
+        "value": "=2023-10-13T14:25:23.041+02:00",
+        "dataPropertyName": "time",
+        "toFormat": "MM-DD-YYYY",
+        "options": {}
+      },
+      "name": "MM-DD-YYYY",
+      "type": "n8n-nodes-base.dateTime",
+      "typeVersion": 1,
+      "position": [
+        -420,
+        760
+      ],
+      "id": "63491c46-f996-4863-8910-7fd8e0af2eb4"
+    },
+    {
+      "parameters": {
+        "value": "=2023-10-13T14:25:23.041+02:00",
+        "dataPropertyName": "time",
+        "toFormat": "YYYY-MM-DD",
+        "options": {}
+      },
+      "name": "YYYY-MM-DD",
+      "type": "n8n-nodes-base.dateTime",
+      "typeVersion": 1,
+      "position": [
+        0,
+        920
+      ],
+      "id": "0a1b16a5-54e9-4078-81ec-79f83d629277"
+    },
+    {
+      "parameters": {
+        "value": "=2023-10-13T14:25:23.041+02:00",
+        "dataPropertyName": "time",
+        "toFormat": "X",
+        "options": {}
+      },
+      "name": "Unix Timestamp",
+      "type": "n8n-nodes-base.dateTime",
+      "typeVersion": 1,
+      "position": [
+        0,
+        560
+      ],
+      "id": "619515f6-36b7-4fb1-9d5a-8a96fa96e924"
+    },
+    {
+      "parameters": {
+        "value": "=2023-10-13T14:25:23.041+02:00",
+        "dataPropertyName": "time",
+        "toFormat": "x",
+        "options": {}
+      },
+      "name": "Unix Ms Timestamp",
+      "type": "n8n-nodes-base.dateTime",
+      "typeVersion": 1,
+      "position": [
+        0,
+        740
+      ],
+      "id": "2097b10d-67b3-4e25-9c80-50f2bb89c746"
+    },
+    {
+      "parameters": {
+        "jsCode": "const assert = require('node:assert');\n\nassert.deepStrictEqual(JSON.parse(JSON.stringify(items[0].json)),{\n  \"time\": \"2023-10-12T12:00:00.000Z\"\n}\n   );\n\nreturn [];"
+      },
+      "id": "b820190a-9fb7-4aae-8f40-a05c12faa314",
+      "name": "Assert1",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [
+        -1180,
+        600
+      ],
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "jsCode": "const assert = require('node:assert');\n\nassert.deepStrictEqual(JSON.parse(JSON.stringify(items[0].json)),{\n  \"time\": \"October 13 2023\"\n}\n   );\n\nreturn [];"
+      },
+      "id": "78dfd5b6-33df-4cff-b4d3-2104545b21c8",
+      "name": "Assert",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [
+        -220,
+        580
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const assert = require('node:assert');\n\nassert.deepStrictEqual(JSON.parse(JSON.stringify(items[0].json)),{\n  \"time\": \"10-13-2023\"\n}\n   );\n\nreturn [];"
+      },
+      "id": "7e65adfb-c38e-456f-87a3-89a72d722d69",
+      "name": "Assert2",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [
+        -220,
+        760
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const assert = require('node:assert');\n\nassert.deepStrictEqual(JSON.parse(JSON.stringify(items[0].json)),{\n  \"time\": \"1697199923\"\n}\n   );\n\nreturn [];"
+      },
+      "id": "3ac1ccdc-63b3-443b-95ed-c06bba134671",
+      "name": "Assert3",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [
+        200,
+        560
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const assert = require('node:assert');\n\nassert.deepStrictEqual(JSON.parse(JSON.stringify(items[0].json)),{\n  \"time\": \"1697199923041\"\n}\n   );\n\nreturn [];"
+      },
+      "id": "1191e8e0-2572-4671-b787-c506571d29d6",
+      "name": "Assert4",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [
+        200,
+        740
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const assert = require('node:assert');\n\nassert.deepStrictEqual(JSON.parse(JSON.stringify(items[0].json)),{\n  \"time\": \"2023-10-13\"\n}\n   );\n\nreturn [];"
+      },
+      "id": "68c707bd-eb83-4788-beba-a383b62ea6ab",
+      "name": "Assert5",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [
+        200,
+        920
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const assert = require('node:assert');\n\nassert.deepStrictEqual(JSON.parse(JSON.stringify(items[0].json)),{\n  \"time\": \"10/13/2023\"\n}\n   );\n\nreturn [];"
+      },
+      "id": "aa02982a-f364-46e1-b558-da3cea975a98",
+      "name": "Assert6",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [
+        -720,
+        580
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const assert = require('node:assert');\n\nassert.deepStrictEqual(JSON.parse(JSON.stringify(items[0].json)),{\n  \"time\": \"2023/10/13\"\n}\n   );\n\nreturn [];"
+      },
+      "id": "aaa7ff2b-9aae-48bd-a7b1-ddafc0a9db48",
+      "name": "Assert7",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [
+        -720,
+        740
+      ]
+    },
+    {
+      "parameters": {
+        "content": "New operation substract return data format like this : 2023-10-12T12:00:00.000+02:00 befour was like that: 2023-10-12T12:00:00.000Z",
+        "height": 206.41811796265034
+      },
+      "id": "efc4a8d2-b226-4d6f-a699-6bda54ea2d83",
+      "name": "Sticky Note5",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -1360,
+        760
+      ]
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Start": {
+      "main": [
+        [
+          {
+            "node": "Calculate Date",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "MM/DD/YYYY",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "YYYY/MM/DD",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "MMMM DD YYYY",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "MM-DD-YYYY",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "YYYY-MM-DD",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Unix Timestamp",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Unix Ms Timestamp",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "MM/DD/YYYY": {
+      "main": [
+        [
+          {
+            "node": "Assert6",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "YYYY/MM/DD": {
+      "main": [
+        [
+          {
+            "node": "Assert7",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Calculate Date": {
+      "main": [
+        [
+          {
+            "node": "Assert1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "MMMM DD YYYY": {
+      "main": [
+        [
+          {
+            "node": "Assert",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "MM-DD-YYYY": {
+      "main": [
+        [
+          {
+            "node": "Assert2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Unix Timestamp": {
+      "main": [
+        [
+          {
+            "node": "Assert3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Unix Ms Timestamp": {
+      "main": [
+        [
+          {
+            "node": "Assert4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "YYYY-MM-DD": {
+      "main": [
+        [
+          {
+            "node": "Assert5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {},
+  "versionId": "36a66195-ba7c-47eb-92fd-9c9cc841e7b9",
+  "id": "104",
+  "meta": {
+    "instanceId": "ac7c827da56e852a0a6fec36e4b55ade4a0331714f3a850931f8ac704749495e"
+  },
+  "tags": []
+}

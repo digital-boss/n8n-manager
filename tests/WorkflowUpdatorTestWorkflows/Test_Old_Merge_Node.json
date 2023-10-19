@@ -1,0 +1,1050 @@
+{
+  "name": "Test Old Merge Node",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "b2668a27-0800-4ef9-be53-45a452b69216",
+      "name": "When clicking \"Execute Workflow\"",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -3560,
+        -2320
+      ]
+    },
+    {
+      "parameters": {
+        "content": "link https://community.n8n.io/t/merge-by-key-example/91/2\nhttps://github.com/n8n-io/n8n-docs/blob/4ff688642cc9ee7ca7d00987847bf4e4515da59d/docs/integrations/builtin/core-nodes/n8n-nodes-base.merge.md\nhttps://github.com/n8n-io/n8n-docs/blob/4ff688642cc9ee7ca7d00987847bf4e4515da59d/docs/integrations/builtin/core-nodes/n8n-nodes-base.merge.md",
+        "height": 189.86115929029899,
+        "width": 804.2586486905807
+      },
+      "id": "17382de5-edc1-45f7-b588-7c297a5e53b5",
+      "name": "Sticky Note",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -6780,
+        -2920
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "return [\n  {\n  \"id\": \"1\",\n  \"name\": \"Jhon\",\n  \"email\": \"\",\n  \"phone\": 122,\n  \"city\": \"Abc\",\n},\n    {\n  \"id\": \"3\",\n  \"name\": \"Merry\",\n  \"email\": \"merry@mail.com\",\n  \"pets\": \"dog\",\n},\n]"
+      },
+      "id": "f0667314-d790-414c-b549-8b0c01932a3c",
+      "name": "Code4",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -3300,
+        -2320
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "return [\n  {\n  \"id\": \"1\",\n  \"name\": \"Anna\",\n  \"email\": \"ana@mail.com\",\n  \"country\": \"ACC\"\n},\n    {\n  \"id\": \"2\",\n  \"name\": \"Toni\",\n  \"email\": \"toni@mail.com\",\n},\n      {\n  \"id\": \"5\",\n  \"name\": \"Peter\",\n  \"email\": \"peter@mail.com\",\n},\n  ]"
+      },
+      "id": "f09f8fda-7c10-471f-91b7-fb769f2f0756",
+      "name": "Code5",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -3280,
+        -2120
+      ]
+    },
+    {
+      "parameters": {},
+      "name": "Old Merge Append",
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 1,
+      "position": [
+        -6540,
+        -1860
+      ],
+      "id": "3923b813-9ed0-428c-bf04-992151077db9",
+      "alwaysOutputData": true,
+      "executeOnce": false,
+      "retryOnFail": false,
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "jsCode": "const assert = require('node:assert');\n\nassert.deepStrictEqual(JSON.parse(JSON.stringify(items.map(x=> x.json))),[\n  {\n    \"id\": \"1\",\n    \"name\": \"Jhon\",\n    \"email\": \"\",\n    \"phone\": 122,\n    \"city\": \"Abc\"\n  },\n  {\n    \"id\": \"3\",\n    \"name\": \"Merry\",\n    \"email\": \"merry@mail.com\",\n    \"pets\": \"dog\"\n  },\n  {\n    \"id\": \"1\",\n    \"name\": \"Anna\",\n    \"email\": \"ana@mail.com\",\n    \"country\": \"ACC\"\n  },\n  {\n    \"id\": \"2\",\n    \"name\": \"Toni\",\n    \"email\": \"toni@mail.com\"\n  },\n  {\n    \"id\": \"5\",\n    \"name\": \"Peter\",\n    \"email\": \"peter@mail.com\"\n  }\n]\n   );\n\nreturn [];"
+      },
+      "id": "c5c13121-98e1-469e-9490-1d929c74e4b5",
+      "name": "Assert",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -6340,
+        -1860
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const assert = require('node:assert');\n\nassert.deepStrictEqual(JSON.parse(JSON.stringify(items[0].json)),\n{\n    \"id\": \"1\",\n    \"name\": \"Jhon\",\n    \"email\": \"\",\n    \"phone\": 122,\n    \"city\": \"Abc\"\n  }\n\n   );\n\nreturn []"
+      },
+      "id": "27d06030-d75f-4c32-985f-6e1ea1a84c9b",
+      "name": "Assert1",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -5860,
+        -1840
+      ]
+    },
+    {
+      "parameters": {
+        "mode": "passThrough",
+        "output": "input2"
+      },
+      "name": "Old Merge Append10",
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 1,
+      "position": [
+        -4200,
+        -1620
+      ],
+      "id": "d539bc64-3b2b-4e51-9696-8a7f0339176c",
+      "alwaysOutputData": true,
+      "executeOnce": false,
+      "retryOnFail": false,
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "content": "## Mode: Append",
+        "height": 196.06060546510696,
+        "width": 365.82025766248415
+      },
+      "id": "3a5925b2-7bef-47ac-a575-12e6e68279e6",
+      "name": "Sticky Note1",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -6560,
+        -1920
+      ]
+    },
+    {
+      "parameters": {
+        "content": "## Mode Keep Key Matches",
+        "height": 222.33766130822806,
+        "width": 368.57142644822045
+      },
+      "id": "119d3713-8203-45b7-a02d-251f2092773b",
+      "name": "Sticky Note2",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -6080,
+        -1920
+      ]
+    },
+    {
+      "parameters": {
+        "content": "## Mode Merge By index",
+        "height": 705.4545364469957,
+        "width": 430.9090877564486
+      },
+      "id": "a29b5a55-d3fd-4fa3-ab80-481a9c7ccdc4",
+      "name": "Sticky Note3",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -5600,
+        -1920
+      ]
+    },
+    {
+      "parameters": {
+        "content": "## Inner join"
+      },
+      "id": "0a1321cc-2141-443d-baa5-b30d59986293",
+      "name": "Sticky Note4",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -5580,
+        -1880
+      ]
+    },
+    {
+      "parameters": {
+        "content": "## Left join",
+        "width": 195.2821210061183
+      },
+      "id": "a68fae32-5a82-4547-8ba2-090e6302d5c5",
+      "name": "Sticky Note5",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -5560,
+        -1640
+      ]
+    },
+    {
+      "parameters": {
+        "content": "## Outer join"
+      },
+      "id": "b833faaa-9913-4c89-aece-af775b042906",
+      "name": "Sticky Note6",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -5580,
+        -1440
+      ]
+    },
+    {
+      "parameters": {
+        "content": "## Merge by key",
+        "height": 703.5844066077491,
+        "width": 354.70129680713995
+      },
+      "id": "4b5bc52b-0ae6-483b-bc56-072e972cb634",
+      "name": "Sticky Note7",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -5080,
+        -1920
+      ]
+    },
+    {
+      "parameters": {
+        "content": "## Aways",
+        "width": 207.58441611972142
+      },
+      "id": "8fe8ee7d-b8f6-4b9a-b6b1-ceca143ba307",
+      "name": "Sticky Note8",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -5080,
+        -1880
+      ]
+    },
+    {
+      "parameters": {
+        "content": "## If Blank"
+      },
+      "id": "47979381-9e76-4245-b35e-b4e1a5f0d056",
+      "name": "Sticky Note9",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -5080,
+        -1640
+      ]
+    },
+    {
+      "parameters": {
+        "content": "## If missing",
+        "height": 162.49350645232911
+      },
+      "id": "a5f2b264-4199-40ed-9757-cc5b440f0bd5",
+      "name": "Sticky Note10",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -5080,
+        -1440
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const assert = require('node:assert');\n\nassert.deepStrictEqual(JSON.parse(JSON.stringify(items.map(x=> x.json))),[\n  {\n    \"id\": \"1\",\n    \"name\": \"Anna\",\n    \"email\": \"ana@mail.com\",\n    \"phone\": 122,\n    \"city\": \"Abc\",\n    \"country\": \"ACC\"\n  },\n  {\n    \"id\": \"2\",\n    \"name\": \"Toni\",\n    \"email\": \"toni@mail.com\",\n    \"pets\": \"dog\"\n  }\n]\n   );\n\nreturn [];"
+      },
+      "id": "a08c8dda-b907-4d86-9694-8f5e466783db",
+      "name": "Assert2",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -5360,
+        -1820
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const assert = require('node:assert');\n\nassert.deepStrictEqual(JSON.parse(JSON.stringify(items.map(x=> x.json))),[\n  {\n    \"id\": \"1\",\n    \"name\": \"Anna\",\n    \"email\": \"ana@mail.com\",\n    \"phone\": 122,\n    \"city\": \"Abc\",\n    \"country\": \"ACC\"\n  },\n  {\n    \"id\": \"2\",\n    \"name\": \"Toni\",\n    \"email\": \"toni@mail.com\",\n    \"pets\": \"dog\"\n  }\n]\n   );\n\nreturn [];"
+      },
+      "id": "7e6bf648-7fa0-41db-9c87-fb9c59cb2ef2",
+      "name": "Assert3",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -5360,
+        -1580
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const assert = require('node:assert');\n\nassert.deepStrictEqual(JSON.parse(JSON.stringify(items.map(x=> x.json))),[\n  {\n    \"id\": \"1\",\n    \"name\": \"Anna\",\n    \"email\": \"ana@mail.com\",\n    \"phone\": 122,\n    \"city\": \"Abc\",\n    \"country\": \"ACC\"\n  },\n  {\n    \"id\": \"2\",\n    \"name\": \"Toni\",\n    \"email\": \"toni@mail.com\",\n    \"pets\": \"dog\"\n  },\n  {\n    \"id\": \"5\",\n    \"name\": \"Peter\",\n    \"email\": \"peter@mail.com\"\n  }\n]\n   );\n\nreturn [];"
+      },
+      "id": "1406c0f5-aa6c-4ff6-a97a-ed35af1c1698",
+      "name": "Assert4",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -5360,
+        -1400
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const assert = require('node:assert');\n\nassert.deepStrictEqual(JSON.parse(JSON.stringify(items.map(x=> x.json))),[\n  {\n    \"id\": \"1\",\n    \"name\": \"Anna\",\n    \"email\": \"ana@mail.com\",\n    \"phone\": 122,\n    \"city\": \"Abc\",\n    \"country\": \"ACC\"\n  },\n  {\n    \"id\": \"3\",\n    \"name\": \"Merry\",\n    \"email\": \"merry@mail.com\",\n    \"pets\": \"dog\"\n  }\n]\n   );\n\nreturn [];"
+      },
+      "id": "59fedf7b-63eb-49a7-a3db-6ae9e4feabca",
+      "name": "Assert5",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -4860,
+        -1820
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const assert = require('node:assert');\n\nassert.deepStrictEqual(JSON.parse(JSON.stringify(items[0].json)),\n{\n  \"id\": 1,\n  \"name\": \"John\",\n  \"email\": \"sara@mail.com\",\n  \"details\": {\n    \"age\": 30,\n    \"city\": {\n      \"primary\": \"New York\",\n      \"secondary\": \"Boston\"\n    }\n  },\n  \"phone\": 123\n}\n   );\n\nreturn [];"
+      },
+      "id": "b5b39fb4-26f8-4015-8485-e3699482e7ab",
+      "name": "Assert6",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -4860,
+        -1580
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const assert = require('node:assert');\n\nassert.deepStrictEqual(JSON.parse(JSON.stringify(items[0].json)),{\n  \"id\": 1,\n  \"name\": \"John\",\n  \"email\": \"\",\n  \"details\": {\n    \"age\": 30,\n    \"city\": {\n      \"primary\": \"New York\",\n      \"secondary\": \"Boston\"\n    }\n  },\n  \"phone\": 123\n}\n   );\n\nreturn [];"
+      },
+      "id": "1ca32891-b65d-42f2-bf5a-3ffd207f11e7",
+      "name": "Assert7",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -4860,
+        -1380
+      ]
+    },
+    {
+      "parameters": {
+        "content": "## Multiplex",
+        "height": 229.8181806652154,
+        "width": 352.20779035481064
+      },
+      "id": "c8bc385a-61c9-4759-8744-350e6c3fc06b",
+      "name": "Sticky Note11",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -4640,
+        -1920
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const assert = require('node:assert');\n\nassert.deepStrictEqual(JSON.parse(JSON.stringify(items.map(x=> x.json))),[\n  {\n    \"id\": \"1\",\n    \"name\": \"Anna\",\n    \"email\": \"ana@mail.com\",\n    \"phone\": 122,\n    \"city\": \"Abc\",\n    \"country\": \"ACC\"\n  },\n  {\n    \"id\": \"2\",\n    \"name\": \"Toni\",\n    \"email\": \"toni@mail.com\",\n    \"phone\": 122,\n    \"city\": \"Abc\"\n  },\n  {\n    \"id\": \"5\",\n    \"name\": \"Peter\",\n    \"email\": \"peter@mail.com\",\n    \"phone\": 122,\n    \"city\": \"Abc\"\n  },\n  {\n    \"id\": \"1\",\n    \"name\": \"Anna\",\n    \"email\": \"ana@mail.com\",\n    \"pets\": \"dog\",\n    \"country\": \"ACC\"\n  },\n  {\n    \"id\": \"2\",\n    \"name\": \"Toni\",\n    \"email\": \"toni@mail.com\",\n    \"pets\": \"dog\"\n  },\n  {\n    \"id\": \"5\",\n    \"name\": \"Peter\",\n    \"email\": \"peter@mail.com\",\n    \"pets\": \"dog\"\n  }\n]\n   );\n\nreturn [];"
+      },
+      "id": "13142cc7-c3e2-403a-9d7b-2b4a8fdb33be",
+      "name": "Assert8",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -4420,
+        -1840
+      ]
+    },
+    {
+      "parameters": {
+        "content": "## Pass-Through",
+        "height": 485.82585480742773,
+        "width": 347.71947874061823
+      },
+      "id": "cd3cc156-7def-4b3c-a7dc-02a00816970e",
+      "name": "Sticky Note12",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -4240,
+        -1920
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const assert = require('node:assert');\n\nassert.deepStrictEqual(JSON.parse(JSON.stringify(items.map(x=> x.json))),[\n  {\n    \"id\": \"1\",\n    \"name\": \"Jhon\",\n    \"email\": \"\",\n    \"phone\": 122,\n    \"city\": \"Abc\"\n  },\n  {\n    \"id\": \"3\",\n    \"name\": \"Merry\",\n    \"email\": \"merry@mail.com\",\n    \"pets\": \"dog\"\n  }\n]\n   );\n\nreturn [];"
+      },
+      "id": "84beb00e-29a0-451b-9db7-32134c25f632",
+      "name": "Assert9",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -4000,
+        -1840
+      ]
+    },
+    {
+      "parameters": {
+        "content": "## Input 1"
+      },
+      "id": "1489ca34-d071-45fe-978e-9e03eee27c70",
+      "name": "Sticky Note13",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -4240,
+        -1880
+      ]
+    },
+    {
+      "parameters": {
+        "content": "## Input 2"
+      },
+      "id": "629710e3-e0ab-4d4b-b79b-9a966be090e4",
+      "name": "Sticky Note14",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -4220,
+        -1680
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const assert = require('node:assert');\n\nassert.deepStrictEqual(JSON.parse(JSON.stringify(items.map(x=> x.json))),[\n  {\n    \"id\": \"1\",\n    \"name\": \"Anna\",\n    \"email\": \"ana@mail.com\",\n    \"country\": \"ACC\"\n  },\n  {\n    \"id\": \"2\",\n    \"name\": \"Toni\",\n    \"email\": \"toni@mail.com\"\n  },\n  {\n    \"id\": \"5\",\n    \"name\": \"Peter\",\n    \"email\": \"peter@mail.com\"\n  }\n]\n   );\n\nreturn [];"
+      },
+      "id": "82f7d211-95e9-4490-8204-d251155ab699",
+      "name": "Assert10",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -4000,
+        -1620
+      ]
+    },
+    {
+      "parameters": {
+        "content": "## Remove Key match",
+        "height": 234.80519356987384,
+        "width": 355.324673420222
+      },
+      "id": "81f15ae2-3cb6-4581-bbdb-8b27f1d974d5",
+      "name": "Sticky Note15",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -3820,
+        -1920
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const assert = require('node:assert');\n\nassert.deepStrictEqual(JSON.parse(JSON.stringify(items[0].json)),\n{\n    \"id\": \"3\",\n    \"name\": \"Merry\",\n    \"email\": \"merry@mail.com\",\n    \"pets\": \"dog\"\n  }\n   );\n\nreturn []"
+      },
+      "id": "5136f226-9701-403d-a61d-04c975dadda1",
+      "name": "Assert11",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -3580,
+        -1840
+      ]
+    },
+    {
+      "parameters": {
+        "content": "## Wait",
+        "height": 225.45454437363952,
+        "width": 355.324673420222
+      },
+      "id": "23b6cb8c-aa21-42a5-bb3c-ace47c3b44ef",
+      "name": "Sticky Note16",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -3400,
+        -1920
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const assert = require('node:assert');\n\nassert.deepStrictEqual(JSON.parse(JSON.stringify(items[0].json)),\n{\n}\n   );\n\nreturn []"
+      },
+      "id": "d538991d-264b-40af-81a3-5c68a4404a97",
+      "name": "Assert12",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -3160,
+        -1840
+      ]
+    },
+    {
+      "parameters": {
+        "mode": "keepKeyMatches",
+        "propertyName1": "id",
+        "propertyName2": "id"
+      },
+      "name": "Old Merge keep Key Matches",
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 1,
+      "position": [
+        -6060,
+        -1840
+      ],
+      "id": "8afd22b4-f654-4dd4-8d42-335454a943da",
+      "alwaysOutputData": true,
+      "executeOnce": false,
+      "retryOnFail": false,
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "mode": "mergeByIndex",
+        "join": "inner"
+      },
+      "name": "Old Merge By Index",
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 1,
+      "position": [
+        -5560,
+        -1820
+      ],
+      "id": "ffd3470a-2076-4c84-886b-27a2b1de6d9d",
+      "alwaysOutputData": true,
+      "executeOnce": false,
+      "retryOnFail": false,
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "mode": "mergeByIndex"
+      },
+      "name": "Old Merge By Index1",
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 1,
+      "position": [
+        -5540,
+        -1580
+      ],
+      "id": "28947a93-1539-4103-89de-e215ee5ff470",
+      "alwaysOutputData": true,
+      "executeOnce": false,
+      "retryOnFail": false,
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "mode": "mergeByIndex",
+        "join": "outer"
+      },
+      "name": "Old Merge By Index2",
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 1,
+      "position": [
+        -5560,
+        -1400
+      ],
+      "id": "f62390c6-c634-4da0-a895-dc5c58d47b5e",
+      "alwaysOutputData": true,
+      "executeOnce": false,
+      "retryOnFail": false,
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "mode": "mergeByKey",
+        "propertyName1": "id",
+        "propertyName2": "id"
+      },
+      "name": "Old Merge By Key",
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 1,
+      "position": [
+        -5060,
+        -1820
+      ],
+      "id": "8cd7b06c-68da-4321-b5da-7709a255637f",
+      "alwaysOutputData": true,
+      "executeOnce": false,
+      "retryOnFail": false,
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "mode": "mergeByKey",
+        "propertyName1": "id",
+        "propertyName2": "id",
+        "overwrite": "undefined"
+      },
+      "name": "Old Merge By Key2",
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 1,
+      "position": [
+        -5040,
+        -1380
+      ],
+      "id": "73979175-2a4e-46da-a91a-ca3654bcd7bd",
+      "alwaysOutputData": true,
+      "executeOnce": false,
+      "retryOnFail": false,
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "mode": "multiplex"
+      },
+      "name": "Old Merge Multiplex",
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 1,
+      "position": [
+        -4620,
+        -1840
+      ],
+      "id": "a46d90cf-144a-4f4a-8e46-d28a94b64169",
+      "alwaysOutputData": true,
+      "executeOnce": false,
+      "retryOnFail": false,
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "mode": "passThrough"
+      },
+      "name": "Old Merge Pass-Through",
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 1,
+      "position": [
+        -4200,
+        -1840
+      ],
+      "id": "b27b5b56-83f0-4313-9ca5-f18042b10f4e",
+      "alwaysOutputData": true,
+      "executeOnce": false,
+      "retryOnFail": false,
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "mode": "removeKeyMatches",
+        "propertyName1": "id",
+        "propertyName2": "id"
+      },
+      "name": "Old Merge Remove Key Matches",
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 1,
+      "position": [
+        -3780,
+        -1840
+      ],
+      "id": "f248a817-84f2-4869-aa1b-ff670b21738c",
+      "alwaysOutputData": true,
+      "executeOnce": false,
+      "retryOnFail": false,
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "mode": "wait"
+      },
+      "name": "Old Merge Wait",
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 1,
+      "position": [
+        -3360,
+        -1840
+      ],
+      "id": "c87e9c34-98eb-4bf0-944b-1b9aa87649f9",
+      "alwaysOutputData": true,
+      "executeOnce": false,
+      "retryOnFail": false,
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "jsCode": "return {\n  \"id\": 1,\n  \"name\": \"John\",\n  \"email\": \"\",\n  \"details\": {\n    \"age\": 30,\n    \"city\": {\n      \"primary\": \"New York\",\n      \"secondary\": \"Boston\"\n    }\n  }\n}\n"
+      },
+      "id": "11aee8ab-35ca-40d0-9339-9c4c5457a92b",
+      "name": "Test Deep Merge1",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -5020,
+        -2280
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "return {\n  \"id\": 1,\n  \"name\": \"Sarah\",\n  \"email\": \"sara@mail.com\",\n   \"phone\": 123,\n  \"details\": {\n    \"age\": 35,\n    \"city\": {\n      \"primary\": \"Los Angeles\",\n      \"additional\": \"San Francisco\"\n    }\n  }\n}\n"
+      },
+      "id": "6998f4e4-e3a4-4da9-b873-f51694140779",
+      "name": "Test Deep Merge2",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -5020,
+        -2080
+      ]
+    },
+    {
+      "parameters": {
+        "mode": "mergeByKey",
+        "propertyName1": "id",
+        "propertyName2": "id",
+        "overwrite": "blank"
+      },
+      "name": "Old Merge By Key3",
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 1,
+      "position": [
+        -5040,
+        -1580
+      ],
+      "id": "20aec4fc-364f-4076-aa93-1da1622b1ea7",
+      "alwaysOutputData": true,
+      "executeOnce": false,
+      "retryOnFail": false,
+      "continueOnFail": true
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When clicking \"Execute Workflow\"": {
+      "main": [
+        [
+          {
+            "node": "Code4",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Code5",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Test Deep Merge1",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Test Deep Merge2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code4": {
+      "main": [
+        [
+          {
+            "node": "Old Merge Append",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Old Merge keep Key Matches",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Old Merge By Index",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Old Merge By Index2",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Old Merge By Key",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Old Merge Multiplex",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Old Merge Pass-Through",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Old Merge Append10",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Old Merge Remove Key Matches",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Old Merge Wait",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Old Merge By Index1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code5": {
+      "main": [
+        [
+          {
+            "node": "Old Merge Append",
+            "type": "main",
+            "index": 1
+          },
+          {
+            "node": "Old Merge keep Key Matches",
+            "type": "main",
+            "index": 1
+          },
+          {
+            "node": "Old Merge By Index",
+            "type": "main",
+            "index": 1
+          },
+          {
+            "node": "Old Merge By Index1",
+            "type": "main",
+            "index": 1
+          },
+          {
+            "node": "Old Merge By Index2",
+            "type": "main",
+            "index": 1
+          },
+          {
+            "node": "Old Merge By Key",
+            "type": "main",
+            "index": 1
+          },
+          {
+            "node": "Old Merge Multiplex",
+            "type": "main",
+            "index": 1
+          },
+          {
+            "node": "Old Merge Pass-Through",
+            "type": "main",
+            "index": 1
+          },
+          {
+            "node": "Old Merge Append10",
+            "type": "main",
+            "index": 1
+          },
+          {
+            "node": "Old Merge Remove Key Matches",
+            "type": "main",
+            "index": 1
+          },
+          {
+            "node": "Old Merge Wait",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Old Merge Append": {
+      "main": [
+        [
+          {
+            "node": "Assert",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Old Merge Append10": {
+      "main": [
+        [
+          {
+            "node": "Assert10",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Old Merge keep Key Matches": {
+      "main": [
+        [
+          {
+            "node": "Assert1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Old Merge By Index": {
+      "main": [
+        [
+          {
+            "node": "Assert2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Old Merge By Index1": {
+      "main": [
+        [
+          {
+            "node": "Assert3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Old Merge By Index2": {
+      "main": [
+        [
+          {
+            "node": "Assert4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Old Merge By Key": {
+      "main": [
+        [
+          {
+            "node": "Assert5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Old Merge By Key2": {
+      "main": [
+        [
+          {
+            "node": "Assert7",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Old Merge Multiplex": {
+      "main": [
+        [
+          {
+            "node": "Assert8",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Old Merge Pass-Through": {
+      "main": [
+        [
+          {
+            "node": "Assert9",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Old Merge Remove Key Matches": {
+      "main": [
+        [
+          {
+            "node": "Assert11",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Old Merge Wait": {
+      "main": [
+        [
+          {
+            "node": "Assert12",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Test Deep Merge1": {
+      "main": [
+        [
+          {
+            "node": "Old Merge By Key3",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Old Merge By Key2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Test Deep Merge2": {
+      "main": [
+        [
+          {
+            "node": "Old Merge By Key3",
+            "type": "main",
+            "index": 1
+          },
+          {
+            "node": "Old Merge By Key2",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Old Merge By Key3": {
+      "main": [
+        [
+          {
+            "node": "Assert6",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "saveManualExecutions": false,
+    "callerPolicy": "workflowsFromSameOwner"
+  },
+  "versionId": "29b8486f-1bf9-4af3-9a25-5f5ba3667746",
+  "id": "102",
+  "meta": {
+    "instanceId": "ac7c827da56e852a0a6fec36e4b55ade4a0331714f3a850931f8ac704749495e"
+  },
+  "tags": []
+}
