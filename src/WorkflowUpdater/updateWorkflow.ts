@@ -20,6 +20,18 @@ interface TodoItem {
 const oldNodesDirectoryPath = '././tests/WorkflowUpdatorTestWorkflows';
 const updatedNodesDirectoryPath = './updatedWorkflows'; // Update with the path of the folder to store updated files
 
+// Define the expected versions based on node type
+const expectedVersions: { [nodeType: string]: string } = {
+  'n8n-nodes-base.set': '2',
+  'n8n-nodes-base.itemLists': '3',
+  'n8n-nodes-base.interval': '1.1',
+  'n8n-nodes-base.functionItem': '2',
+  'n8n-nodes-base.function': '2',
+  'n8n-nodes-base.httpRequest': '4.1',
+  'n8n-nodes-base.dateTime': '2',
+  'n8n-nodes-base.merge': '2.1',
+};
+
 // Check if the "updatedNodes" folder exists, and if not, create it
 if (!fs.existsSync(updatedNodesDirectoryPath)) {
   fs.mkdirSync(updatedNodesDirectoryPath);
@@ -61,9 +73,11 @@ fs.readdir(oldNodesDirectoryPath, (err, files) => {
         jsonData.nodes.forEach((node: any) => { // Use 'any' type here
           let nodeModified = false;
 
-          if (node.typeVersion !== 1) {
+           const expectedLatestVersion = expectedVersions[node.type];
+
+          if (expectedLatestVersion && node.typeVersion !== 1 && node.typeVersion !== expectedLatestVersion) {
             // Add the node to the TODO list with specific text
-            const additionalText = 'The node needs to be updated manually.';
+            const additionalText = `The node needs to be manually updated to version ${expectedLatestVersion}.`;
             todoNodes.push({ workflow: workflowName, node: node.name, additionalText });
             if (!workflowChanges.nodeNames.includes(node.name)) {
               nodeModified = true;
