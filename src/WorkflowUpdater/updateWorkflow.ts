@@ -1,5 +1,6 @@
-import * as fs from 'fs';
-import * as path from 'path';
+import fs from "node:fs";
+import path from "node:path";
+
 import {
   modifyHttpRequestNode,
   modifySetNode,
@@ -18,7 +19,7 @@ interface TodoItem {
 }
 
 const oldNodesDirectoryPath = '././tests/WorkflowUpdatorTestWorkflows';
-const updatedNodesDirectoryPath = './updatedWorkflows'; // Update with the path of the folder to store updated files
+const updatedNodesDirectoryPath = '././tests/updatedWorkflows'; // Update with the path of the folder to store updated files
 
 // Define the expected versions based on node type
 const expectedVersions: { [nodeType: string]: string } = {
