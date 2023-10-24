@@ -31,7 +31,7 @@ const createWorkflowsAgent = (cmd: Command) => {
     proxy: config.proxy,
   }
   return new Workflows(publicApiCfg, restCliCfg);
-} 
+}
 
 const createAction = (
   fn: (opts: OptionValues, wf: Workflows, cmd: Command) => Promise<void>
@@ -160,6 +160,29 @@ export const wf = () => {
         await wf.save(...args)
       }
     }))
+
+    cmd.command('update')
+    .description('Update workflows in the n8n instance.')
+    .hook('preAction', loadConfig)
+    .addOption(options.dir)
+    .addOption(options.id)
+    .addOption(options.name)
+    .addOption(options.tag)
+    .addOption(options.excludeId)
+    .option('-kf, --keep-files', 'If no filters specified (id, name, tag) and --keep-files=false, then all workflow files before saving will be deleted. This is useful when you want to have an exact copy of workflows in a directory.', false)
+    .option('-sai, --save-as-is', 'If --save-as-is=false, then workflows that differ only with the updatedAt property from an existing file will not be overwritten', false)
+    .action(createAction(async (opts, wf, cmd) => {
+        const args: Parameters<typeof wf.updateWorkflow> = [
+            opts.dir || config.workflows.dir,
+            getWfFilter(opts, config)
+        ];
+
+        logOp(cmd, ['Workflow update started']);
+        if (opts.dry === false) {
+            await wf.updateWorkflow(...args);
+            logOp(cmd, ['Workflow update completed']);
+        }
+    }));
 
   cmd.command('publish')
     .description('Publish workflow(s) to n8n instance.')

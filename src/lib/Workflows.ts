@@ -6,7 +6,7 @@ import { IRestCliConfig, RestCliClient } from "src/RestCliClient";
 import equal from 'fast-deep-equal';
 import { WorkflowsFilter } from "./utils/WorkflowsFilter";
 import { IWorkflow } from "./utils/Workflow";
-
+import { updateWorkflow } from "src/WorkflowUpdater/updateWorkflowsWithFunction";
 
 const getFileName = (wf: IWorkflow) => {
   const name = wf.name
@@ -65,7 +65,7 @@ const areWfsEqual = (a: IWorkflow, b: IWorkflow): boolean => {
 }
 
 export class Workflows {
-  
+
   publicApiClient: PublicApiClient
   restCliClient: RestCliClient
 
@@ -130,7 +130,7 @@ export class Workflows {
     if (wfFilter.hasNames()) {
       workflows = workflows.filter(wf => wfFilter!.name.includes(wf.name))
     }
-    
+
     if (wfFilter.hasTags()) {
       workflows = workflows.filter(wf => wf.tags.findIndex(tag => wfFilter!.tag.includes(tag.name)) > -1)
     }
@@ -209,15 +209,15 @@ export class Workflows {
   }
 
   async save(
-    dir: string, 
-    wfFilter: WorkflowsFilter, 
+    dir: string,
+    wfFilter: WorkflowsFilter,
     keepFiles: boolean,
     saveAsIs: boolean,
   ) {
     const wfsFromSrv = await this.getWorkflowsFromSrv(wfFilter);
     const filesList = getWorkflowFiles(dir)
       .filter(byIds(wfFilter)); // filter needed to exclude system workflow from deletion.
-    
+
     const wfsToDelete = filesList.filter(f => wfsFromSrv.findIndex(srv => parseInt(srv.id) === getIdFromFileName(f)) === -1);
 
     if (!keepFiles) {
@@ -229,10 +229,31 @@ export class Workflows {
     for (const wf of wfsFromSrv) {
       const fileName = getFileName(wf);
       const filePath = path.join(dir, fileName);
-      
+
       if (
-        saveAsIs 
-        || !fs.existsSync(filePath) 
+        saveAsIs
+        || !fs.existsSync(filePath)
+        || !areWfsEqual(getWfFromFile(filePath), wf)
+      ) {
+        const content = JSON.stringify(wf, undefined, 2);
+        fs.writeFileSync(filePath, content);
+      }
+    }
+  }
+
+  async updateWorkflow(dir: string,wfFilter: WorkflowsFilter) {
+    // Get the list of workflows from the directory and from the server
+    const wfs = this.getWorkflowsFromDir(dir, wfFilter);
+
+    // Call the external updateWorkflow function to perform the update
+    updateWorkflow(wfs);
+
+    for (const wf of wfs) {
+      const fileName = getFileName(wf);
+      const filePath = path.join(dir, fileName);
+
+      if (
+        !fs.existsSync(filePath)
         || !areWfsEqual(getWfFromFile(filePath), wf)
       ) {
         const content = JSON.stringify(wf, undefined, 2);
@@ -248,7 +269,7 @@ export class Workflows {
 
   async setupAll(dir: string, wfFilter: WorkflowsFilter) {
     const excludeFilted = WorkflowsFilter.create(i => i.exclude.id = [...wfFilter.exclude.id])
-    
+
     // Workflows
     const wfsFromSrv = await this.getWorkflowsFromSrv(excludeFilted);
     const wfsFromDir = this.getWorkflowsFromDir(dir, wfFilter);
