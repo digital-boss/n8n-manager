@@ -161,27 +161,21 @@ export const wf = () => {
       }
     }))
 
-    cmd.command('update')
+  cmd.command('update')
     .description('Update workflows in the n8n instance.')
     .hook('preAction', loadConfig)
     .addOption(options.dir)
-    .addOption(options.id)
-    .addOption(options.name)
-    .addOption(options.tag)
-    .addOption(options.excludeId)
-    .option('-kf, --keep-files', 'If no filters specified (id, name, tag) and --keep-files=false, then all workflow files before saving will be deleted. This is useful when you want to have an exact copy of workflows in a directory.', false)
-    .option('-sai, --save-as-is', 'If --save-as-is=false, then workflows that differ only with the updatedAt property from an existing file will not be overwritten', false)
     .action(createAction(async (opts, wf, cmd) => {
-        const args: Parameters<typeof wf.updateWorkflow> = [
-            opts.dir || config.workflows.dir,
-            getWfFilter(opts, config)
-        ];
+      const dir = opts.dir || config.workflows.dir;
 
-        logOp(cmd, ['Workflow update started']);
-        if (opts.dry === false) {
-            await wf.updateWorkflow(...args);
-            logOp(cmd, ['Workflow update completed']);
-        }
+      const args: Parameters<typeof wf.updateWorkflow> = [
+        opts.dir || config.workflows.dir,
+      ]
+      logOp(cmd, args)
+      if (opts.dry === false) {
+        await wf.updateWorkflow(dir);
+        logOp(cmd, ['Workflow update completed']);
+      }
     }));
 
   cmd.command('publish')

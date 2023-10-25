@@ -6,7 +6,7 @@ import { IRestCliConfig, RestCliClient } from "src/RestCliClient";
 import equal from 'fast-deep-equal';
 import { WorkflowsFilter } from "./utils/WorkflowsFilter";
 import { IWorkflow } from "./utils/Workflow";
-import { updateWorkflow } from "src/WorkflowUpdater/updateWorkflowsWithFunction";
+import { updateWorkflows } from "../WorkflowUpdater/updateWorkflow";
 
 const getFileName = (wf: IWorkflow) => {
   const name = wf.name
@@ -241,25 +241,9 @@ export class Workflows {
     }
   }
 
-  async updateWorkflow(dir: string,wfFilter: WorkflowsFilter) {
-    // Get the list of workflows from the directory and from the server
-    const wfs = this.getWorkflowsFromDir(dir, wfFilter);
-
+  async updateWorkflow(dir: string) {
     // Call the external updateWorkflow function to perform the update
-    updateWorkflow(wfs);
-
-    for (const wf of wfs) {
-      const fileName = getFileName(wf);
-      const filePath = path.join(dir, fileName);
-
-      if (
-        !fs.existsSync(filePath)
-        || !areWfsEqual(getWfFromFile(filePath), wf)
-      ) {
-        const content = JSON.stringify(wf, undefined, 2);
-        fs.writeFileSync(filePath, content);
-      }
-    }
+    updateWorkflows(dir);
   }
 
   async publish(dir: string, wfFilter: WorkflowsFilter) {
