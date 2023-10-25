@@ -10,3 +10,18 @@ export interface IWorkflow {
   active: boolean;
   tags: IWorkflowTag[];
 }
+
+export interface INode {
+  parameters: Record<string, any>;
+  name: string;
+  type: string;
+  typeVersion: number;
+  position: [number, number];
+  id: string;
+}
+
+export interface TodoItem {
+  workflow: string;
+  node: string;
+  additionalText: string;
+}
