@@ -11,22 +11,19 @@ import {
   modifyItemListsNode,
 } from './helperFunctions';
 
-// Define an interface for the todo item
-interface TodoItem {
-  workflow: string;
-  node: string;
-  additionalText: string;
-}
+// Import the INode interface
+import { INode, TodoItem } from "src/lib/utils/Workflow";
+
 // Define the expected versions based on node type
-const expectedVersions: { [nodeType: string]: string } = {
-  'n8n-nodes-base.set': '2',
-  'n8n-nodes-base.itemLists': '3',
-  'n8n-nodes-base.interval': '1.1',
-  'n8n-nodes-base.functionItem': '2',
-  'n8n-nodes-base.function': '2',
-  'n8n-nodes-base.httpRequest': '4.1',
-  'n8n-nodes-base.dateTime': '2',
-  'n8n-nodes-base.merge': '2.1',
+const expectedVersions: { [nodeType: string]: number } = {
+  'n8n-nodes-base.set': 2,
+  'n8n-nodes-base.itemLists': 3,
+  'n8n-nodes-base.interval': 1.1,
+  'n8n-nodes-base.functionItem': 2,
+  'n8n-nodes-base.function': 2,
+  'n8n-nodes-base.httpRequest': 4.1,
+  'n8n-nodes-base.dateTime': 2,
+  'n8n-nodes-base.merge': 2.1,
 };
 
 export function updateWorkflows(dir: string) {
@@ -74,7 +71,7 @@ export function updateWorkflows(dir: string) {
             const todoNodes: TodoItem[] = []; // Initialize an array with a specified type to store nodes for the TODO list
 
             // Modify the necessary fields in the JSON data
-            jsonData.nodes.forEach((node: any) => { //TODO INodes interface Use 'any' type here
+            jsonData.nodes.forEach((node: INode) => {
               let nodeModified = false;
 
               const expectedLatestVersion = expectedVersions[node.type];
