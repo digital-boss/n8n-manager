@@ -7,9 +7,10 @@ import {
   modifyDateTimeNode,
   modifyMergeNode,
   modifyIntervalNode,
-  generateChangesReport,
   modifyItemListsNode,
 } from './helperFunctions';
+
+import { generateChangesReport } from "./report";
 
 // Import the INode interface
 import { INode, TodoItem } from "src/lib/utils/Workflow";
