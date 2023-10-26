@@ -1,0 +1,499 @@
+{
+  "name": "Webhook Testing HTTP Node",
+  "nodes": [
+    {
+      "parameters": {
+        "jsCode": "return {\n  \"headers\": {\n    \"connection\": \"close\",\n    \"host\": \"stanimira.digital-boss.dev\",\n    \"x-forwarded-for\": \"87.121.13.208\",\n    \"x-forwarded-host\": \"stanimira.digital-boss.dev\",\n    \"x-forwarded-proto\": \"https\",\n    \"x-forwarded-ssl\": \"on\",\n    \"x-real-ip\": \"87.121.13.208\",\n    \"content-length\": \"215\",\n    \"content-type\": \"application/json\",\n    \"authorization\": \"Bearer b0864be9eeacbac462ab24f30d14ac16f16d15da\",\n    \"user-agent\": \"PostmanRuntime/7.32.3\",\n    \"accept\": \"*/*\",\n    \"postman-token\": \"942e4915-b4ba-42f2-9af7-9f2ce490e17b\",\n    \"accept-encoding\": \"gzip, deflate, br\"\n  },\n  \"params\": {},\n  \"query\": {},\n  \"body\": {\n    \"name\": \"John Doe\",\n    \"email\": \"john.doe@example.com\",\n    \"age\": 30,\n    \"address\": {\n      \"street\": \"123 Main St\",\n      \"city\": \"Example City\",\n      \"state\": \"CA\",\n      \"zip\": \"12345\"\n    }\n  }\n}"
+      },
+      "id": "17a7b2dd-2f1d-4bbc-b771-58ef6a273c4e",
+      "name": "POST request",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        340,
+        -200
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "return {\n  \"headers\": {\n    \"connection\": \"close\",\n    \"host\": \"stanimira.digital-boss.dev\",\n    \"x-forwarded-for\": \"87.121.13.208\",\n    \"x-forwarded-host\": \"stanimira.digital-boss.dev\",\n    \"x-forwarded-proto\": \"https\",\n    \"x-forwarded-ssl\": \"on\",\n    \"x-real-ip\": \"87.121.13.208\",\n    \"content-length\": \"215\",\n    \"content-type\": \"application/json\",\n    \"authorization\": \"Bearer b0864be9eeacbac462ab24f30d14ac16f16d15da\",\n    \"user-agent\": \"PostmanRuntime/7.32.3\",\n    \"accept\": \"*/*\",\n    \"postman-token\": \"e12a1f2d-c421-41c1-bd88-4df60b8191e5\",\n    \"accept-encoding\": \"gzip, deflate, br\"\n  },\n  \"params\": {},\n  \"query\": {},\n  \"body\": {\n    \"name\": \"John Doe\",\n    \"email\": \"john.doe@example.com\",\n    \"age\": 30,\n    \"address\": {\n      \"street\": \"123 Main St\",\n      \"city\": \"Example City\",\n      \"state\": \"CA\",\n      \"zip\": \"12345\"\n    }\n  }\n}"
+      },
+      "id": "c31a3603-d077-4cf4-8fa6-8578b899ccff",
+      "name": "GET request",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        340,
+        -40
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "return {\n  \"headers\": {\n    \"connection\": \"close\",\n    \"host\": \"stanimira.digital-boss.dev\",\n    \"x-forwarded-for\": \"87.121.13.208\",\n    \"x-forwarded-host\": \"stanimira.digital-boss.dev\",\n    \"x-forwarded-proto\": \"https\",\n    \"x-forwarded-ssl\": \"on\",\n    \"x-real-ip\": \"87.121.13.208\",\n    \"content-length\": \"215\",\n    \"content-type\": \"application/json\",\n    \"authorization\": \"Bearer b0864be9eeacbac462ab24f30d14ac16f16d15da\",\n    \"user-agent\": \"PostmanRuntime/7.32.3\",\n    \"accept\": \"*/*\",\n    \"postman-token\": \"fd3d112d-f2a2-4131-a790-b843e1dcfd3e\",\n    \"accept-encoding\": \"gzip, deflate, br\"\n  },\n  \"params\": {},\n  \"query\": {},\n  \"body\": {\n    \"name\": \"John Doe\",\n    \"email\": \"john.doe@example.com\",\n    \"age\": 30,\n    \"address\": {\n      \"street\": \"123 Main St\",\n      \"city\": \"Example City\",\n      \"state\": \"CA\",\n      \"zip\": \"12345\"\n    }\n  }\n}"
+      },
+      "id": "314fad9b-755a-4b43-843d-136063594039",
+      "name": "HEAD request",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        340,
+        120
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "return {\n  \"headers\": {\n    \"connection\": \"close\",\n    \"host\": \"stanimira.digital-boss.dev\",\n    \"x-forwarded-for\": \"87.121.13.208\",\n    \"x-forwarded-host\": \"stanimira.digital-boss.dev\",\n    \"x-forwarded-proto\": \"https\",\n    \"x-forwarded-ssl\": \"on\",\n    \"x-real-ip\": \"87.121.13.208\",\n    \"content-length\": \"215\",\n    \"content-type\": \"application/json\",\n    \"authorization\": \"Bearer b0864be9eeacbac462ab24f30d14ac16f16d15da\",\n    \"user-agent\": \"PostmanRuntime/7.32.3\",\n    \"accept\": \"*/*\",\n    \"postman-token\": \"234b7277-238c-428a-965b-4748d785af68\",\n    \"accept-encoding\": \"gzip, deflate, br\"\n  },\n  \"params\": {},\n  \"query\": {},\n  \"body\": {\n    \"name\": \"John Doe\",\n    \"email\": \"john.doe@example.com\",\n    \"age\": 30,\n    \"address\": {\n      \"street\": \"123 Main St\",\n      \"city\": \"Example City\",\n      \"state\": \"CA\",\n      \"zip\": \"12345\"\n    }\n  }\n}"
+      },
+      "id": "274cc4d9-7528-42fa-8007-3d56184e301f",
+      "name": "PATCH request",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        540,
+        -40
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "return {\n  \"headers\": {\n    \"connection\": \"close\",\n    \"host\": \"stanimira.digital-boss.dev\",\n    \"x-forwarded-for\": \"87.121.13.208\",\n    \"x-forwarded-host\": \"stanimira.digital-boss.dev\",\n    \"x-forwarded-proto\": \"https\",\n    \"x-forwarded-ssl\": \"on\",\n    \"x-real-ip\": \"87.121.13.208\",\n    \"content-length\": \"215\",\n    \"content-type\": \"application/json\",\n    \"authorization\": \"Bearer b0864be9eeacbac462ab24f30d14ac16f16d15da\",\n    \"user-agent\": \"PostmanRuntime/7.32.3\",\n    \"accept\": \"*/*\",\n    \"postman-token\": \"74f746d6-00fd-4e7f-93c9-8758e64c3bbd\",\n    \"accept-encoding\": \"gzip, deflate, br\"\n  },\n  \"params\": {},\n  \"query\": {},\n  \"body\": {\n    \"name\": \"John Doe\",\n    \"email\": \"john.doe@example.com\",\n    \"age\": 30,\n    \"address\": {\n      \"street\": \"123 Main St\",\n      \"city\": \"Example City\",\n      \"state\": \"CA\",\n      \"zip\": \"12345\"\n    }\n  }\n}"
+      },
+      "id": "844b1bac-0156-47bc-837f-695c94646130",
+      "name": "PUT request",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        540,
+        -200
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "return {\n  \"headers\": {\n    \"connection\": \"close\",\n    \"host\": \"stanimira.digital-boss.dev\",\n    \"x-forwarded-for\": \"87.121.13.208\",\n    \"x-forwarded-host\": \"stanimira.digital-boss.dev\",\n    \"x-forwarded-proto\": \"https\",\n    \"x-forwarded-ssl\": \"on\",\n    \"x-real-ip\": \"87.121.13.208\",\n    \"content-length\": \"215\",\n    \"content-type\": \"application/json\",\n    \"authorization\": \"Bearer b0864be9eeacbac462ab24f30d14ac16f16d15da\",\n    \"user-agent\": \"PostmanRuntime/7.32.3\",\n    \"accept\": \"*/*\",\n    \"postman-token\": \"89ed2988-b3c6-4d1f-a9b4-67c3ed485da4\",\n    \"accept-encoding\": \"gzip, deflate, br\"\n  },\n  \"params\": {},\n  \"query\": {},\n  \"body\": {\n    \"name\": \"John Doe\",\n    \"email\": \"john.doe@example.com\",\n    \"age\": 30,\n    \"address\": {\n      \"street\": \"123 Main St\",\n      \"city\": \"Example City\",\n      \"state\": \"CA\",\n      \"zip\": \"12345\"\n    }\n  }\n}"
+      },
+      "id": "df479422-3328-4ce5-b2fc-4c9b4c037eeb",
+      "name": "DELETE request",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        540,
+        120
+      ]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ JSON.stringify($json) }}",
+        "options": {
+          "responseCode": 200
+        }
+      },
+      "id": "3265bcb7-74b9-45ef-8254-913501e2e247",
+      "name": "Respond to Webhook6",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [
+        -600,
+        -160
+      ]
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "9b43a8a6-db70-4001-96d5-bce674ba071e",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "51f2d23b-85fe-412e-8385-82a4d8594435",
+      "name": "POST",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        -800,
+        -160
+      ],
+      "webhookId": "9b43a8a6-db70-4001-96d5-bce674ba071e"
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ JSON.stringify($json) }}",
+        "options": {
+          "responseCode": 200
+        }
+      },
+      "id": "23190b87-1718-4ad1-989b-0e3be63def04",
+      "name": "Respond to Webhook",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [
+        -600,
+        20
+      ]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ JSON.stringify($json) }}",
+        "options": {
+          "responseCode": 200
+        }
+      },
+      "id": "32f4099f-4c53-488b-afdd-aea54d584027",
+      "name": "Respond to Webhook1",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [
+        -600,
+        220
+      ]
+    },
+    {
+      "parameters": {
+        "httpMethod": "HEAD",
+        "path": "d2568160-d906-4338-b7f0-78e1dcb8eda5",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "644cb642-c24b-49f1-a894-fd396bd79427",
+      "name": "HEAD",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        -800,
+        220
+      ],
+      "webhookId": "d2568160-d906-4338-b7f0-78e1dcb8eda5"
+    },
+    {
+      "parameters": {
+        "httpMethod": "PUT",
+        "path": "04607968-482e-4376-99a6-c82442a98ef9",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "ebdc9c31-0f77-42f7-a72b-9480c8b1d324",
+      "name": "PUT",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        -380,
+        -160
+      ],
+      "webhookId": "04607968-482e-4376-99a6-c82442a98ef9"
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ JSON.stringify($json) }}",
+        "options": {
+          "responseCode": 200
+        }
+      },
+      "id": "1d743c97-5754-493d-b911-a064b1e7658e",
+      "name": "Respond to Webhook2",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [
+        -180,
+        -160
+      ]
+    },
+    {
+      "parameters": {
+        "httpMethod": "DELETE",
+        "path": "8df25297-b9b8-492a-ab37-019d640a2dc6",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "4aa0b43d-3b77-4e76-937d-6eef9a3da65f",
+      "name": "DELETE",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        -380,
+        20
+      ],
+      "webhookId": "8df25297-b9b8-492a-ab37-019d640a2dc6"
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ JSON.stringify($json) }}",
+        "options": {
+          "responseCode": 200
+        }
+      },
+      "id": "4d2efe1f-bd1c-4f08-9319-74d34ad890eb",
+      "name": "Respond to Webhook3",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [
+        -180,
+        20
+      ]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ JSON.stringify($json) }}",
+        "options": {
+          "responseCode": 200
+        }
+      },
+      "id": "d537f1ec-81d3-4877-9533-1227ccc01f0f",
+      "name": "Respond to Webhook4",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [
+        -180,
+        200
+      ]
+    },
+    {
+      "parameters": {
+        "httpMethod": "PATCH",
+        "path": "147bce37-8acb-4097-9f08-90c21e321ef6",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "9a4ce99a-7595-45c0-b442-45d3c9e4ea85",
+      "name": "PATCH",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        -380,
+        200
+      ],
+      "webhookId": "147bce37-8acb-4097-9f08-90c21e321ef6"
+    },
+    {
+      "parameters": {
+        "path": "e58c05c3-74f6-429a-b182-e3c8d6af9d8e",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "98445ce8-11c9-42aa-93f1-291d4278b7cd",
+      "name": "GET",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        -800,
+        20
+      ],
+      "webhookId": "e58c05c3-74f6-429a-b182-e3c8d6af9d8e"
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ JSON.stringify($json) }}",
+        "options": {
+          "responseCode": 400
+        }
+      },
+      "id": "4750cebe-c0b1-4d2e-8f29-508fed2b5d22",
+      "name": "Respond to Webhook5",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [
+        -420,
+        460
+      ]
+    },
+    {
+      "parameters": {
+        "path": "bae0f4b9-ed9c-47f6-ae6d-19f2b14bd2c9",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "0e9e38d8-3e90-4e6c-b123-36ac730c53eb",
+      "name": "GET/Ignore Response Code",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        -800,
+        460
+      ],
+      "webhookId": "bae0f4b9-ed9c-47f6-ae6d-19f2b14bd2c9"
+    },
+    {
+      "parameters": {
+        "path": "86b982bf-deda-49ec-aece-1dc7cd65a1e0",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "9e087ee4-9a55-4c6a-b30a-cfaec0ea8c19",
+      "name": "GET / Splite Into Items",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        -800,
+        660
+      ],
+      "webhookId": "86b982bf-deda-49ec-aece-1dc7cd65a1e0"
+    },
+    {
+      "parameters": {
+        "jsCode": "return {\n  \"headers\": {\n    \"phone\": \"222\",\n    \"content-type\": \"application/json\",\n    \"user-agent\": \"axios/0.21.4\",\n    \"content-length\": \"14\",\n    \"host\": \"localhost:5678\",\n    \"connection\": \"close\"\n  },\n  \"params\": {},\n  \"query\": {\n    \"age\": \"13\"\n  },\n  \"body\": {\n    \"name\": \"Ani\"\n  }\n}"
+      },
+      "id": "4c53b2f2-fa32-4fcd-9fb0-ee31d887c824",
+      "name": "Return Data",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -620,
+        460
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "return[\n    { \"id\": 1, \"name\": \"Alice\" },\n    { \"id\": 2, \"name\": \"Bob\" },\n    { \"id\": 3, \"name\": \"Charlie\" }\n]\n"
+      },
+      "id": "20e7fb9b-7fe9-41b6-a9ca-93a25287ce73",
+      "name": "Return Data1",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -620,
+        660
+      ]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ JSON.stringify($json) }}",
+        "options": {
+          "responseCode": 200
+        }
+      },
+      "id": "4d2d1ef7-55a8-426b-98be-13e0190bc1e0",
+      "name": "Respond to Webhook7",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [
+        -420,
+        660
+      ]
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "POST": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook6",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HEAD": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "PUT": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "DELETE": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "PATCH": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GET": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GET/Ignore Response Code": {
+      "main": [
+        [
+          {
+            "node": "Return Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Return Data": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GET / Splite Into Items": {
+      "main": [
+        [
+          {
+            "node": "Return Data1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Return Data1": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook7",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {},
+  "versionId": "1d16a66f-c8a0-4a6d-a5d8-0265ee1ab07e",
+  "id": "107",
+  "meta": {
+    "instanceId": "ac7c827da56e852a0a6fec36e4b55ade4a0331714f3a850931f8ac704749495e"
+  },
+  "tags": []
+}

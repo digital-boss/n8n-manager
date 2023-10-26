@@ -28,7 +28,7 @@ const expectedVersions: { [nodeType: string]: number } = {
 
 export function updateWorkflows(dir: string) {
   const oldNodesDirectoryPath = dir;
-  const updatedNodesDirectoryPath = '././tests/updatedWorkflows'; // TODO: Update with the path of the folder to store updated files
+  const updatedNodesDirectoryPath = dir + '/' + '../expected'; // TODO: Update with the path of the folder to store updated files
 
   // Check if the "updatedNodes" folder exists, and if not, create it
   if (!fs.existsSync(updatedNodesDirectoryPath)) {
