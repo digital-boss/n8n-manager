@@ -1,7 +1,8 @@
 // helperFunctions.ts
 import * as fs from 'fs';
+import { INode } from 'src/lib/utils/Workflow';
 
-export function modifyHttpRequestNode(node: any): void {
+export function modifyHttpRequestNode(node: INode): void {
   node.typeVersion = 4.1;
 
   if (node.parameters.requestMethod) {
@@ -104,46 +105,41 @@ export function modifyHttpRequestNode(node: any): void {
   node.parameters = { method, ...node.parameters };
 }
 
-export function modifyDateTimeNode(node: any): void {
+export function modifyDateTimeNode(node: INode): void {
+  node.parameters.outputFieldName = node.parameters.dataPropertyName;
+  node.typeVersion = 2;
+
   if (node.parameters.action === 'calculate') {
     // Set parameters for calculation
     node.parameters.operation = 'subtractFromDate';
     node.parameters.magnitude = node.parameters.value;
-    node.parameters.outputFieldName = node.parameters.dataPropertyName;
-    node.typeVersion = 2;
-    delete node.parameters.dataPropertyName;
-    delete node.parameters.options;
-    delete node.parameters.action;
-    delete node.parameters.value;
   } else {
     // Set parameters for formatting
     node.parameters.operation = 'formatDate';
     node.parameters.date = node.parameters.value;
 
     if (node.parameters.toFormat) {
-      if (
-        node.parameters.toFormat == 'YYYY/MM/DD' ||
-        node.parameters.toFormat == 'MMMM DD YYYY' ||
-        node.parameters.toFormat == 'MM-DD-YYYY' ||
-        node.parameters.toFormat == 'YYYY-MM-DD'
-      ) {
-        node.parameters.format = node.parameters.toFormat
-          .replace('YYYY', 'yyyy')
-          .replace('DD', 'dd');
-      } else {
-        node.parameters.format = node.parameters.toFormat.replace('DD', 'dd');
-      }
+      // Define the format for formatting scenario
+      const formatMapping: Record<string, string> = {
+        'YYYY/MM/DD': 'yyyy/MM/dd',
+        'MMMM DD YYYY': 'MMMM dd yyyy',
+        'MM-DD-YYYY': 'MM-dd-yyyy',
+        'YYYY-MM-DD': 'yyyy-MM-dd',
+      };
+
+      node.parameters.format = formatMapping[node.parameters.toFormat] || node.parameters.toFormat;
     }
 
-    node.parameters.outputFieldName = node.parameters.dataPropertyName;
-    node.typeVersion = 2;
-    delete node.parameters.dataPropertyName;
-    delete node.parameters.value;
-    delete node.parameters.toFormat; // Remove the old property
+    // Remove the old property for formatting scenario
+    delete node.parameters.toFormat;
   }
+
+  // Remove properties that are common to both scenarios
+  delete node.parameters.dataPropertyName;
+  delete node.parameters.value;
 }
 
-export function modifyMergeNode(node: any): void {
+export function modifyMergeNode(node: INode): void {
   node.typeVersion = 2.1;
 
   switch (node.parameters.mode) {
@@ -263,59 +259,59 @@ export function modifyMergeNode(node: any): void {
   }
 }
 
-export function modifyItemListsNode(node: any): void {
+export function modifyItemListsNode(node: INode): void {
   node.typeVersion = 3;
 
   if (node.parameters.operation === 'aggregateItems') {
-      node.parameters.operation = 'concatenateItems';
+    node.parameters.operation = 'concatenateItems';
 
-      if (node.parameters.include === 'specifiedFields' && node.parameters.fieldsToInclude && node.parameters.fieldsToInclude.fields) {
-          const fieldsToInclude = Array.isArray(node.parameters.fieldsToInclude.fields)
-              ? node.parameters.fieldsToInclude.fields.map((field: any) => field.fieldName)
-              : node.parameters.fieldsToInclude.fields;
-
-          node.parameters.fieldsToInclude = fieldsToInclude.length === 1 ? fieldsToInclude[0] : fieldsToInclude;
-
-          delete node.parameters.fieldsToInclude.fields;
-      } else if (node.parameters.include === 'allFieldsExcept' && node.parameters.fieldsToExclude && node.parameters.fieldsToExclude.fields) {
-          const fieldsToExclude = Array.isArray(node.parameters.fieldsToExclude.fields)
-              ? node.parameters.fieldsToExclude.fields.map((field: any) => field.fieldName)
-              : node.parameters.fieldsToExclude.fields;
-
-          node.parameters.fieldsToExclude = fieldsToExclude.length === 1 ? fieldsToExclude[0] : fieldsToExclude;
-
-          delete node.parameters.fieldsToExclude.fields;
-      }
-  } else if (node.parameters.operation === 'removeDuplicates') {
-      if (node.parameters.fieldsToCompare && node.parameters.fieldsToCompare.fields) {
-          const fieldsToCompare = Array.isArray(node.parameters.fieldsToCompare.fields)
-              ? node.parameters.fieldsToCompare.fields.map((field: any) => field.fieldName)
-              : node.parameters.fieldsToCompare.fields;
-
-          node.parameters.fieldsToCompare = fieldsToCompare.length === 1 ? fieldsToCompare[0] : fieldsToCompare;
-
-          delete node.parameters.fieldsToCompare.fields;
-      } else if (node.parameters.fieldsToExclude && node.parameters.fieldsToExclude.fields) {
-          const fieldsToExclude = Array.isArray(node.parameters.fieldsToExclude.fields)
-              ? node.parameters.fieldsToExclude.fields.map((field: any) => field.fieldName)
-              : node.parameters.fieldsToExclude.fields;
-
-          node.parameters.fieldsToExclude = fieldsToExclude.length === 1 ? fieldsToExclude[0] : fieldsToExclude;
-
-          delete node.parameters.fieldsToExclude.fields;
-      }
-  } else if (node.parameters.fieldToSplitOut && node.parameters.include === 'selectedOtherFields') {
+    if (node.parameters.include === 'specifiedFields' && node.parameters.fieldsToInclude && node.parameters.fieldsToInclude.fields) {
       const fieldsToInclude = Array.isArray(node.parameters.fieldsToInclude.fields)
-          ? node.parameters.fieldsToInclude.fields.map((field: any) => field.fieldName)
-          : node.parameters.fieldsToInclude.fields;
+        ? node.parameters.fieldsToInclude.fields.map((field: any) => field.fieldName)
+        : node.parameters.fieldsToInclude.fields;
 
       node.parameters.fieldsToInclude = fieldsToInclude.length === 1 ? fieldsToInclude[0] : fieldsToInclude;
 
       delete node.parameters.fieldsToInclude.fields;
+    } else if (node.parameters.include === 'allFieldsExcept' && node.parameters.fieldsToExclude && node.parameters.fieldsToExclude.fields) {
+      const fieldsToExclude = Array.isArray(node.parameters.fieldsToExclude.fields)
+        ? node.parameters.fieldsToExclude.fields.map((field: any) => field.fieldName)
+        : node.parameters.fieldsToExclude.fields;
+
+      node.parameters.fieldsToExclude = fieldsToExclude.length === 1 ? fieldsToExclude[0] : fieldsToExclude;
+
+      delete node.parameters.fieldsToExclude.fields;
+    }
+  } else if (node.parameters.operation === 'removeDuplicates') {
+    if (node.parameters.fieldsToCompare && node.parameters.fieldsToCompare.fields) {
+      const fieldsToCompare = Array.isArray(node.parameters.fieldsToCompare.fields)
+        ? node.parameters.fieldsToCompare.fields.map((field: any) => field.fieldName)
+        : node.parameters.fieldsToCompare.fields;
+
+      node.parameters.fieldsToCompare = fieldsToCompare.length === 1 ? fieldsToCompare[0] : fieldsToCompare;
+
+      delete node.parameters.fieldsToCompare.fields;
+    } else if (node.parameters.fieldsToExclude && node.parameters.fieldsToExclude.fields) {
+      const fieldsToExclude = Array.isArray(node.parameters.fieldsToExclude.fields)
+        ? node.parameters.fieldsToExclude.fields.map((field: any) => field.fieldName)
+        : node.parameters.fieldsToExclude.fields;
+
+      node.parameters.fieldsToExclude = fieldsToExclude.length === 1 ? fieldsToExclude[0] : fieldsToExclude;
+
+      delete node.parameters.fieldsToExclude.fields;
+    }
+  } else if (node.parameters.fieldToSplitOut && node.parameters.include === 'selectedOtherFields') {
+    const fieldsToInclude = Array.isArray(node.parameters.fieldsToInclude.fields)
+      ? node.parameters.fieldsToInclude.fields.map((field: any) => field.fieldName)
+      : node.parameters.fieldsToInclude.fields;
+
+    node.parameters.fieldsToInclude = fieldsToInclude.length === 1 ? fieldsToInclude[0] : fieldsToInclude;
+
+    delete node.parameters.fieldsToInclude.fields;
   }
 }
 
-export function modifySetNode(node: any): void {
+export function modifySetNode(node: INode): void {
   switch (node.typeVersion) {
     case 1:
       // Update typeVersion to 3
@@ -373,79 +369,24 @@ export function modifySetNode(node: any): void {
   }
 }
 
-export function modifyIntervalNode(node: any): void {
+export function modifyIntervalNode(node: INode): void {
   node.type = 'n8n-nodes-base.scheduleTrigger';
-    node.typeVersion = 1.1;
+  node.typeVersion = 1.1;
 
-    // Set the appropriate interval field based on the unit or default to seconds
-    const intervalField = node.parameters.unit
-        ? `${node.parameters.unit}Interval`
-        : 'secondsInterval';
+  // Set the appropriate interval field based on the unit or default to seconds
+  const intervalField = node.parameters.unit
+    ? `${node.parameters.unit}Interval`
+    : 'secondsInterval';
 
-    // Update the parameters with the correct interval field
-    node.parameters = {
-        rule: {
-            interval: [
-                {
-                    field: node.parameters.unit || 'seconds',
-                    [intervalField]: node.parameters.interval
-                }
-            ]
+  // Update the parameters with the correct interval field
+  node.parameters = {
+    rule: {
+      interval: [
+        {
+          field: node.parameters.unit || 'seconds',
+          [intervalField]: node.parameters.interval
         }
-    };
-  }
-
-export function generateChangesReport(changesReport: any, filePath: string): void {
-    let reportContent = '# Changes Report\n\n';
-
-    const workflows = changesReport.changes || [];
-
-    workflows.forEach((workflowChanges: any, index: number) => {
-        const workflowName = workflowChanges.workflowName;
-        reportContent += `${index + 1}. ${workflowName.replace(/_/g, ' ').replace(".json", "")}\n`;
-        reportContent += '  - Modified node names:\n';
-        workflowChanges.nodeNames.forEach((nodeName: string) => {
-            reportContent += `    - ${nodeName}\n`;
-        });
-        reportContent += '\n';
-    });
-
-    const todos = changesReport.todos || [];
-
-    if (todos.length > 0) {
-        reportContent += '## TODO\n';
-        reportContent += '\n';
-        reportContent += `Activate the "Webhook Testing HTTP Node" workflow to test the Http Request node\n`;
-        reportContent += `Check and test all nodes manually in the workflows:\n`;
-
-        let workflowChanges: any;
-
-        todos.forEach((todo: any, index: number) => {
-            const workflowName = todo.workflow;
-            reportContent += ` ${index + 1}. ${workflowName.replace(/_/g, ' ').replace(".json", "")}\n`;
-            reportContent += '  - Node names:\n';
-
-            workflowChanges = workflows.find(
-                (workflow: any) => workflow.workflowName === workflowName
-            );
-
-            if (workflowChanges) {
-                todo.nodes.forEach((node: any) => {
-                    const matchingNode = workflowChanges.nodeNames.find((nodeName: string) => nodeName === node.node);
-
-                    if (matchingNode) {
-                        reportContent += `    - ${node.node}: ${node.additionalText}\n`;
-                    }
-                });
-            }
-            reportContent += '\n';
-        });
+      ]
     }
-    fs.writeFile(filePath, reportContent, (err: any) => {
-        if (err) {
-            console.error('Error writing changes report file:', err);
-        } else {
-            console.log('Changes report generated and saved:', filePath);
-        }
-    });
+  };
 }

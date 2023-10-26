@@ -165,6 +165,7 @@ export const wf = () => {
     .description('Update workflows in the n8n instance.')
     .hook('preAction', loadConfig)
     .addOption(options.dir)
+   //TODO add one more option: output dir.  .addOption(output.dir)
     .action(createAction(async (opts, wf, cmd) => {
       const dir = opts.dir || config.workflows.dir;
 
