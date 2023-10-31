@@ -13,7 +13,7 @@ import {
 import { generateChangesReport } from "./report";
 
 // Import the INode interface
-import { INode, TodoItem } from "src/lib/utils/WorkflowUpdated";
+import { INode, IWorkflowUpdate, TodoItem } from "src/lib/utils/WorkflowUpdated";
 
 // Define the expected versions based on node type
 const expectedVersions: { [nodeType: string]: number } = {
@@ -62,7 +62,7 @@ export function updateWorkflows(dir: string, outputDir: string) {
           }
 
           try {
-            const jsonData: any = JSON.parse(data); // Use 'any' type here
+            const jsonData: IWorkflowUpdate = JSON.parse(data);
             const workflowName = file.replace(/Node\.json$/, ''); // Extract workflow name
 
             const workflowChanges = {
