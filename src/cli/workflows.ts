@@ -13,8 +13,10 @@ const options = {
   id: new Option('--id <numbers...>', 'Workflow ids'),
   excludeId: new Option('--exclude-id <numbers...>', 'Workflow ids to exclude'),
   dir: new Option('--dir <string>', 'Directory with workflows'),
+  outputDir: new Option('--output-dir <string>', 'Output directory for updated workflows'), // TODO Add the 'outputDir' option
   tag: new Option('-t, --tag <string...>', 'Workflow tags'),
 }
+
 
 const createWorkflowsAgent = (cmd: Command) => {
   const publicApiCfg: IPublicApiConfig = {
@@ -36,7 +38,7 @@ const createWorkflowsAgent = (cmd: Command) => {
 const createAction = (
   fn: (opts: OptionValues, wf: Workflows, cmd: Command) => Promise<void>
 ) => {
-  return async function(this: Command) {
+  return async function (this: Command) {
     const opts = this.optsWithGlobals();
     const wf = createWorkflowsAgent(this);
     return fn(opts, wf, this).catch(errorHandler(opts, this));
@@ -165,16 +167,19 @@ export const wf = () => {
     .description('Update workflows in the n8n instance.')
     .hook('preAction', loadConfig)
     .addOption(options.dir)
-   //TODO add one more option: output dir.  .addOption(output.dir)
+    .addOption(options.outputDir) // Add the 'outputDir' option
+    .option('--dry', 'Dry run: Show expected output without updating', false) // Add the 'dry' option
     .action(createAction(async (opts, wf, cmd) => {
       const dir = opts.dir || config.workflows.dir;
+      const outputDir = opts.outputDir || config.workflows.outputDir;
 
       const args: Parameters<typeof wf.updateWorkflow> = [
-        opts.dir || config.workflows.dir,
+        opts.dir || config.workflows.dir, 
+        opts.outputDir || config.workflows.outputDir,
       ]
       logOp(cmd, args)
       if (opts.dry === false) {
-        await wf.updateWorkflow(dir);
+        await wf.updateWorkflow(dir, outputDir);
         logOp(cmd, ['Workflow update completed']);
       }
     }));

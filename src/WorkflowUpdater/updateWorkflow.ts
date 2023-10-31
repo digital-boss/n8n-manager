@@ -13,7 +13,7 @@ import {
 import { generateChangesReport } from "./report";
 
 // Import the INode interface
-import { INode, TodoItem } from "src/lib/utils/Workflow";
+import { INode, TodoItem } from "src/lib/utils/WorkflowUpdated";
 
 // Define the expected versions based on node type
 const expectedVersions: { [nodeType: string]: number } = {
@@ -27,9 +27,9 @@ const expectedVersions: { [nodeType: string]: number } = {
   'n8n-nodes-base.merge': 2.1,
 };
 
-export function updateWorkflows(dir: string) {
+export function updateWorkflows(dir: string, outputDir: string) {
   const oldNodesDirectoryPath = dir;
-  const updatedNodesDirectoryPath = dir + '/' + '../expected'; // TODO: Update with the path of the folder to store updated files
+  const updatedNodesDirectoryPath = outputDir;
 
   // Check if the "updatedNodes" folder exists, and if not, create it
   if (!fs.existsSync(updatedNodesDirectoryPath)) {
@@ -145,9 +145,9 @@ export function updateWorkflows(dir: string) {
                     }
                     break;
                   case 'n8n-nodes-base.httpRequest':
-                    if (node.parameters.options.splitIntoItems) {
+                    if (!node.parameters.options.splitIntoItems) {
                       // Add the itemLists node to the TODO list with specific text
-                      const additionalText = 'In the new version of the HTTP node, the "splitIntoItems" options are no longer supported.';
+                      const additionalText = 'The new version of the HTTP node splits the response into items like the "splitIntoItems" option of the old node. Adjust the workflow as needed.';
                       todoNodes.push({ workflow: workflowName, node: node.name, additionalText });
                     }
                     modifyHttpRequestNode(node);

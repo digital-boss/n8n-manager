@@ -18,6 +18,7 @@ export interface IConfig {
   },
   workflows: {
     dir: string;
+    outputDir: string;
     exclude: {
       id: number[]
     }
@@ -44,7 +45,8 @@ export const createEmptyConfig = (): IConfig => {
     },
     workflows: {
       dir: '.',
-      exclude: {id: []},
+      outputDir: 'your_default_output_directory',
+      exclude: { id: [] },
     },
     nodesListFile: './packages-nodes.txt'
   }
