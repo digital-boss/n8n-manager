@@ -78,9 +78,10 @@ export function updateWorkflows(dir: string, outputDir: string) {
               const expectedLatestVersion = expectedVersions[node.type];
 
               if (expectedLatestVersion && node.typeVersion !== 1 && node.typeVersion !== expectedLatestVersion) {
+                const nodeType = node.type.substring(node.type.lastIndexOf('.') + 1);
                 // Add the node to the TODO list with specific text
                 const additionalText = `The node needs to be manually updated to version ${expectedLatestVersion}.`;
-                todoNodes.push({ workflow: workflowName, node: node.name, additionalText });
+                todoNodes.push({ workflow: workflowName, node: node.name, nodeType, additionalText });
                 if (!workflowChanges.nodeNames.includes(node.name)) {
                   nodeModified = true;
                 }
@@ -104,10 +105,11 @@ export function updateWorkflows(dir: string, outputDir: string) {
                       nodeModified = true;
                     }
                     if (node.parameters.operation == 'summarize') {
+                      const nodeType = node.type.substring(node.type.lastIndexOf('.') + 1);
                       // Add the itemLists node to the TODO list with specific text
                       const additionalText =
                         'Operation "Summarize" change is substituting dots (".") with underscores ("_") in the field name, such as "test.name" in the new version is "test_name"';
-                      todoNodes.push({ workflow: workflowName, node: node.name, additionalText });
+                      todoNodes.push({ workflow: workflowName, node: node.name, nodeType, additionalText });
                     }
                     break;
                   case 'n8n-nodes-base.interval':
@@ -125,10 +127,11 @@ export function updateWorkflows(dir: string, outputDir: string) {
                     delete node.parameters.functionCode; // Remove old field
                     if (!workflowChanges.nodeNames.includes(node.name)) {
                       nodeModified = true;
+                      const nodeType = node.type.substring(node.type.lastIndexOf('.') + 1);
                       // Add the function node to the TODO list with specific text
                       const additionalText =
                         'The node needs to be tested manually. Check the access to the input data and the returned format.';
-                      todoNodes.push({ workflow: workflowName, node: node.name, additionalText });
+                      todoNodes.push({ workflow: workflowName, node: node.name, nodeType, additionalText });
                     }
                     break;
                   case 'n8n-nodes-base.function':
@@ -138,17 +141,19 @@ export function updateWorkflows(dir: string, outputDir: string) {
                     delete node.parameters.functionCode; // Remove old field
                     if (!workflowChanges.nodeNames.includes(node.name)) {
                       nodeModified = true;
+                      const nodeType = node.type.substring(node.type.lastIndexOf('.') + 1);
                       // Add the function node to the TODO list with specific text
                       const additionalText =
                         'The node needs to be tested manually. Check the access to the input data and returned format.';
-                      todoNodes.push({ workflow: workflowName, node: node.name, additionalText });
+                      todoNodes.push({ workflow: workflowName, node: node.name, nodeType, additionalText });
                     }
                     break;
                   case 'n8n-nodes-base.httpRequest':
+                    const nodeType = node.type.substring(node.type.lastIndexOf('.') + 1);
                     if (!node.parameters.options.splitIntoItems) {
                       // Add the itemLists node to the TODO list with specific text
                       const additionalText = 'The new version of the HTTP node splits the response into items like the "splitIntoItems" option of the old node. Adjust the workflow as needed.';
-                      todoNodes.push({ workflow: workflowName, node: node.name, additionalText });
+                      todoNodes.push({ workflow: workflowName, node: node.name, nodeType, additionalText });
                     }
                     modifyHttpRequestNode(node);
                     if (!workflowChanges.nodeNames.includes(node.name)) {
@@ -157,13 +162,13 @@ export function updateWorkflows(dir: string, outputDir: string) {
                         // Add the itemLists node to the TODO list with specific text
                         const additionalText =
                           'Request method "OPTIONS": you will need to manually check the response to ensure it is working as expected.';
-                        todoNodes.push({ workflow: workflowName, node: node.name, additionalText });
+                        todoNodes.push({ workflow: workflowName, node: node.name, nodeType, additionalText });
                       }
                       if (node.parameters.method == 'HEAD') {
                         // Add the itemLists node to the TODO list with specific text
                         const additionalText =
                           'Request method "HEAD": you will need to manually check the response to ensure it is working as expected.';
-                        todoNodes.push({ workflow: workflowName, node: node.name, additionalText });
+                        todoNodes.push({ workflow: workflowName, node: node.name, nodeType, additionalText });
                       }
                     }
                     break;
@@ -173,9 +178,10 @@ export function updateWorkflows(dir: string, outputDir: string) {
                       nodeModified = true;
                     }
                     if (node.parameters.operation == 'subtractFromDate') {
+                      const nodeType = node.type.substring(node.type.lastIndexOf('.') + 1);
                       // Add the dateTime node to the TODO list with specific text
                       const additionalText = '"Subtract" operation returns +2:00 time zone offset.';
-                      todoNodes.push({ workflow: workflowName, node: node.name, additionalText });
+                      todoNodes.push({ workflow: workflowName, node: node.name, nodeType, additionalText });
                     }
                     break;
                   case 'n8n-nodes-base.merge':
