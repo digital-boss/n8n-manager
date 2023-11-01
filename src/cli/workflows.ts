@@ -167,11 +167,11 @@ export const wf = () => {
     .description('Update workflows in the n8n instance.')
     .hook('preAction', loadConfig)
     .addOption(options.dir)
-    .addOption(options.outputDir) // Add the 'outputDir' option
+    .addOption(options.outputDir)
     .option('--dry', 'Dry run: Show expected output without updating', false) // Add the 'dry' option
     .action(createAction(async (opts, wf, cmd) => {
       const dir = opts.dir || config.workflows.dir;
-      const outputDir = opts.outputDir || config.workflows.outputDir;
+      const outputDir = opts.outputDir || config.workflows.outputDir || (dir.endsWith('/') ? dir : dir + '/') + '../updateWfs'; // TODO Befour publish new version neeed to change folder name;
 
       const args: Parameters<typeof wf.updateWorkflow> = [
         opts.dir || config.workflows.dir, 

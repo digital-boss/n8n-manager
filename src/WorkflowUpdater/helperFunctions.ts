@@ -135,24 +135,7 @@ export function modifyHttpRequestNode(node: INode): void {
     // Set the authentication to 'genericCredentialType' regardless of the mapping
     node.parameters.authentication = 'genericCredentialType';
   
-    if (node.parameters.credentials) {
-      // Use the existing credentials if they exist
-      const credentials = node.parameters.credentials[authMethod];
-  
-      // Update the credentials of the modified node with the correct authMethod
-      node.parameters.credentials = {
-        [authMethod]: {
-          id: credentials.id,
-          name: credentials.name,
-        },
-      };
-    } else {
-      // Set an empty credentials object if credentials do not exist
-      node.parameters.credentials = {};
-    }
-  } else {
-    // Handle the case where no authentication type is provided
-  }
+  } 
   
   node.parameters = { method, ...node.parameters };
 }

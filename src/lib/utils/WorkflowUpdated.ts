@@ -1,4 +1,5 @@
 export interface INode {
+  credentials: any;
   parameters: Record<string, any>;
   name: string;
   type: string;
