@@ -101,6 +101,59 @@ export function modifyHttpRequestNode(node: INode): void {
     node.parameters.options = updatedOptions;
   }
 
+  if (node.parameters.responseFormat) {
+    node.parameters.options = {
+      response: {
+        response: {
+          responseFormat: node.parameters.responseFormat,
+        },
+      },
+    };
+    delete node.parameters.responseFormat;
+  }
+
+  if (node.parameters.authentication) {
+    const authMethod: string = node.parameters.authentication; // Explicitly specify the type
+  
+    // Define a map that maps authentication types to genericAuthType values
+    const authTypeMap: Record<string, string> = {
+      basicAuth: 'httpBasicAuth',
+      digestAuth: 'httpDigestAuth',
+      headerAuth: 'httpHeaderAuth',
+      oAuth1: 'oAuth1Api',
+      oAuth2: 'oAuth2Api',
+      queryAuth: 'httpQueryAuth',
+      // Add more mappings for other authentication types as needed
+    };
+  
+    if (authTypeMap[authMethod]) {
+      node.parameters.genericAuthType = authTypeMap[authMethod];
+    } else {
+      // Handle the case where the authentication type is not found in the map
+    }
+  
+    // Set the authentication to 'genericCredentialType' regardless of the mapping
+    node.parameters.authentication = 'genericCredentialType';
+  
+    if (node.parameters.credentials) {
+      // Use the existing credentials if they exist
+      const credentials = node.parameters.credentials[authMethod];
+  
+      // Update the credentials of the modified node with the correct authMethod
+      node.parameters.credentials = {
+        [authMethod]: {
+          id: credentials.id,
+          name: credentials.name,
+        },
+      };
+    } else {
+      // Set an empty credentials object if credentials do not exist
+      node.parameters.credentials = {};
+    }
+  } else {
+    // Handle the case where no authentication type is provided
+  }
+  
   node.parameters = { method, ...node.parameters };
 }
 
