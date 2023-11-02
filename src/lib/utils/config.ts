@@ -19,7 +19,7 @@ export interface IConfig {
   workflows: {
     dir: string;
     exclude: {
-      id: number[]
+      id: string[]
     }
   },
   nodesListFile: string;

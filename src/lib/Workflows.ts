@@ -18,10 +18,10 @@ const getFileName = (wf: IWorkflow) => {
 }
 
 const getWorkflowFiles = (dir: string): string[] => {
-  return fs.readdirSync(dir, {withFileTypes: true})
+  return fs.readdirSync(dir, { withFileTypes: true })
     .filter(dirent => dirent.isFile())
     .map(dirent => dirent.name)
-    .filter(i => i.match(/^\d+_.*\.json$/));
+    .filter(i => i.match(/^[A-Za-z0-9]+_.*\.json$/));
 }
 
 
@@ -42,14 +42,14 @@ const byIds = (wfFilter?: WorkflowsFilter) => (item: string): boolean => {
   return true;
 }
 
-const getFileNameById = (files: string[], id: number) => files.find(f => f.startsWith(id.toString() + '_'));
+const getFileNameById = (files: string[], id: string) => files.find(f => f.startsWith(id.toString() + '_'));
 
-const getIdFromFileName = (fileName: string): number => {
-  const m = fileName.match(/^\d+/);
+const getIdFromFileName = (fileName: string): string => {
+  const m = fileName.match(/^[A-Za-z0-9]+/);
   if (m) {
-    return Number.parseInt(m[0]);
+    return m[0];
   }
-  return -1;
+  return '-1';
 }
 
 const getWfFromFile = (file: string): IWorkflow => {
@@ -106,12 +106,12 @@ export class Workflows {
   }
 
   // ToDo: It is not obvious why it goes to getWorkflowsFromSrv? Not clear semamtics. 
-  private async getIds(wfFilter: WorkflowsFilter = new WorkflowsFilter()): Promise<number[]> {
+  private async getIds(wfFilter: WorkflowsFilter = new WorkflowsFilter()): Promise<string[]> {
     if (wfFilter.hasIds()) {
       return wfFilter.getIds()
     } else {
       const wfs = await this.getWorkflowsFromSrv(wfFilter);
-      const ids = wfs.map(i => parseInt(i.id));
+      const ids = wfs.map(i => i.id);
       return Promise.resolve(ids);
     }
   }
@@ -132,7 +132,7 @@ export class Workflows {
     }
     
     if (wfFilter.hasTags()) {
-      workflows = workflows.filter(wf => wf.tags.findIndex(tag => wfFilter!.tag.includes(tag.name)) > -1)
+      workflows = workflows.filter(wf => String(wf.tags.findIndex(tag => wfFilter!.tag.includes(tag.name))) > '-1')
     }
 
     return workflows;
@@ -140,7 +140,7 @@ export class Workflows {
 
   private async publishWfs(wfs: IWorkflow[]) {
     if (wfs.length > 0) {
-      const outputIdsList = wfs.map(i => parseInt(i.id)).sort((a, b) => a-b).join()
+      const outputIdsList = wfs.map(i => i.id).sort().join();
       console.log(`Publishing [${outputIdsList}]`)
       const res = await this.restCliClient.importWorkflow(wfs);
       console.log(res.status, res.data);
@@ -200,7 +200,7 @@ export class Workflows {
     const files = getWorkflowFiles(dir);
 
     for (const wf of workflows) {
-      const fileName = getFileNameById(files, parseInt(wf.id));
+      const fileName = getFileNameById(files, wf.id);
       if (fileName) {
         const newName = getFileName(wf)
         fs.renameSync(path.join(dir, fileName), path.join(dir, newName))
@@ -218,7 +218,7 @@ export class Workflows {
     const filesList = getWorkflowFiles(dir)
       .filter(byIds(wfFilter)); // filter needed to exclude system workflow from deletion.
     
-    const wfsToDelete = filesList.filter(f => wfsFromSrv.findIndex(srv => parseInt(srv.id) === getIdFromFileName(f)) === -1);
+      const wfsToDelete = filesList.filter(f => String(wfsFromSrv.findIndex(srv => srv.id === getIdFromFileName(f))) === '-1');
 
     if (!keepFiles) {
       for (const file of wfsToDelete) {
@@ -252,12 +252,12 @@ export class Workflows {
     // Workflows
     const wfsFromSrv = await this.getWorkflowsFromSrv(excludeFilted);
     const wfsFromDir = this.getWorkflowsFromDir(dir, wfFilter);
-    const wfsToDelete = wfsFromSrv.filter(i => wfsFromDir.findIndex(j => i.id === j.id) === -1);
+    const wfsToDelete = wfsFromSrv.filter(i => String(wfsFromDir.findIndex(j => i.id === j.id)) === '-1');
 
     if (wfsToDelete.length > 0) {
       console.log(`Deleting...`);
       for (const wf of wfsToDelete) {
-        const res = await this.publicApiClient.workflow.delete(parseInt(wf.id));
+        const res = await this.publicApiClient.workflow.delete(wf.id);
         console.log(`Deleted ${wf.id}. Result status: ${res.status}`);
       }
     } else {
