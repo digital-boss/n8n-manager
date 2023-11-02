@@ -42,7 +42,7 @@ const byIds = (wfFilter?: WorkflowsFilter) => (item: string): boolean => {
   return true;
 }
 
-const getFileNameById = (files: string[], id: string) => files.find(f => f.startsWith(id.toString() + '_'));
+const getFileNameById = (files: string[], id: string) => files.find(f => f.startsWith(id + '_'));
 
 const getIdFromFileName = (fileName: string): string => {
   const m = fileName.match(/^[A-Za-z0-9]+/);
@@ -132,7 +132,7 @@ export class Workflows {
     }
     
     if (wfFilter.hasTags()) {
-      workflows = workflows.filter(wf => String(wf.tags.findIndex(tag => wfFilter!.tag.includes(tag.name))) > '-1')
+      workflows = workflows.filter(wf => wf.tags.findIndex(tag => wfFilter!.tag.includes(tag.name)) > -1)
     }
 
     return workflows;
@@ -145,7 +145,7 @@ export class Workflows {
       const res = await this.restCliClient.importWorkflow(wfs);
       console.log(res.status, res.data);
     } else {
-      console.log('There is no workflows to publish.')
+      console.log('There are no workflows to publish.')
     }
   }
 
@@ -218,7 +218,7 @@ export class Workflows {
     const filesList = getWorkflowFiles(dir)
       .filter(byIds(wfFilter)); // filter needed to exclude system workflow from deletion.
     
-      const wfsToDelete = filesList.filter(f => String(wfsFromSrv.findIndex(srv => srv.id === getIdFromFileName(f))) === '-1');
+      const wfsToDelete = filesList.filter(f => wfsFromSrv.findIndex(srv => srv.id === getIdFromFileName(f)) === -1);
 
     if (!keepFiles) {
       for (const file of wfsToDelete) {
@@ -252,7 +252,7 @@ export class Workflows {
     // Workflows
     const wfsFromSrv = await this.getWorkflowsFromSrv(excludeFilted);
     const wfsFromDir = this.getWorkflowsFromDir(dir, wfFilter);
-    const wfsToDelete = wfsFromSrv.filter(i => String(wfsFromDir.findIndex(j => i.id === j.id)) === '-1');
+    const wfsToDelete = wfsFromSrv.filter(i => wfsFromDir.findIndex(j => i.id === j.id) === -1);
 
     if (wfsToDelete.length > 0) {
       console.log(`Deleting...`);
@@ -261,7 +261,7 @@ export class Workflows {
         console.log(`Deleted ${wf.id}. Result status: ${res.status}`);
       }
     } else {
-      console.log('There is no workflows at n8n instance which doesn\' present in workdlows directory. So nothing to delete.')
+      console.log('There are no workflows at n8n instance which isn\'t present in workdlows directory. So nothing to delete.')
     }
 
     await this.publishWfs(wfsFromDir);
