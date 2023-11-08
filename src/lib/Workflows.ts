@@ -65,7 +65,7 @@ const areWfsEqual = (a: IWorkflow, b: IWorkflow): boolean => {
 }
 
 export class Workflows {
-  
+
   publicApiClient: PublicApiClient
   restCliClient: RestCliClient
 
@@ -130,7 +130,7 @@ export class Workflows {
     if (wfFilter.hasNames()) {
       workflows = workflows.filter(wf => wfFilter!.name.includes(wf.name))
     }
-    
+
     if (wfFilter.hasTags()) {
       workflows = workflows.filter(wf => wf.tags.findIndex(tag => wfFilter!.tag.includes(tag.name)) > -1)
     }
@@ -140,13 +140,29 @@ export class Workflows {
 
   private async publishWfs(wfs: IWorkflow[]) {
     if (wfs.length > 0) {
-      const outputIdsList = wfs.map(i => i.id).sort().join();
-      console.log(`Publishing [${outputIdsList}]`)
+      const outputIdsList = this.sortIds(wfs.map(i => i.id)).join();
+      console.log(`Publishing [${outputIdsList}]`);
       const res = await this.restCliClient.importWorkflow(wfs);
       console.log(res.status, res.data);
     } else {
-      console.log('There are no workflows to publish.')
+      console.log('There are no workflows to publish.');
     }
+  }
+
+  private isNumericString(input: string): boolean {
+    // Use a regular expression to check if the input string contains only numeric characters
+    return /^\d+$/.test(input);
+  }
+
+  private sortIds(ids: string[]): string[] {
+    const numericIds = ids.filter(id => this.isNumericString(id));
+    const nonNumericIds = ids.filter(id => !this.isNumericString(id));
+
+    // Sort the numeric IDs as numbers and combine them with the non-numeric IDs
+    return [
+      ...numericIds.map(id => parseInt(id)).sort((a, b) => a - b).map(String),
+      ...nonNumericIds.sort(),
+    ];
   }
 
 
@@ -209,16 +225,16 @@ export class Workflows {
   }
 
   async save(
-    dir: string, 
-    wfFilter: WorkflowsFilter, 
+    dir: string,
+    wfFilter: WorkflowsFilter,
     keepFiles: boolean,
     saveAsIs: boolean,
   ) {
     const wfsFromSrv = await this.getWorkflowsFromSrv(wfFilter);
     const filesList = getWorkflowFiles(dir)
       .filter(byIds(wfFilter)); // filter needed to exclude system workflow from deletion.
-    
-      const wfsToDelete = filesList.filter(f => wfsFromSrv.findIndex(srv => srv.id === getIdFromFileName(f)) === -1);
+
+    const wfsToDelete = filesList.filter(f => wfsFromSrv.findIndex(srv => srv.id === getIdFromFileName(f)) === -1);
 
     if (!keepFiles) {
       for (const file of wfsToDelete) {
@@ -229,10 +245,10 @@ export class Workflows {
     for (const wf of wfsFromSrv) {
       const fileName = getFileName(wf);
       const filePath = path.join(dir, fileName);
-      
+
       if (
-        saveAsIs 
-        || !fs.existsSync(filePath) 
+        saveAsIs
+        || !fs.existsSync(filePath)
         || !areWfsEqual(getWfFromFile(filePath), wf)
       ) {
         const content = JSON.stringify(wf, undefined, 2);
@@ -248,7 +264,7 @@ export class Workflows {
 
   async setupAll(dir: string, wfFilter: WorkflowsFilter) {
     const excludeFilted = WorkflowsFilter.create(i => i.exclude.id = [...wfFilter.exclude.id])
-    
+
     // Workflows
     const wfsFromSrv = await this.getWorkflowsFromSrv(excludeFilted);
     const wfsFromDir = this.getWorkflowsFromDir(dir, wfFilter);
