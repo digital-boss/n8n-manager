@@ -93,6 +93,9 @@ export function modifyHttpRequestNode(node: INode): void {
         case 'timeout':
           updatedOptions.timeout = node.parameters.options.timeout;
           break;
+        case 'bodyContentType':
+          node.parameters.contentType = node.parameters.options.bodyContentType;
+          break;
         default:
           break;
       }
@@ -114,7 +117,7 @@ export function modifyHttpRequestNode(node: INode): void {
 
   if (node.parameters.authentication) {
     const authMethod: string = node.parameters.authentication; // Explicitly specify the type
-  
+
     // Define a map that maps authentication types to genericAuthType values
     const authTypeMap: Record<string, string> = {
       basicAuth: 'httpBasicAuth',
@@ -125,18 +128,18 @@ export function modifyHttpRequestNode(node: INode): void {
       queryAuth: 'httpQueryAuth',
       // Add more mappings for other authentication types as needed
     };
-  
+
     if (authTypeMap[authMethod]) {
       node.parameters.genericAuthType = authTypeMap[authMethod];
     } else {
       // Handle the case where the authentication type is not found in the map
     }
-  
+
     // Set the authentication to 'genericCredentialType' regardless of the mapping
     node.parameters.authentication = 'genericCredentialType';
-  
-  } 
-  
+
+  }
+
   node.parameters = { method, ...node.parameters };
 }
 
