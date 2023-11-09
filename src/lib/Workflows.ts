@@ -64,6 +64,22 @@ const areWfsEqual = (a: IWorkflow, b: IWorkflow): boolean => {
   return equal(x, y);
 }
 
+const isNumericString = (input: string): boolean => {
+  // Use a regular expression to check if the input string contains only numeric characters
+  return /^\d+$/.test(input);
+}
+
+const sortIds = (ids: string[]): string[] => {
+  const numericIds = ids.filter(id => isNumericString(id));
+  const nonNumericIds = ids.filter(id => !isNumericString(id));
+
+  // Sort the numeric IDs as numbers and combine them with the non-numeric IDs
+  return [
+    ...numericIds.map(id => parseInt(id)).sort((a, b) => a - b).map(String),
+    ...nonNumericIds.sort(),
+  ];
+}
+
 export class Workflows {
 
   publicApiClient: PublicApiClient
@@ -140,29 +156,13 @@ export class Workflows {
 
   private async publishWfs(wfs: IWorkflow[]) {
     if (wfs.length > 0) {
-      const outputIdsList = this.sortIds(wfs.map(i => i.id)).join();
+      const outputIdsList = sortIds(wfs.map(i => i.id)).join();
       console.log(`Publishing [${outputIdsList}]`);
       const res = await this.restCliClient.importWorkflow(wfs);
       console.log(res.status, res.data);
     } else {
       console.log('There are no workflows to publish.');
     }
-  }
-
-  private isNumericString(input: string): boolean {
-    // Use a regular expression to check if the input string contains only numeric characters
-    return /^\d+$/.test(input);
-  }
-
-  private sortIds(ids: string[]): string[] {
-    const numericIds = ids.filter(id => this.isNumericString(id));
-    const nonNumericIds = ids.filter(id => !this.isNumericString(id));
-
-    // Sort the numeric IDs as numbers and combine them with the non-numeric IDs
-    return [
-      ...numericIds.map(id => parseInt(id)).sort((a, b) => a - b).map(String),
-      ...nonNumericIds.sort(),
-    ];
   }
 
 
