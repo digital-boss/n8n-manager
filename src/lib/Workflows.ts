@@ -65,7 +65,6 @@ const areWfsEqual = (a: IWorkflow, b: IWorkflow): boolean => {
 }
 
 const isNumericString = (input: string): boolean => {
-  // Use a regular expression to check if the input string contains only numeric characters
   return /^\d+$/.test(input);
 }
 
@@ -277,7 +276,7 @@ export class Workflows {
         console.log(`Deleted ${wf.id}. Result status: ${res.status}`);
       }
     } else {
-      console.log('There are no workflows at n8n instance which isn\'t present in workdlows directory. So nothing to delete.')
+      console.log('There are no workflows at n8n instance which isn\'t present in workflows directory. So nothing to delete.')
     }
 
     await this.publishWfs(wfsFromDir);
