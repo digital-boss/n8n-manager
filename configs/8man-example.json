@@ -16,7 +16,7 @@
   "workflows": {
     "dir": "/workflows",
     "exclude": {
-      "id": [51]
+      "id": ["51"]
     }
   },
   "nodesListFile": "/workflows/packages-nodes.txt"
