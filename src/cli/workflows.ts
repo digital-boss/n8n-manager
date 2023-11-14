@@ -10,8 +10,8 @@ import { errorHandler } from './common/errorHandling';
 
 const options = {
   name: new Option('-n, --name <string...>', 'Workflow names'),
-  id: new Option('--id <numbers...>', 'Workflow ids'),
-  excludeId: new Option('--exclude-id <numbers...>', 'Workflow ids to exclude'),
+  id: new Option('--id <string...>', 'Workflow ids'),
+  excludeId: new Option('--exclude-id <string...>', 'Workflow ids to exclude'),
   dir: new Option('--dir <string>', 'Directory with workflows'),
   tag: new Option('-t, --tag <string...>', 'Workflow tags'),
 }
@@ -46,9 +46,9 @@ const createAction = (
 const getWfFilter = (opts: OptionValues, cfg: IConfig): WorkflowsFilter => {
   const f = new WorkflowsFilter();
   f.name = opts.name || []
-  f.id = (opts.id || []).map((i: string) => Number.parseInt(i));
+  f.id = opts.id || [];
   f.tag = opts.tag || [];
-  f.exclude.id = (opts.excludeId || cfg.workflows.exclude.id).map((i: string) => parseInt(i));
+  f.exclude.id = opts.excludeId || cfg.workflows.exclude.id;
   return f;
 }
 

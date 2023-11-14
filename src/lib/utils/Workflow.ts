@@ -1,5 +1,5 @@
 interface IWorkflowTag {
-  id: number;
+  id: string;
   name: string;
 }
 

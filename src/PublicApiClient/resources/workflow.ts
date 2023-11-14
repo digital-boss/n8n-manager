@@ -18,14 +18,14 @@ export class Workflow extends ResourceBase {
     })
   }
   
-  get (id: number) {
+  get (id: string) {
     return this.httpClient.request({
       url: `/workflows/${id}`,
       method: 'GET',
     })
   }
   
-  delete (id: number) {
+  delete (id: string) {
     return this.httpClient.request({
       url: `/workflows/${id}`,
       method: 'DELETE',
@@ -40,7 +40,7 @@ export class Workflow extends ResourceBase {
     })
   }
 
-  update (id: number, wf: any) {
+  update (id: string, wf: any) {
     return this.httpClient.request({
       url: `/workflows/${id}`,
       method: 'PUT',
@@ -48,14 +48,14 @@ export class Workflow extends ResourceBase {
     })
   }
   
-  activate (id: number) {
+  activate (id: string) {
     return this.httpClient.request({
       url: `/workflows/${id}/activate`,
       method: 'POST',
     })
   }
   
-  deactivate (id: number) {
+  deactivate (id: string) {
     return this.httpClient.request({
       url: `/workflows/${id}/deactivate`,
       method: 'POST',

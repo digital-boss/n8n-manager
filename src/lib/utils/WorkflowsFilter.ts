@@ -3,10 +3,10 @@ import { IWorkflow } from './Workflow';
 
 export class WorkflowsFilter {
   name: string[] = [];
-  id: number[] = [];
+  id: string[] = [];
   tag: string[] = [];
   exclude: {
-    id: number[];
+    id: string[];
   } = {id:[]};
 
   static create(updateFn: (i: WorkflowsFilter) => void): WorkflowsFilter {
@@ -48,7 +48,7 @@ export class WorkflowsFilter {
       wfs = wfs.filter(i => i.tags.findIndex(tag => this.tag.includes(tag.name)) > -1)
     }
     if (this.hasExcludedIds()) {
-      wfs = wfs.filter(i => !this.exclude.id.includes(parseInt(i.id)))
+      wfs = wfs.filter(i => !this.exclude.id.includes(i.id))
     }
     return wfs;
   }
