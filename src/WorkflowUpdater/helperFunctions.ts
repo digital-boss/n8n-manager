@@ -116,7 +116,7 @@ export function modifyHttpRequestNode(node: INode): void {
   }
 
   if (node.parameters.authentication) {
-    const authMethod: string = node.parameters.authentication; // Explicitly specify the type
+    const authMethod: string = node.parameters.authentication;
 
     // Define a map that maps authentication types to genericAuthType values
     const authTypeMap: Record<string, string> = {
@@ -126,33 +126,26 @@ export function modifyHttpRequestNode(node: INode): void {
       oAuth1: 'oAuth1Api',
       oAuth2: 'oAuth2Api',
       queryAuth: 'httpQueryAuth',
-      // Add more mappings for other authentication types as needed
     };
 
     if (authTypeMap[authMethod]) {
       node.parameters.genericAuthType = authTypeMap[authMethod];
-    } else {
-      // Handle the case where the authentication type is not found in the map
     }
 
-    // Set the authentication to 'genericCredentialType' regardless of the mapping
     node.parameters.authentication = 'genericCredentialType';
-
   }
 
   node.parameters = { method, ...node.parameters };
 }
 
-export function modifyDateTimeNode(node: INode): void {
+/*export function modifyDateTimeNode(node: INode): void {
   node.parameters.outputFieldName = node.parameters.dataPropertyName;
   node.typeVersion = 2;
 
   if (node.parameters.action === 'calculate') {
-    // Set parameters for calculation
     node.parameters.operation = 'subtractFromDate';
     node.parameters.magnitude = node.parameters.value;
   } else {
-    // Set parameters for formatting
     node.parameters.operation = 'formatDate';
     node.parameters.date = node.parameters.value;
 
@@ -167,15 +160,12 @@ export function modifyDateTimeNode(node: INode): void {
 
       node.parameters.format = formatMapping[node.parameters.toFormat] || node.parameters.toFormat;
     }
-
-    // Remove the old property for formatting scenario
     delete node.parameters.toFormat;
   }
 
-  // Remove properties that are common to both scenarios
   delete node.parameters.dataPropertyName;
   delete node.parameters.value;
-}
+}*/
 
 export function modifyMergeNode(node: INode): void {
   node.typeVersion = 2.1;
@@ -195,7 +185,6 @@ export function modifyMergeNode(node: INode): void {
       node.parameters.outputDataFrom = 'input1';
       node.parameters.options = {};
 
-      // Remove old mode-related fields
       delete node.parameters.propertyName1;
       delete node.parameters.propertyName2;
       break;
@@ -212,7 +201,6 @@ export function modifyMergeNode(node: INode): void {
       node.parameters.outputDataFrom = 'input1';
       node.parameters.options = {};
 
-      // Remove old mode-related fields
       delete node.parameters.propertyName1;
       delete node.parameters.propertyName2;
       break;
@@ -232,10 +220,8 @@ export function modifyMergeNode(node: INode): void {
       node.parameters.mode = 'combine';
       node.parameters.combinationMode = 'mergeByPosition';
 
-      // Create the options object if it's undefined
       node.parameters.options = node.parameters.options || {};
       if (node.parameters.join == 'outer') {
-        // Set the property 'includeUnpaired' on the options object
         node.parameters.options.includeUnpaired = true;
       } else if (!node.parameters.join) {
         node.parameters.options = {
@@ -261,10 +247,7 @@ export function modifyMergeNode(node: INode): void {
         ],
       };
       if (node.parameters.overwrite === 'blank') {
-        // Create the options object if it's undefined
         node.parameters.options = node.parameters.options || {};
-
-        // Add the necessary options for "overwrite" being "blank"
         node.parameters.options.clashHandling = {
           values: {
             resolveClash: 'preferInput1',
@@ -273,14 +256,10 @@ export function modifyMergeNode(node: INode): void {
           },
         };
 
-        // Remove the "overwrite" property after using it
         delete node.parameters.overwrite;
       }
       if (node.parameters.overwrite) {
-        // Create the options object if it's undefined
         node.parameters.options = node.parameters.options || {};
-
-        // Add the necessary options for "overwrite" being "blank"
         node.parameters.options.clashHandling = {
           values: {
             resolveClash: 'preferInput1',
@@ -349,7 +328,7 @@ export function modifyItemListsNode(node: INode): void {
   }
 }
 
-export function modifySetNode(node: INode): void {
+/*export function modifySetNode(node: INode): void {
   switch (node.typeVersion) {
     case 1:
       // Update typeVersion to 3
@@ -405,18 +384,16 @@ export function modifySetNode(node: INode): void {
       }
       break;
   }
-}
+}*/
 
 export function modifyIntervalNode(node: INode): void {
   node.type = 'n8n-nodes-base.scheduleTrigger';
   node.typeVersion = 1.1;
 
-  // Set the appropriate interval field based on the unit or default to seconds
   const intervalField = node.parameters.unit
     ? `${node.parameters.unit}Interval`
     : 'secondsInterval';
 
-  // Update the parameters with the correct interval field
   node.parameters = {
     rule: {
       interval: [

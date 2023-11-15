@@ -50,7 +50,7 @@ function generateTodos(todos: { workflow: string; nodes: TodoItem[] }[], workflo
         const matchingNode = matchingWorkflowChanges.nodeNames.find((nodeName: string) => nodeName === node.node);
 
         if (matchingNode) {
-          reportContent += `    - [${node.nodeType}] ${node.node}: ${node.additionalText}\n`; // Use node.type
+          reportContent += `    - [${node.nodeType}] ${node.node}: ${node.additionalText}\n`;
         }
       });
     }
