@@ -3,8 +3,8 @@ import path from "node:path";
 
 import {
   modifyHttpRequestNode,
-  modifySetNode,
-  modifyDateTimeNode,
+  //modifySetNode,
+  //modifyDateTimeNode,
   modifyMergeNode,
   modifyIntervalNode,
   modifyItemListsNode,
@@ -14,6 +14,8 @@ import { generateChangesReport } from "./report";
 
 // Import the INode interface
 import { INode, IWorkflowUpdate, TodoItem } from "src/lib/utils/WorkflowUpdated";
+import { SetNode } from "./setNode";//ToDO new logic for set node
+import { DateTimeNode } from "./dateTimeNode"; //ToDO new logic for dateTime node
 
 // Define the expected versions based on node type
 const expectedVersions: { [nodeType: string]: number } = {
@@ -67,9 +69,9 @@ export function updateWorkflows(dir: string, outputDir: string) {
 
             const workflowChanges = {
               workflowName: workflowName,
-              nodeNames: [] as string[], // Initialize an empty array with a specified type
+              nodeNames: [] as string[],
             };
-            const todoNodes: TodoItem[] = []; // Initialize an array with a specified type to store nodes for the TODO list
+            const todoNodes: TodoItem[] = [];
 
             // Modify the necessary fields in the JSON data
             jsonData.nodes.forEach((node: INode) => {
@@ -94,11 +96,15 @@ export function updateWorkflows(dir: string, outputDir: string) {
                     }
                     break;
                   case 'n8n-nodes-base.set':
-                    modifySetNode(node);
-                    if (!workflowChanges.nodeNames.includes(node.name)) {
-                      nodeModified = true;
-                    }
+                    nodeModified = SetNode.convert(node);  // Use SetNode class to modify the node
                     break;
+                  /* This is old way to modified set node
+                  case 'n8n-nodes-base.set':
+                     modifySetNode(node);
+                     if (!workflowChanges.nodeNames.includes(node.name)) {
+                       nodeModified = true;
+                     }
+                     break;*/
                   case 'n8n-nodes-base.itemLists':
                     modifyItemListsNode(node);
                     if (!workflowChanges.nodeNames.includes(node.name)) {
@@ -106,7 +112,6 @@ export function updateWorkflows(dir: string, outputDir: string) {
                     }
                     if (node.parameters.operation == 'summarize') {
                       const nodeType = node.type.substring(node.type.lastIndexOf('.') + 1);
-                      // Add the itemLists node to the TODO list with specific text
                       const additionalText =
                         'Operation "Summarize" change is substituting dots (".") with underscores ("_") in the field name, such as "test.name" in the new version is "test_name"';
                       todoNodes.push({ workflow: workflowName, node: node.name, nodeType, additionalText });
@@ -122,13 +127,11 @@ export function updateWorkflows(dir: string, outputDir: string) {
                     node.type = 'n8n-nodes-base.code';
                     node.typeVersion = 2;
                     node.parameters.mode = 'runOnceForEachItem';
-                    // Rename functionCode to jsCode and replace "item" with "item.json"
                     node.parameters.jsCode = node.parameters.functionCode.replace(/\bitem\b/g, 'item.json');
-                    delete node.parameters.functionCode; // Remove old field
+                    delete node.parameters.functionCode;
                     if (!workflowChanges.nodeNames.includes(node.name)) {
                       nodeModified = true;
                       const nodeType = node.type.substring(node.type.lastIndexOf('.') + 1);
-                      // Add the function node to the TODO list with specific text
                       const additionalText =
                         'The node needs to be tested manually. Check the access to the input data and the returned format.';
                       todoNodes.push({ workflow: workflowName, node: node.name, nodeType, additionalText });
@@ -137,12 +140,11 @@ export function updateWorkflows(dir: string, outputDir: string) {
                   case 'n8n-nodes-base.function':
                     node.type = 'n8n-nodes-base.code';
                     node.typeVersion = 2;
-                    node.parameters.jsCode = node.parameters.functionCode; // Rename functionCode to jsCode
-                    delete node.parameters.functionCode; // Remove old field
+                    node.parameters.jsCode = node.parameters.functionCode;
+                    delete node.parameters.functionCode;
                     if (!workflowChanges.nodeNames.includes(node.name)) {
                       nodeModified = true;
                       const nodeType = node.type.substring(node.type.lastIndexOf('.') + 1);
-                      // Add the function node to the TODO list with specific text
                       const additionalText =
                         'The node needs to be tested manually. Check the access to the input data and returned format.';
                       todoNodes.push({ workflow: workflowName, node: node.name, nodeType, additionalText });
@@ -151,7 +153,6 @@ export function updateWorkflows(dir: string, outputDir: string) {
                   case 'n8n-nodes-base.httpRequest':
                     const nodeType = node.type.substring(node.type.lastIndexOf('.') + 1);
                     if (!node.parameters.options.splitIntoItems) {
-                      // Add the itemLists node to the TODO list with specific text
                       const additionalText = 'The new version of the HTTP node splits the response into items like the "splitIntoItems" option of the old node. Adjust the workflow as needed.';
                       todoNodes.push({ workflow: workflowName, node: node.name, nodeType, additionalText });
                     }
@@ -159,13 +160,11 @@ export function updateWorkflows(dir: string, outputDir: string) {
                     if (!workflowChanges.nodeNames.includes(node.name)) {
                       nodeModified = true;
                       if (node.parameters.method == 'OPTIONS') {
-                        // Add the itemLists node to the TODO list with specific text
                         const additionalText =
                           'Request method "OPTIONS": you will need to manually check the response to ensure it is working as expected.';
                         todoNodes.push({ workflow: workflowName, node: node.name, nodeType, additionalText });
                       }
                       if (node.parameters.method == 'HEAD') {
-                        // Add the itemLists node to the TODO list with specific text
                         const additionalText =
                           'Request method "HEAD": you will need to manually check the response to ensure it is working as expected.';
                         todoNodes.push({ workflow: workflowName, node: node.name, nodeType, additionalText });
@@ -173,13 +172,9 @@ export function updateWorkflows(dir: string, outputDir: string) {
                     }
                     break;
                   case 'n8n-nodes-base.dateTime':
-                    modifyDateTimeNode(node);
-                    if (!workflowChanges.nodeNames.includes(node.name)) {
-                      nodeModified = true;
-                    }
+                    nodeModified = DateTimeNode.convert(node);
                     if (node.parameters.operation == 'subtractFromDate') {
                       const nodeType = node.type.substring(node.type.lastIndexOf('.') + 1);
-                      // Add the dateTime node to the TODO list with specific text
                       const additionalText = '"Subtract" operation returns +2:00 time zone offset.';
                       todoNodes.push({ workflow: workflowName, node: node.name, nodeType, additionalText });
                     }
