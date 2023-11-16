@@ -105,6 +105,9 @@ export function modifyHttpRequestNode(node: INode): void {
   }
 
   if (node.parameters.responseFormat) {
+    if(node.parameters.responseFormat === "string"){
+      node.parameters.responseFormat = "json";
+    }
     node.parameters.options = {
       response: {
         response: {
@@ -138,7 +141,7 @@ export function modifyHttpRequestNode(node: INode): void {
   node.parameters = { method, ...node.parameters };
 }
 
-/*export function modifyDateTimeNode(node: INode): void {
+export function modifyDateTimeNode(node: INode): void {
   node.parameters.outputFieldName = node.parameters.dataPropertyName;
   node.typeVersion = 2;
 
@@ -165,7 +168,7 @@ export function modifyHttpRequestNode(node: INode): void {
 
   delete node.parameters.dataPropertyName;
   delete node.parameters.value;
-}*/
+}
 
 export function modifyMergeNode(node: INode): void {
   node.typeVersion = 2.1;
@@ -328,7 +331,7 @@ export function modifyItemListsNode(node: INode): void {
   }
 }
 
-/*export function modifySetNode(node: INode): void {
+export function modifySetNode(node: INode): void {
   switch (node.typeVersion) {
     case 1:
       // Update typeVersion to 3
@@ -384,7 +387,7 @@ export function modifyItemListsNode(node: INode): void {
       }
       break;
   }
-}*/
+}
 
 export function modifyIntervalNode(node: INode): void {
   node.type = 'n8n-nodes-base.scheduleTrigger';
