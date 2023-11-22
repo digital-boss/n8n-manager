@@ -15,6 +15,8 @@
     "build": "rimraf dist && node esbuild.js && npm run ts-types && npm run create-exec",
     "exec": "npm run build && node dist/index.js",
     "genver": "genversion -s -e src/version.ts",
+    "version": "npm run genver && git add . && npm run build",
+    "postversion": "git push",
     "test": "jest"
   },
   "keywords": [
