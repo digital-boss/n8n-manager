@@ -148,8 +148,8 @@ export const wf = () => {
     .addOption(options.name)
     .addOption(options.tag)
     .addOption(options.excludeId)
-    .option('-kf, --keep-files', 'If no filters scpecified (id, name, tag) and --keep-files=false, then all workflow files before saving will be deleted. This is useful when you want to have exact copy of workflows in directory.', false)
-    .option('-sai, --save-as-is', 'If --save-as-is=false, then workflows which differs only with updatedAt property from existing file will not be overriten', false)
+    .option('-kf, --keep-files', 'If no filters specified (id, name, tag) and --keep-files=false, then all workflow files before saving will be deleted. This is useful when you want to have exact copy of workflows in directory.', false)
+    .option('-sai, --save-as-is', 'If --save-as-is=false, then workflows which differs only with updatedAt property from existing file will not be overate', false)
     .action(createAction(async (opts, wf, cmd) => {
       const args: Parameters<typeof wf.save> = [
         opts.dir || config.workflows.dir,
@@ -171,7 +171,7 @@ export const wf = () => {
     .option('--dry', 'Dry run: Show expected output without updating', false) // Add the 'dry' option
     .action(createAction(async (opts, wf, cmd) => {
       const dir = opts.dir || config.workflows.dir;
-      const outputDir = opts.outputDir || config.workflows.outputDir || (dir.endsWith('/') ? dir : dir + '/') + '../updateWfs'; // TODO Befour publish new version neeed to change folder name;
+      const outputDir = opts.outputDir || config.workflows.outputDir || (dir.endsWith('/') ? dir : dir + '/') + '../updateWfs'; // TODO Before publish new version need to change folder name;
 
       const args: Parameters<typeof wf.updateWorkflow> = [
         opts.dir || config.workflows.dir, 
@@ -204,7 +204,7 @@ export const wf = () => {
     }))
 
   cmd.command('setup-all')
-    .description('Setup n8n instalce workflows exactly the same as your --dir.')
+    .description('Setup n8n instance workflows exactly the same as your --dir.')
     .hook('preAction', loadConfig)
     .addOption(options.dir)
     .addOption(options.id)
