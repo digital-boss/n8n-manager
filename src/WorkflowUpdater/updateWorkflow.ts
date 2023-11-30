@@ -13,9 +13,9 @@ import {
 import { generateChangesReport } from "./report";
 
 // Import the INode interface
-import { INode, IWorkflowUpdate, TodoItem } from "src/lib/utils/WorkflowUpdated";
-import { SetNode } from "./setNode";//ToDO new logic for set node
-import { DateTimeNode } from "./dateTimeNode"; //ToDO new logic for dateTime node
+import { INode, IWorkflowUpdate, TodoItem } from "src/lib/utils/types";
+import { SetNode } from "../converters/setNode";//ToDO new logic for set node
+import { DateTimeNode } from "../converters/dateTimeNode"; //ToDO new logic for dateTime node
 import { log } from "node:console";
 import { Command } from "commander";
 import { logOp } from "src/cli/common/log";

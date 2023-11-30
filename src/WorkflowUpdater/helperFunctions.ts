@@ -1,5 +1,5 @@
 // helperFunctions.ts
-import { INode } from 'src/lib/utils/WorkflowUpdated';
+import { INode } from 'src/lib/utils/types';
 
 export function modifyHttpRequestNode(node: INode): void {
   node.typeVersion = 4.1;

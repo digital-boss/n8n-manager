@@ -1,4 +1,4 @@
-import { INode } from "src/lib/utils/WorkflowUpdated";
+import { INode } from "src/lib/utils/types";
 
 export class DateTimeNode {
   // Define the conditions and corresponding functions
