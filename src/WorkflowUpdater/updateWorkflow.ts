@@ -1,7 +1,7 @@
 // index.ts
 import fs from 'fs';
 import path from 'path';
-import { transform } from 'src/transformers';
+import { transform } from 'src/transform';
 
 export function updateWorkflows(directoryPath: string) {
   const workflowsDirectoryPath = path.join(__dirname, directoryPath);
