@@ -1,9 +1,10 @@
 import { IConverter, INode } from "src/lib/utils/types";
 
-  
+const checkNodeType = (t: string) => t === 'n8n-nodes-base.set';
+
 const ver1: IConverter = {
   predicate: (node: INode) => {
-    return node.type === 'n8n-nodes-base.set' && node.typeVersion === 1;
+    return checkNodeType(node.type) && node.typeVersion === 1;
   },
 
   convert: (node: INode) => {
@@ -71,7 +72,7 @@ const ver1: IConverter = {
 
 const ver2: IConverter = {
   predicate: (node: INode) => {
-    return node.type === 'n8n-nodes-base.set' && node.typeVersion === 2;
+    return checkNodeType(node.type) && node.typeVersion === 2;
   },
 
   convert: (node: INode) => {

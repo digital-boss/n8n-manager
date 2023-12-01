@@ -1,8 +1,10 @@
 import { IConverter, INode } from "src/lib/utils/types";
 
+const checkNodeType = (t: string) => t === 'n8n-nodes-base.dateTime';
+
 const ver1: IConverter = {
   predicate: (node) => {
-    return node.type === 'n8n-nodes-base.dateTime' && node.typeVersion === 1;
+    return checkNodeType(node.type) && node.typeVersion === 1;
   },
 
   convert: (node) => {
@@ -38,10 +40,9 @@ const ver1: IConverter = {
   },
 }
 
-
 const ver2: IConverter = {
   predicate: (node) => {
-    return node.type === 'n8n-nodes-base.dateTime' && node.typeVersion === 2;
+    return checkNodeType(node.type) && node.typeVersion === 2;
   },
 
   convert: (node) => {
