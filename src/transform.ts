@@ -1,9 +1,6 @@
-// transformers.ts
+import { IConverter, INode } from "./lib/utils/types";
 
-import { INode } from "./lib/utils/types";
-import { converters } from "./converters";
-
-export function transform(nodes: INode[]): void {
+export function transform(converters: IConverter[], nodes: INode[]): void {
   nodes.forEach((node) => {
     for (const conv of converters) {
       if (conv.predicate(node)) {
