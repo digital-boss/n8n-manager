@@ -1,29 +1,16 @@
-import { INode } from "src/lib/utils/WorkflowUpdated";
-
-export class SetNode {
-  // Define the conditions and corresponding functions
-
-  private static versionConverters: [
-    (node: INode) => boolean,
-    (node: INode) => boolean
-  ][] = [
-    [SetNode.hasTypeVersion1, SetNode.modifySetNodeV1],
-    [SetNode.hasTypeVersion2, SetNode.modifySetNodeV2],
-  ];
-
-  //TODO Add n8n version check to predicate
+import { Converter, INode } from "src/lib/utils/types";
 
   // Define the conditions for each version
-  private static hasTypeVersion1(node: INode): boolean {
-    return node.typeVersion === 1;
+  function hasTypeVersion1(node: INode): boolean {
+    return node.type === 'n8n-nodes-base.set' && node.typeVersion === 1;
   }
 
-  private static hasTypeVersion2(node: INode): boolean {
-    return node.typeVersion === 2;
+  function hasTypeVersion2(node: INode): boolean {
+    return node.type === 'n8n-nodes-base.set' && node.typeVersion === 2;
   }
 
   // Version-specific functions
-  private static modifySetNodeV1(node: INode): boolean {
+  function modifySetNodeV1(node: INode): string {
     node.typeVersion = 3;
 
     const transformedValues: any[] = [];
@@ -81,21 +68,15 @@ export class SetNode {
       node.parameters.include = "none";
       delete node.parameters.keepOnlySet;
     }
-    return true;
+    return `Successfully updated Set node ${node.name} to version 2`;;
   }
 
-  private static modifySetNodeV2(node: INode): boolean {
-    return false;
+  function modifySetNodeV2(node: INode): string {
+    return "You need manually update the node"
   }
 
-  // Main convert method
-  public static convert(node: INode): boolean {
-    let isChanged = false;
-    for (const [condition, modifyFunction] of SetNode.versionConverters) {
-      if (condition(node)) {
-        isChanged = modifyFunction(node);
-      }
-    }
-    return isChanged;
-  }
-}
+export const setNodeConv: Converter[] = [
+  [hasTypeVersion1, modifySetNodeV1],
+  [hasTypeVersion2, modifySetNodeV2],
+];
+

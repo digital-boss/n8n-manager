@@ -6,7 +6,7 @@ import { IRestCliConfig, RestCliClient } from "src/RestCliClient";
 import equal from 'fast-deep-equal';
 import { WorkflowsFilter } from "./utils/WorkflowsFilter";
 import { IWorkflow } from "./utils/Workflow";
-import { updateWorkflows } from "../WorkflowUpdater/updateWorkflow";
+import { updateWorkflows } from "src/WorkflowUpdater/updateWorkflows";
 
 const getFileName = (wf: IWorkflow) => {
   const name = wf.name
@@ -241,9 +241,9 @@ export class Workflows {
     }
   }
 
-  async updateWorkflow(dir: string, outputDir: string) {
+  async updateWorkflow(dir: string) {
     // Call the external updateWorkflow function to perform the update
-    updateWorkflows(dir, outputDir);
+    updateWorkflows(dir);
   }
 
   async publish(dir: string, wfFilter: WorkflowsFilter) {

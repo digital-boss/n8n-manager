@@ -17,3 +17,5 @@ export interface TodoItem {
 export interface IWorkflowUpdate {
   nodes: INode[];
 }
+
+export type Converter = [(node: INode) => boolean, (node: INode) => string];
