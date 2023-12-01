@@ -1,16 +1,12 @@
-import { Converter, INode } from "src/lib/utils/types";
+import { IConverter, INode } from "src/lib/utils/types";
 
-  // Define the conditions for each version
-  function hasTypeVersion1(node: INode): boolean {
+  
+const ver1: IConverter = {
+  predicate: (node: INode) => {
     return node.type === 'n8n-nodes-base.set' && node.typeVersion === 1;
-  }
+  },
 
-  function hasTypeVersion2(node: INode): boolean {
-    return node.type === 'n8n-nodes-base.set' && node.typeVersion === 2;
-  }
-
-  // Version-specific functions
-  function modifySetNodeV1(node: INode): string {
+  convert: (node: INode) => {
     node.typeVersion = 3;
 
     const transformedValues: any[] = [];
@@ -70,13 +66,20 @@ import { Converter, INode } from "src/lib/utils/types";
     }
     return `Successfully updated Set node ${node.name} to version 2`;;
   }
+}
 
-  function modifySetNodeV2(node: INode): string {
-    return "You need manually update the node"
+
+const ver2: IConverter = {
+  predicate: (node: INode) => {
+    return node.type === 'n8n-nodes-base.set' && node.typeVersion === 2;
+  },
+
+  convert: (node: INode) => {
+    return 'Yon need manually update the node';
   }
+}
 
-export const setNodeConv: Converter[] = [
-  [hasTypeVersion1, modifySetNodeV1],
-  [hasTypeVersion2, modifySetNodeV2],
+export const setNodeConv: IConverter[] = [
+  ver1,
+  ver2
 ];
-
