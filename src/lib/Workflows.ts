@@ -241,9 +241,9 @@ export class Workflows {
     }
   }
 
-  async updateWorkflow(dir: string) {
+  async updateWorkflow(dir: string, outputDir: string) {
     // Call the external updateWorkflow function to perform the update
-    updateWorkflows(dir);
+    updateWorkflows(dir, outputDir);
   }
 
   async publish(dir: string, wfFilter: WorkflowsFilter) {
