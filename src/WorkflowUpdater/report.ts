@@ -1,21 +1,6 @@
 import fs from 'node:fs';
+import { WorkflowChange, TodoItem, ChangesReport } from 'src/lib/utils/types';
 
-interface WorkflowChange {
-  workflowName: string;
-  nodeNames: string[];
-}
-
-interface TodoItem {
-  nodeType: string;
-  workflow: string;
-  node: string;
-  additionalText: string;
-}
-
-interface ChangesReport {
-  changes: WorkflowChange[];
-  todos: { workflow: string; nodes: TodoItem[] }[];
-}
 
 function generateChanges(workflows: WorkflowChange[]): string {
   let reportContent = '';

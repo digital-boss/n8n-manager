@@ -7,11 +7,21 @@ export interface INode {
   id: string;
 }
 
+export interface WorkflowChange {
+  workflowName: string;
+  nodeNames: string[];
+}
+
 export interface TodoItem {
+  nodeType: string;
   workflow: string;
   node: string;
-  nodeType: string;
   additionalText: string;
+}
+
+export interface ChangesReport {
+  changes: WorkflowChange[];
+  todos: { workflow: string; nodes: TodoItem[] }[];
 }
 
 export interface IConverter {
