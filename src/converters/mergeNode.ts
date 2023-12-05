@@ -91,10 +91,7 @@ const ver1: IConverter = {
           ],
         };
         if (node.parameters.overwrite === 'blank') {
-          // Create the options object if it's undefined
           node.parameters.options = node.parameters.options || {};
-
-          // Add the necessary options for "overwrite" being "blank"
           node.parameters.options.clashHandling = {
             values: {
               resolveClash: 'preferInput1',
@@ -107,7 +104,6 @@ const ver1: IConverter = {
           delete node.parameters.overwrite;
         }
         if (node.parameters.overwrite) {
-          // Create the options object if it's undefined
           node.parameters.options = node.parameters.options || {};
 
           // Add the necessary options for "overwrite" being "blank"

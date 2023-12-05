@@ -57,7 +57,13 @@ const ver1: IConverter = {
 
       delete node.parameters.fieldsToInclude.fields;
     }
-    return `Successfully updated ItemLists node ${node.name} to version 2`;;
+    if (node.parameters.operation == 'summarize') {
+      const additionalText =
+        'Operation "Summarize" change is substituting dots (".") with underscores ("_") in the field name, such as "test.name" in the new version is "test_name"';
+      return additionalText
+    } else {
+      return `Successfully updated Interval node ${node.name} to version 3`;
+    }
   }
 }
 

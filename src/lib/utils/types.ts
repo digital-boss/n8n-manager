@@ -16,7 +16,7 @@ export interface TodoItem {
   nodeType: string;
   workflow: string;
   node: string;
-  additionalText: string;
+  additionalText?: string;
 }
 
 export interface ChangesReport {
@@ -27,4 +27,10 @@ export interface ChangesReport {
 export interface IConverter {
   predicate: (node: INode) => boolean;
   convert: (node: INode) => string;
+}
+
+export interface ChangedNodeInformation {
+  type: string;
+  nodeName: string;
+  additionalText?: string;
 }

@@ -14,7 +14,7 @@ const ver1: IConverter = {
       node.parameters.method = node.parameters.requestMethod;
       delete node.parameters.requestMethod;
     }
-  
+
     if (node.parameters.queryParametersUi) {
       node.parameters.sendQuery = true;
       node.parameters.queryParameters = {
@@ -22,7 +22,7 @@ const ver1: IConverter = {
       };
       delete node.parameters.queryParametersUi;
     }
-  
+
     if (node.parameters.headerParametersUi) {
       node.parameters.sendHeaders = true;
       node.parameters.headerParameters = {
@@ -30,7 +30,7 @@ const ver1: IConverter = {
       };
       delete node.parameters.headerParametersUi;
     }
-  
+
     if (node.parameters.bodyParametersUi) {
       node.parameters.sendBody = true;
       node.parameters.bodyParameters = {
@@ -38,41 +38,42 @@ const ver1: IConverter = {
       };
       delete node.parameters.bodyParametersUi;
     }
-  
+
     if (node.parameters.queryParametersJson) {
       node.parameters.sendQuery = true;
       node.parameters.specifyQuery = 'json';
       node.parameters.jsonQuery = node.parameters.queryParametersJson;
-  
+
       delete node.parameters.queryParametersJson;
       delete node.parameters.jsonParameters;
     }
-  
+
     if (node.parameters.headerParametersJson) {
       node.parameters.sendHeaders = true;
       node.parameters.specifyHeaders = 'json';
       node.parameters.jsonHeaders = node.parameters.headerParametersJson;
-  
+
       delete node.parameters.headerParametersJson;
       delete node.parameters.jsonParameters;
     }
-  
+
     if (node.parameters.bodyParametersJson) {
       node.parameters.sendBody = true;
       node.parameters.specifyBody = 'json';
       node.parameters.jsonBody = node.parameters.bodyParametersJson;
-  
+
       delete node.parameters.bodyParametersJson;
       delete node.parameters.jsonParameters;
     }
-  
+
     const method = node.parameters.method;
     delete node.parameters.method;
-  
+
+    let additionalText = "";
     // Check for options and transform them if present
     if (node.parameters.options) {
       const updatedOptions: any = {};
-  
+
       for (const option in node.parameters.options) {
         switch (option) {
           case 'batchInterval':
@@ -106,13 +107,14 @@ const ver1: IConverter = {
             break;
         }
       }
-  
+
       node.parameters.options = updatedOptions;
     }
-  
+
     if (node.parameters.responseFormat) {
-      if(node.parameters.responseFormat === "string"){
+      if (node.parameters.responseFormat === "string") {
         node.parameters.responseFormat = "json";
+        additionalText= additionalText +'The new version of the HTTP node not support response format "string"';
       }
       node.parameters.options = {
         response: {
@@ -123,10 +125,10 @@ const ver1: IConverter = {
       };
       delete node.parameters.responseFormat;
     }
-  
+
     if (node.parameters.authentication) {
       const authMethod: string = node.parameters.authentication;
-  
+
       // Define a map that maps authentication types to genericAuthType values
       const authTypeMap: Record<string, string> = {
         basicAuth: 'httpBasicAuth',
@@ -136,19 +138,32 @@ const ver1: IConverter = {
         oAuth2: 'oAuth2Api',
         queryAuth: 'httpQueryAuth',
       };
-  
+
       if (authTypeMap[authMethod]) {
         node.parameters.genericAuthType = authTypeMap[authMethod];
       }
-  
+
       node.parameters.authentication = 'genericCredentialType';
     }
-  
+
     node.parameters = { method, ...node.parameters };
-    return `Successfully updated Http request node ${node.name} to version 2`;;
+    
+    if (!node.parameters.options.splitIntoItems) {
+      additionalText= additionalText +'The new version of the HTTP node splits the response into items like the "splitIntoItems" option of the old node. Adjust the workflow as needed.';
+
+    }
+
+    if (node.parameters.method == 'OPTIONS') {
+      additionalText = additionalText + 'Request method "OPTIONS": you will need to manually check the response to ensure it is working as expected.';
+
+    }
+    if (node.parameters.method == 'HEAD') {
+      additionalText = additionalText + 'Request method "HEAD": you will need to manually check the response to ensure it is working as expected.';
+
+    }
+    return additionalText
   }
 }
-
 
 const ver2: IConverter = {
   predicate: (node: INode) => {

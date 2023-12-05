@@ -9,11 +9,8 @@ const ver1: IConverter = {
 
   convert: (node: INode) => {
     node.type = 'n8n-nodes-base.manualTrigger';
-    // if (!workflowChanges.nodeNames.includes(node.name)) {
-    //   nodeModified = true;
-    // }
 
-    return `Successfully updated Start node ${node.name} to version 2`;;
+    return `Successfully updated Start node ${node.name} to node type "manualTrigger"`;;
   }
 }
 

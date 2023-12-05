@@ -65,7 +65,7 @@ const ver1: IConverter = {
       node.parameters.include = "none";
       delete node.parameters.keepOnlySet;
     }
-    return `Successfully updated Set node ${node.name} to version 2`;;
+    return `Successfully updated Set node ${node.name} to version 3`;;
   }
 }
 
