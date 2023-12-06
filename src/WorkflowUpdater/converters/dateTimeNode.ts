@@ -1,4 +1,4 @@
-import { IConverter } from "src/lib/utils/types";
+import { IConverter } from "../types";
 
 const checkNodeType = (t: string) => t === 'n8n-nodes-base.dateTime';
 

@@ -1,5 +1,5 @@
 import fs from 'node:fs';
-import { WorkflowChange, TodoItem, ChangesReport } from 'src/lib/utils/types';
+import { WorkflowChange, TodoItem, ChangesReport } from './types';
 
 
 function generateChanges(workflows: WorkflowChange[]): string {

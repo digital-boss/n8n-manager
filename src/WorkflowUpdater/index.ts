@@ -1,8 +1,8 @@
-import { IConverter, INode } from "./lib/utils/types";
-import { ChangedNodeInformation } from "./lib/utils/types";
+import { IConverter, INode } from "./types";
+import { ChangedNodeInformation } from "./types";
 
 export function transform(converters: IConverter[], nodes: INode[]): ChangedNodeInformation[] {
-  
+
   const resultArray: ChangedNodeInformation[] = []; // Collect all transformation results here
 
   nodes.forEach((node) => {

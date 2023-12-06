@@ -1,4 +1,4 @@
-import { IConverter, INode } from "src/lib/utils/types";
+import { IConverter, INode } from "../types";
 
 const checkNodeType = (t: string) => t === 'n8n-nodes-base.functionItem';
 
@@ -13,10 +13,10 @@ const ver1: IConverter = {
         node.parameters.mode = "runOnceForEachItem";
         node.parameters.jsCode = node.parameters.functionCode.replace(/\bitem\b/g, 'item.json');
 
-        delete node.parameters.functionCode; 
-        
+        delete node.parameters.functionCode;
+
         const additionalText = 'The node needs to be tested manually. Check the access to the input data and the returned format.';
-        
+
         return additionalText
     }
 }

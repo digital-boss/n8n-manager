@@ -1,4 +1,4 @@
-import { IConverter, INode } from "src/lib/utils/types";
+import { IConverter, INode } from "../types";
 
 const checkNodeType = (t: string) => t === 'n8n-nodes-base.httpRequest';
 
@@ -114,7 +114,7 @@ const ver1: IConverter = {
     if (node.parameters.responseFormat) {
       if (node.parameters.responseFormat === "string") {
         node.parameters.responseFormat = "json";
-        additionalText= additionalText +'The new version of the HTTP node not support response format "string"';
+        additionalText = additionalText + 'The new version of the HTTP node not support response format "string"';
       }
       node.parameters.options = {
         response: {
@@ -147,9 +147,9 @@ const ver1: IConverter = {
     }
 
     node.parameters = { method, ...node.parameters };
-    
+
     if (!node.parameters.options.splitIntoItems) {
-      additionalText= additionalText +'The new version of the HTTP node splits the response into items like the "splitIntoItems" option of the old node. Adjust the workflow as needed.';
+      additionalText = additionalText + 'The new version of the HTTP node splits the response into items like the "splitIntoItems" option of the old node. Adjust the workflow as needed.';
 
     }
 
