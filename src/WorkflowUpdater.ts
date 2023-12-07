@@ -1,10 +1,10 @@
 const fs = require('fs');
 const path = require('path');
 
-import { converters } from "src/WorkflowUpdater/converters";
-import { TodoItem } from "./WorkflowUpdater/types";
-import { transform } from "./WorkflowUpdater/index";
-import { generateChangesReport } from "./WorkflowUpdater/report";
+import { converters } from "src/lib/WorkflowUpdater/converters";
+import { TodoItem } from "./lib/WorkflowUpdater/types";
+import { transform } from "./lib/WorkflowUpdater/index";
+import { generateChangesReport } from "./lib/WorkflowUpdater/report";
 
 export function updateWorkflows(dir: string, outputDir: string) {
   const workflowsDir = dir;
