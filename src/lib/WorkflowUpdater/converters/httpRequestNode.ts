@@ -69,7 +69,8 @@ const ver1: IConverter = {
     const method = node.parameters.method;
     delete node.parameters.method;
 
-    let additionalText = "";
+    let additionalText: string[] = [];
+
     // Check for options and transform them if present
     if (node.parameters.options) {
       const updatedOptions: any = {};
@@ -114,7 +115,7 @@ const ver1: IConverter = {
     if (node.parameters.responseFormat) {
       if (node.parameters.responseFormat === "string") {
         node.parameters.responseFormat = "json";
-        additionalText = additionalText + 'The new version of the HTTP node not support response format "string"';
+        additionalText.push('The new version of the HTTP node not support response format "string"');
       }
       node.parameters.options = {
         response: {
@@ -149,19 +150,19 @@ const ver1: IConverter = {
     node.parameters = { method, ...node.parameters };
 
     if (!node.parameters.options.splitIntoItems) {
-      additionalText = additionalText + 'The new version of the HTTP node splits the response into items like the "splitIntoItems" option of the old node. Adjust the workflow as needed.';
+      additionalText.push('The new version of the HTTP node splits the response into items like the "splitIntoItems" option of the old node. Adjust the workflow as needed.');
 
     }
 
     if (node.parameters.method == 'OPTIONS') {
-      additionalText = additionalText + 'Request method "OPTIONS": you will need to manually check the response to ensure it is working as expected.';
+      additionalText.push('Request method "OPTIONS": you will need to manually check the response to ensure it is working as expected.');
 
     }
     if (node.parameters.method == 'HEAD') {
-      additionalText = additionalText + 'Request method "HEAD": you will need to manually check the response to ensure it is working as expected.';
+      additionalText.push('Request method "HEAD": you will need to manually check the response to ensure it is working as expected.');
 
     }
-    return additionalText
+    return additionalText.join(',')
   }
 }
 

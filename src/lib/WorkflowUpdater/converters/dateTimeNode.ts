@@ -11,6 +11,8 @@ const ver1: IConverter = {
     node.parameters.outputFieldName = node.parameters.dataPropertyName;
     node.typeVersion = 2;
 
+    let additionalText = "";
+
     if (node.parameters.action === "calculate") {
       node.parameters.operation = "subtractFromDate";
       node.parameters.magnitude = node.parameters.value;
@@ -37,10 +39,9 @@ const ver1: IConverter = {
     delete node.parameters.value;
 
     if (node.parameters.operation == 'subtractFromDate') {
-      const additionalText = '"Subtract" operation returns +2:00 time zone offset.';
-      return additionalText
+      return additionalText = '"Subtract" operation returns +2:00 time zone offset.';
     } else {
-      return "";
+      return additionalText;
     }
   },
 }

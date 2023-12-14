@@ -13,12 +13,12 @@ const ver1: IConverter = {
     node.parameters.jsCode = node.parameters.functionCode;
     delete node.parameters.functionCode;
 
-    const additionalText = 'The node needs to be tested manually. Check the access to the input data and returned format.';
+    let additionalText = "";
 
-    return additionalText
+    return additionalText = 'The node needs to be tested manually. Check the access to the input data and returned format.';
+
   }
 }
-
 const ver2: IConverter = {
   predicate: (node: INode) => {
     return checkNodeType(node.type) && node.typeVersion === 2;
