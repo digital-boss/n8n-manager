@@ -72,43 +72,48 @@ const ver1: IConverter = {
     let additionalText: string[] = [];
   
     // Check for options and transform them if present
-    if (node.parameters.options) {
+    function updateOptions(options: any): any {
       const updatedOptions: any = {};
-  
-      for (const option in node.parameters.options) {
+    
+      for (const option in options) {
         switch (option) {
           case 'batchInterval':
           case 'batchSize':
             updatedOptions.batching = {
               batch: {
-                batchInterval: node.parameters.options.batchInterval,
-                batchSize: node.parameters.options.batchSize,
+                batchInterval: options.batchInterval,
+                batchSize: options.batchSize,
               },
             };
             break;
           case 'fullResponse':
-            updatedOptions.response = { response: { fullResponse: node.parameters.options.fullResponse } };
+            updatedOptions.response = { response: { fullResponse: options.fullResponse } };
             break;
           case 'followRedirect':
             updatedOptions.redirect = { redirect: {} };
             break;
           case 'ignoreResponseCode':
-            updatedOptions.response = { response: { neverError: node.parameters.options.ignoreResponseCode } };
+            updatedOptions.response = { response: { neverError: options.ignoreResponseCode } };
             break;
           case 'proxy':
-            updatedOptions.proxy = node.parameters.options.proxy;
+            updatedOptions.proxy = options.proxy;
             break;
           case 'timeout':
-            updatedOptions.timeout = node.parameters.options.timeout;
+            updatedOptions.timeout = options.timeout;
             break;
           case 'bodyContentType':
-            node.parameters.contentType = node.parameters.options.bodyContentType;
+            node.parameters.contentType = options.bodyContentType;
             break;
           default:
             break;
         }
       }
-  
+    
+      return updatedOptions;
+    }
+    
+    if (node.parameters.options) {
+      const updatedOptions = updateOptions(node.parameters.options);
       node.parameters.options = updatedOptions;
     }
   
