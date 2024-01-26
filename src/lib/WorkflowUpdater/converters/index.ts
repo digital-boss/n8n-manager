@@ -7,6 +7,7 @@ import { functionItemNodeConv } from './functionItemNode';
 import { functionNodeConv } from './functionNode';
 import { mergeNodeConv } from './mergeNode';
 import { httpRequestNodeConv } from './httpRequestNode';
+import { ifNodeConv } from './ifNode';
 
 export const converters = [
   ...dateTimeNodeConv,
@@ -18,4 +19,5 @@ export const converters = [
   ...functionNodeConv,
   ...mergeNodeConv,
   ...httpRequestNodeConv,
+  ...ifNodeConv,
 ];

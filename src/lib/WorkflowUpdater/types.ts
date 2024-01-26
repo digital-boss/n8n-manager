@@ -34,3 +34,10 @@ export interface ChangedNodeInformation {
   nodeName: string;
   additionalText?: string;
 }
+
+export interface OperationMappings {
+  [key: string]: {
+    [key: string]: string;
+    default: string;
+  };
+}
