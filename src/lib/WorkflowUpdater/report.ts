@@ -23,23 +23,33 @@ function generateTodos(todos: { workflow: string; nodes: TodoItem[] }[], workflo
 
   todos.forEach((todo: { workflow: string; nodes: TodoItem[] }, index: number) => {
     const workflowName = todo.workflow;
-    reportContent += ` ${index + 1}. ${workflowName.replace(/_/g, ' ').replace('.json', '')}\n`;
-    reportContent += '  - Node names:\n';
-
     const matchingWorkflowChanges = workflowChanges.find(
       (workflow: WorkflowChange) => workflow.workflowName === workflowName
     );
 
     if (matchingWorkflowChanges) {
-      todo.nodes.forEach((node: TodoItem) => {
+      const nodesRequiringAttention = todo.nodes.filter((node: TodoItem) => {
         const matchingNode = matchingWorkflowChanges.nodeNames.find((nodeName: string) => nodeName === node.node);
+        const additionalText = node.additionalText ?? '';
 
-        if (matchingNode) {
-          reportContent += `    - [${node.nodeType}] ${node.node}: ${node.additionalText}\n`;
-        }
+        // Include nodes that require attention and don't contain success message
+        return matchingNode && !additionalText.includes('Successfully updated');
       });
+
+      if (nodesRequiringAttention.length > 0) {
+        // Include only workflows that have nodes requiring attention
+        reportContent += ` ${index + 1}. ${workflowName.replace(/_/g, ' ').replace('.json', '')}\n`;
+        reportContent += '  - Node names:\n';
+
+        nodesRequiringAttention.forEach((node: TodoItem) => {
+          const additionalText = node.additionalText ?? '';
+
+          reportContent += `    - [${node.nodeType}] ${node.node}: ${additionalText}\n`;
+        });
+
+        reportContent += '\n';
+      }
     }
-    reportContent += '\n';
   });
 
   return reportContent;
@@ -57,7 +67,7 @@ export function generateChangesReport(changesReport: ChangesReport, filePath: st
     reportContent += '\n';
     reportContent += `Activate the "Webhook Testing HTTP Node" workflow to test the Http Request node\n`;
     reportContent += `Check and test all nodes manually in the workflows:\n`;
-
+    
     reportContent += generateTodos(todos, workflows);
   }
 
