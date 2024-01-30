@@ -42,7 +42,8 @@
     "https-proxy-agent": "^5.0.1",
     "lodash.merge": "^4.6.2",
     "node-fetch": "^3.2.10",
-    "tunnel": "^0.0.6"
+    "tunnel": "^0.0.6",
+    "uuid": "^9.0.1"
   },
   "jest": {
     "transform": {

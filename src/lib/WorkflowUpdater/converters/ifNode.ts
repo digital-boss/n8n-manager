@@ -2,8 +2,7 @@ import { IConverter } from "../types";
 import { OperationMappings } from "../types";
 
 const checkNodeType = (t: string) => t === 'n8n-nodes-base.if';
-
-
+const { v4: uuidv4 } = require('uuid');
 
 const operationMappings: OperationMappings = {
   string: {
@@ -23,18 +22,17 @@ const operationMappings: OperationMappings = {
     default: "lt",
   },
   dateTime: {
-    // Add any specific dateTime mappings if needed
-    default: "after",
+    default: "after", //Default of previus version is "after"
   },
   boolean: {
     notEqual: "notEquals",
-    // Add any specific boolean mappings if needed
     default: "equals",
   },
 };
 
+
 const setDefaultValues = (value: any, defaultValue: any, type: string, operation: string) => {
-  if (type === "string" && (operation === "isEmpty" || operation === "notExists")) {
+  if (type === "string" && (operation === "exists" || operation === "notExists")) {
     return value || "";
   }
   return value || defaultValue;
@@ -79,7 +77,7 @@ const ver1: IConverter = {
           },
           conditions: [
             {
-              id: "1b508d2d-3dc8-4201-b0d1-301ba147645b",
+              id: uuidv4(), // Generate a unique ID
               leftValue: oldConditions.value1,
               rightValue: oldConditions.value2,
               operator: {
