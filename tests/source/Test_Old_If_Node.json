@@ -647,7 +647,8 @@
           "number": [
             {
               "value1": "={{ $json.id }}",
-              "operation": "smallerEqual"
+              "operation": "smallerEqual",
+              "value2": 5
             }
           ]
         }
@@ -1247,6 +1248,21 @@
         2480
       ],
       "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "content": "## This workflow tests the conversion of IF node type version 1 to 2\n",
+        "height": 211.4314189209486,
+        "width": 430.7248451651848
+      },
+      "id": "9da2a0c9-a172-4c56-b5c7-f0efcf97a9b4",
+      "name": "Sticky Note27",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -880,
+        260
+      ]
     }
   ],
   "connections": {
