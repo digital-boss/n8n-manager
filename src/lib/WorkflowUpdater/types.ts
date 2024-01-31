@@ -41,3 +41,8 @@ export interface OperationMappings {
     default: string;
   };
 }
+
+export interface Rule {
+  outputKey: number;
+  output: any;
+}

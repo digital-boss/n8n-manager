@@ -8,6 +8,7 @@ import { functionNodeConv } from './functionNode';
 import { mergeNodeConv } from './mergeNode';
 import { httpRequestNodeConv } from './httpRequestNode';
 import { ifNodeConv } from './ifNode';
+import { switchNodeConv } from './switchNode';
 
 export const converters = [
   ...dateTimeNodeConv,
@@ -20,4 +21,5 @@ export const converters = [
   ...mergeNodeConv,
   ...httpRequestNodeConv,
   ...ifNodeConv,
+  ...switchNodeConv,
 ];
