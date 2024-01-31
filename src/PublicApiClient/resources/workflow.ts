@@ -15,6 +15,9 @@ export class Workflow extends ResourceBase {
     return this.httpClient.request({
       url: '/workflows',
       method: 'GET',
+      params: {
+        limit: 250,
+      }
     })
   }
   
