@@ -23,7 +23,7 @@ const ver1: IConverter = {
     node.typeVersion = 3;
 
     let additionalText = "";
-    
+
     if (node.parameters.operation === 'aggregateItems') {
       node.parameters.operation = 'concatenateItems';
 
@@ -60,7 +60,58 @@ const ver2: IConverter = {
   }
 };
 
+const ver3: IConverter = {
+  predicate: (node: INode) => {
+    return checkNodeType(node.type) && node.typeVersion === 3;
+  },
+
+  convert: (node: INode) => {
+
+    switch (node.parameters.operation) {
+      case 'concatenateItems':
+        node.type = "n8n-nodes-base.aggregate";
+        node.typeVersion = 1;
+
+        delete node.parameters.operation;
+        break;
+      case 'limit':
+        node.type = "n8n-nodes-base.limit";
+        node.typeVersion = 1;
+
+        delete node.parameters.operation;
+        break;
+      case 'removeDuplicates':
+        node.type = "n8n-nodes-base.removeDuplicates";
+        node.typeVersion = 1;
+
+        delete node.parameters.operation;
+        break;
+      case 'sort':
+        node.type = "n8n-nodes-base.sort";
+        node.typeVersion = 1;
+
+        delete node.parameters.operation;
+        break;
+      case 'summarize':
+        node.type = "n8n-nodes-base.summarize";
+        node.typeVersion = 1;
+
+        delete node.parameters.operation;
+        break;
+      default:
+        node.type = "n8n-nodes-base.splitOut";
+        node.typeVersion = 1;
+
+        delete node.parameters.operation;
+        break;
+
+    }
+    return `Successfully updated Interval node ${node.name} to version 3`; //TODO - what message to return( we update to 6 new nodes)
+  }
+};
+
 export const itemListsNodeConv: IConverter[] = [
   ver1,
-  ver2
+  ver2,
+  ver3
 ];
