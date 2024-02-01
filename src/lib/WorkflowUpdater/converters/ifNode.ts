@@ -22,7 +22,7 @@ const operationMappings: OperationMappings = {
     default: "lt",
   },
   dateTime: {
-    default: "after", //Default of previus version is "after"
+    default: "after", //Default of previous version is "after"
   },
   boolean: {
     notEqual: "notEquals",

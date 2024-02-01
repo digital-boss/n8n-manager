@@ -1,0 +1,1649 @@
+{
+  "meta": {
+    "instanceId": "ac7c827da56e852a0a6fec36e4b55ade4a0331714f3a850931f8ac704749495e"
+  },
+  "nodes": [
+    {
+      "parameters": {
+        "operation": "concatenateItems",
+        "fieldsToAggregate": {
+          "fieldToAggregate": [
+            {
+              "fieldToAggregate": "test.id"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "name": "Concatenate Items",
+      "type": "n8n-nodes-base.itemLists",
+      "typeVersion": 3,
+      "position": [
+        -4100,
+        2720
+      ],
+      "id": "039c4da1-0b9a-4b81-b659-ba592dabf9aa"
+    },
+    {
+      "parameters": {
+        "content": "## Individual Fields",
+        "height": 177.72665412669403,
+        "width": 232.20826555304103
+      },
+      "id": "1cef197c-0a68-4af1-9d03-749ca129c1f7",
+      "name": "Sticky Note2",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -4140,
+        2660
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "concatenateItems",
+        "aggregate": "aggregateAllItemData",
+        "destinationFieldName": "=newData",
+        "include": "specifiedFields",
+        "fieldsToInclude": [
+          "test",
+          "animals"
+        ]
+      },
+      "name": "Concatenate Items1",
+      "type": "n8n-nodes-base.itemLists",
+      "typeVersion": 3,
+      "position": [
+        -4100,
+        3120
+      ],
+      "id": "fe199f5b-43da-4a50-ae0b-9e1fd5059f4a"
+    },
+    {
+      "parameters": {
+        "content": "## All Item Data",
+        "height": 136.60033134522916,
+        "width": 178.9274409962946
+      },
+      "id": "a31d6451-d430-459d-bbb6-060095f4a4b8",
+      "name": "Sticky Note3",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -4120,
+        2860
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "concatenateItems",
+        "aggregate": "aggregateAllItemData",
+        "destinationFieldName": "newData",
+        "include": "allFieldsExcept",
+        "fieldsToExclude": "test"
+      },
+      "name": "Concatenate Items2",
+      "type": "n8n-nodes-base.itemLists",
+      "typeVersion": 3,
+      "position": [
+        -4100,
+        3300
+      ],
+      "id": "7f5ff858-d7cf-4abc-8e14-1ba49bcd102e"
+    },
+    {
+      "parameters": {
+        "operation": "concatenateItems",
+        "aggregate": "aggregateAllItemData",
+        "destinationFieldName": "newData"
+      },
+      "name": "Concatenate Items3",
+      "type": "n8n-nodes-base.itemLists",
+      "typeVersion": 3,
+      "position": [
+        -4100,
+        2920
+      ],
+      "id": "113d536a-5b7a-4719-967e-d6074a09fc4c"
+    },
+    {
+      "parameters": {
+        "content": "## Concatenate",
+        "height": 844.7929655460412,
+        "width": 397.2807263990552
+      },
+      "id": "c722f2e4-2842-4d95-808f-faac8364ce95",
+      "name": "Sticky Note6",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -4140,
+        2600
+      ]
+    },
+    {
+      "parameters": {
+        "content": "## Specified",
+        "width": 213.86286391045644
+      },
+      "id": "155c0f0b-0a96-4d9c-93b8-6cee6e0ed9d3",
+      "name": "Sticky Note7",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -4120,
+        3080
+      ]
+    },
+    {
+      "parameters": {
+        "content": "## All Fields Except"
+      },
+      "id": "1d93e1dc-60df-4388-b5a5-68b2fe84c4d1",
+      "name": "Sticky Note8",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -4140,
+        3260
+      ]
+    },
+    {
+      "parameters": {
+        "content": "## Limit",
+        "height": 466.67573011731093,
+        "width": 354.93591544546325
+      },
+      "id": "3848d2bf-2a70-4786-b297-9ffad5b0b00a",
+      "name": "Sticky Note9",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -3640,
+        2600
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "limit",
+        "maxItems": 2
+      },
+      "name": "Limit",
+      "type": "n8n-nodes-base.itemLists",
+      "typeVersion": 3,
+      "position": [
+        -3620,
+        2740
+      ],
+      "id": "92eb9599-b59a-4ca0-877a-6f35bf0ac7bf"
+    },
+    {
+      "parameters": {
+        "content": "## First Items",
+        "width": 224.87685323086004
+      },
+      "id": "3973e8ab-f2be-432d-a164-e16f6d578bdc",
+      "name": "Sticky Note10",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -3640,
+        2660
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "limit",
+        "maxItems": 2,
+        "keep": "lastItems"
+      },
+      "name": "Limit1",
+      "type": "n8n-nodes-base.itemLists",
+      "typeVersion": 3,
+      "position": [
+        -3620,
+        2960
+      ],
+      "id": "b4182f00-18c3-4ae6-8767-a2b0f2ac1a29"
+    },
+    {
+      "parameters": {
+        "content": "## Last items"
+      },
+      "id": "8f82520b-6129-495d-bbf1-d0db773faa3f",
+      "name": "Sticky Note11",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -3640,
+        2900
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "removeDuplicates"
+      },
+      "name": "Remove Duplicates",
+      "type": "n8n-nodes-base.itemLists",
+      "typeVersion": 3,
+      "position": [
+        -3160,
+        2740
+      ],
+      "id": "906a7ffc-08e9-4dbf-933a-e793e495ba86"
+    },
+    {
+      "parameters": {
+        "content": "## Remove Duplicates",
+        "height": 646.15073126551,
+        "width": 433.87271692441584
+      },
+      "id": "c988a9ed-c4ce-43e6-9a6c-df7ce457b7e9",
+      "name": "Sticky Note12",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -3200,
+        2600
+      ]
+    },
+    {
+      "parameters": {
+        "content": "## All Fields"
+      },
+      "id": "45d382b2-e529-4a23-bacf-228a5e6139b6",
+      "name": "Sticky Note13",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -3200,
+        2660
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "removeDuplicates",
+        "compare": "allFieldsExcept",
+        "fieldsToExclude": "test",
+        "options": {
+          "disableDotNotation": true
+        }
+      },
+      "name": "Remove Duplicates1",
+      "type": "n8n-nodes-base.itemLists",
+      "typeVersion": 3,
+      "position": [
+        -3180,
+        2920
+      ],
+      "id": "8ac04f7f-c616-431d-943a-d68bc92a9540"
+    },
+    {
+      "parameters": {
+        "content": "## All Fields Except"
+      },
+      "id": "366718ed-7de5-486d-96a1-29f608a49121",
+      "name": "Sticky Note14",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -3200,
+        2860
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "removeDuplicates",
+        "compare": "selectedFields",
+        "fieldsToCompare": "animals",
+        "options": {}
+      },
+      "name": "Remove Duplicates2",
+      "type": "n8n-nodes-base.itemLists",
+      "typeVersion": 3,
+      "position": [
+        -3160,
+        3120
+      ],
+      "id": "7a34299a-6222-46f6-8411-a8aed9d07f91"
+    },
+    {
+      "parameters": {
+        "content": "## Selected Fields"
+      },
+      "id": "1fb980f4-b5e3-4629-b08a-3be0a77bc4d3",
+      "name": "Sticky Note15",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -3200,
+        3040
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "905aa16d-7c09-42d6-b1b8-d9befe108cac",
+      "name": "When clicking \"Execute Workflow\"",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -1740,
+        2260
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "sort",
+        "sortFieldsUi": {
+          "sortField": [
+            {
+              "fieldName": "test.name"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "name": "Sort",
+      "type": "n8n-nodes-base.itemLists",
+      "typeVersion": 3,
+      "position": [
+        -2660,
+        2700
+      ],
+      "id": "e587003c-2ec9-4d1e-a163-44adedb36ece"
+    },
+    {
+      "parameters": {
+        "content": "## Sort",
+        "height": 831.9052828069559,
+        "width": 339.81276867632357
+      },
+      "id": "89e43601-f7a2-4e56-b6ea-4129f4c61820",
+      "name": "Sticky Note",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -2680,
+        2600
+      ]
+    },
+    {
+      "parameters": {
+        "content": "## Simple",
+        "height": 343.55307224550916
+      },
+      "id": "6027eac3-cff0-44c1-82b2-727784e56e53",
+      "name": "Sticky Note1",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -2580,
+        2660
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "sort",
+        "type": "random"
+      },
+      "name": "Sort1",
+      "type": "n8n-nodes-base.itemLists",
+      "typeVersion": 3,
+      "position": [
+        -2660,
+        3080
+      ],
+      "id": "135d48ab-d6c7-4f40-bb14-8b9ab625349b",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "content": "## Random"
+      },
+      "id": "2b9329ae-4a75-485b-b9e0-7555c897a301",
+      "name": "Sticky Note4",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -2680,
+        3020
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "sort",
+        "type": "code",
+        "code": "// Input data\nconst inputData = [\n  {\n    \"test\": {\n      \"name\": \"Ani\",\n      \"phone\": 123,\n      \"id\": 1\n    },\n    \"animals\": [\n      {\n        \"name\": \"bear\",\n        \"age\": 4\n      },\n      {\n        \"name\": \"bird\",\n        \"age\": 6\n      }\n    ]\n  },\n  // Add other items here\n];\n\n// Custom JavaScript code to sort the input data based on the \"name\" property\ninputData.sort((a, b) => {\n  const nameA = a.test.name.toUpperCase();\n  const nameB = b.test.name.toUpperCase();\n\n  if (nameA < nameB) return -1;\n  if (nameA > nameB) return 1;\n  return 0;\n});\n\n// Return the sorted data\nreturn inputData;\n"
+      },
+      "name": "Sort2",
+      "type": "n8n-nodes-base.itemLists",
+      "typeVersion": 3,
+      "position": [
+        -2660,
+        3280
+      ],
+      "id": "24959c1a-eebd-43bf-ab13-80c819c004e2"
+    },
+    {
+      "parameters": {
+        "content": "## Code"
+      },
+      "id": "1282f542-c41c-4a30-abe2-2a2fcc8b9cdd",
+      "name": "Sticky Note5",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -2680,
+        3220
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "sort",
+        "sortFieldsUi": {
+          "sortField": [
+            {
+              "fieldName": "test.id",
+              "order": "descending"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "name": "Sort3",
+      "type": "n8n-nodes-base.itemLists",
+      "typeVersion": 3,
+      "position": [
+        -2660,
+        2840
+      ],
+      "id": "81ccdefb-239a-4caa-ae3c-2e24fdbb8246"
+    },
+    {
+      "parameters": {
+        "content": "## Split out",
+        "height": 746.022652673736,
+        "width": 382.1575796299152
+      },
+      "id": "ff4f507c-3856-4864-9ecb-e4934fa5f2b7",
+      "name": "Sticky Note16",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -2240,
+        2600
+      ]
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "animals",
+        "options": {}
+      },
+      "name": "Split Out Items",
+      "type": "n8n-nodes-base.itemLists",
+      "typeVersion": 3,
+      "position": [
+        -2180,
+        2700
+      ],
+      "id": "f06cfe0b-f5e3-4b1a-9999-7688a67f4a6b"
+    },
+    {
+      "parameters": {
+        "content": "## No other fields"
+      },
+      "id": "6022ad8f-7a1b-41d0-915c-9dec8589459e",
+      "name": "Sticky Note17",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -2240,
+        2660
+      ]
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "animals",
+        "include": "allOtherFields",
+        "options": {
+          "destinationFieldName": "input"
+        }
+      },
+      "name": "Split Out Items1",
+      "type": "n8n-nodes-base.itemLists",
+      "typeVersion": 3,
+      "position": [
+        -2180,
+        2900
+      ],
+      "id": "3ee838f7-57ca-4498-9b62-024779dacd3b"
+    },
+    {
+      "parameters": {
+        "content": "## All other fields"
+      },
+      "id": "caa94171-7de4-4a48-9399-5cb699445706",
+      "name": "Sticky Note18",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -2240,
+        2860
+      ]
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "animals",
+        "include": "selectedOtherFields",
+        "fieldsToInclude": "animals.name",
+        "options": {}
+      },
+      "name": "Split Out Items2",
+      "type": "n8n-nodes-base.itemLists",
+      "typeVersion": 3,
+      "position": [
+        -2180,
+        3160
+      ],
+      "id": "002ba602-3b47-4f26-8e18-dcc6cc9b52c5"
+    },
+    {
+      "parameters": {
+        "content": "## Selected Other Fileds"
+      },
+      "id": "d1f838fa-761a-4a6d-b657-77ebf544289c",
+      "name": "Sticky Note19",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -2240,
+        3100
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "summarize",
+        "fieldsToSummarize": {
+          "values": [
+            {
+              "aggregation": "append",
+              "field": "test",
+              "includeEmpty": true
+            }
+          ]
+        },
+        "fieldsToSplitBy": "animals",
+        "options": {
+          "disableDotNotation": true,
+          "outputFormat": "separateItems",
+          "skipEmptySplitFields": true
+        }
+      },
+      "name": "Summarize",
+      "type": "n8n-nodes-base.itemLists",
+      "typeVersion": 3,
+      "position": [
+        -1740,
+        2700
+      ],
+      "id": "e8c3221f-ff68-470d-82c2-c1b802a993a9"
+    },
+    {
+      "parameters": {
+        "content": "## Summarize",
+        "height": 1535.8060552713855,
+        "width": 354.93591544546325
+      },
+      "id": "8fd759db-50a7-4482-a0f8-d7a72254b50e",
+      "name": "Sticky Note20",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -1780,
+        2600
+      ]
+    },
+    {
+      "parameters": {
+        "content": "## Append"
+      },
+      "id": "d88534ae-1949-48ef-9b82-6d14fc6a14a1",
+      "name": "Sticky Note21",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -1740,
+        2660
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "summarize",
+        "fieldsToSummarize": {
+          "values": [
+            {
+              "aggregation": "average",
+              "field": "test.name"
+            }
+          ]
+        },
+        "fieldsToSplitBy": "test",
+        "options": {
+          "outputFormat": "singleItem",
+          "skipEmptySplitFields": true
+        }
+      },
+      "name": "Summarize1",
+      "type": "n8n-nodes-base.itemLists",
+      "typeVersion": 3,
+      "position": [
+        -1740,
+        2900
+      ],
+      "id": "16fa1573-8a3f-413c-a925-0e479eb03ee6"
+    },
+    {
+      "parameters": {
+        "content": "## Average"
+      },
+      "id": "f04147bc-b167-445c-8158-fbb5eec40275",
+      "name": "Sticky Note22",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -1760,
+        2840
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "summarize",
+        "fieldsToSummarize": {
+          "values": [
+            {
+              "aggregation": "concatenate",
+              "field": "test.name"
+            }
+          ]
+        },
+        "fieldsToSplitBy": "test",
+        "options": {}
+      },
+      "name": "Summarize2",
+      "type": "n8n-nodes-base.itemLists",
+      "typeVersion": 3,
+      "position": [
+        -1740,
+        3080
+      ],
+      "id": "dcc39b66-53fa-4841-830d-3ed42eb59481"
+    },
+    {
+      "parameters": {
+        "content": "## Concatenate"
+      },
+      "id": "a967f74b-927f-4c38-bbe1-d124ee60c967",
+      "name": "Sticky Note23",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -1780,
+        3040
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "summarize",
+        "fieldsToSummarize": {
+          "values": [
+            {
+              "field": "test.id"
+            }
+          ]
+        },
+        "fieldsToSplitBy": "test.phone",
+        "options": {}
+      },
+      "name": "Summarize3",
+      "type": "n8n-nodes-base.itemLists",
+      "typeVersion": 3,
+      "position": [
+        -1740,
+        3260
+      ],
+      "id": "89d28e47-133f-489d-a518-3c8fd3a60b88"
+    },
+    {
+      "parameters": {
+        "content": "## Count"
+      },
+      "id": "61ea1afc-3609-4122-a4c0-251e46e053da",
+      "name": "Sticky Note24",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -1780,
+        3220
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "summarize",
+        "fieldsToSummarize": {
+          "values": [
+            {
+              "aggregation": "countUnique",
+              "field": "test.phone"
+            }
+          ]
+        },
+        "fieldsToSplitBy": "test",
+        "options": {}
+      },
+      "name": "Summarize4",
+      "type": "n8n-nodes-base.itemLists",
+      "typeVersion": 3,
+      "position": [
+        -1740,
+        3440
+      ],
+      "id": "0d64bfdc-8ded-4027-ad78-7dbbe2c0bec2"
+    },
+    {
+      "parameters": {
+        "content": "## count Unique"
+      },
+      "id": "e6ec1105-6b43-4993-891a-eac54b1e7541",
+      "name": "Sticky Note25",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -1780,
+        3400
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "summarize",
+        "fieldsToSummarize": {
+          "values": [
+            {
+              "aggregation": "max",
+              "field": "test.id"
+            }
+          ]
+        },
+        "fieldsToSplitBy": "test",
+        "options": {}
+      },
+      "name": "Summarize5",
+      "type": "n8n-nodes-base.itemLists",
+      "typeVersion": 3,
+      "position": [
+        -1740,
+        3620
+      ],
+      "id": "4037ab4f-c93e-44f3-93f8-6218e2aa53b0"
+    },
+    {
+      "parameters": {
+        "content": "## Max"
+      },
+      "id": "ea660dc5-0bff-4b19-ba9a-d924904cc0e3",
+      "name": "Sticky Note26",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -1760,
+        3560
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "summarize",
+        "fieldsToSummarize": {
+          "values": [
+            {
+              "aggregation": "min",
+              "field": "test.id"
+            }
+          ]
+        },
+        "fieldsToSplitBy": "test",
+        "options": {}
+      },
+      "name": "Summarize6",
+      "type": "n8n-nodes-base.itemLists",
+      "typeVersion": 3,
+      "position": [
+        -1740,
+        3800
+      ],
+      "id": "3ba3d8ef-b7b6-4176-ad70-62c230d61757"
+    },
+    {
+      "parameters": {
+        "content": "## Min"
+      },
+      "id": "fee485d5-66e7-4943-a527-0ee1d99a3174",
+      "name": "Sticky Note27",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -1780,
+        3760
+      ]
+    },
+    {
+      "parameters": {
+        "content": "## Sum"
+      },
+      "id": "7b160580-3d46-4720-a6d1-52109414777d",
+      "name": "Sticky Note28",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -1780,
+        3940
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "summarize",
+        "fieldsToSummarize": {
+          "values": [
+            {
+              "aggregation": "sum",
+              "field": "test.phone"
+            }
+          ]
+        },
+        "fieldsToSplitBy": "test",
+        "options": {}
+      },
+      "name": "Summarize7",
+      "type": "n8n-nodes-base.itemLists",
+      "typeVersion": 3,
+      "position": [
+        -1740,
+        3980
+      ],
+      "id": "cf377a75-5e66-4cb9-b783-a8e6682fbf5e"
+    },
+    {
+      "parameters": {
+        "jsCode": "return [\n  {\n    \"test\": {\n      \"name\": \"Ani\",\n      \"phone\": 123,\n      \"id\": 1\n    },\n    \"animals\": [\n      {\n        \"name\": \"bear\",\n        \"age\": 4\n      },\n      {\n        \"name\": \"bird\",\n        \"age\": 6\n      }\n    ]\n  },\n  {\n    \"test\": {\n      \"name\": \"Ben\",\n      \"phone\": 456,\n      \"id\": 2\n    },\n    \"animals\": [\n      {\n        \"name\": \"fish\",\n        \"age\": 9\n      },\n      {\n        \"name\": \"rabbit\",\n        \"age\": 3\n      }\n    ]\n  },\n  {\n    \"test\": {\n      \"name\": \"Chris\",\n      \"phone\": 789,\n      \"id\": 3\n    },\n    \"animals\": [\n      {\n        \"name\": \"mouse\",\n        \"age\": 4\n      },\n      {\n        \"name\": \"pigeon\",\n        \"age\": 3\n      }\n    ]\n  },\n  {\n    \"test\": {\n      \"name\": \"Chris\",\n      \"phone\": 789,\n      \"id\": 3\n    },\n    \"animals\": [\n      {\n        \"name\": \"cat\",\n        \"age\": 2\n      },\n      {\n        \"name\": \"dog\",\n        \"age\": 3\n      }\n    ]\n  }\n];\n"
+      },
+      "id": "8b890c18-f9bf-4ef4-92ab-5a71e2f9ef4c",
+      "name": "Code",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -1560,
+        2260
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const assert = require('node:assert');\n\nassert.deepStrictEqual(JSON.parse(JSON.stringify(items[0].json)),{\n  \"id\": [\n    1,\n    2,\n    3,\n    3\n  ]\n}\n   );\n\nreturn []"
+      },
+      "id": "4be3aadd-ae8b-430a-af38-aeed940ee860",
+      "name": "Assert",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -3900,
+        2720
+      ],
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "jsCode": "const assert = require('node:assert');\n\nassert.deepStrictEqual(JSON.parse(JSON.stringify(items[0].json)),{\n  \"newData\": [\n    {\n      \"test\": {\n        \"name\": \"Ani\",\n        \"phone\": 123,\n        \"id\": 1\n      },\n      \"animals\": [\n        {\n          \"name\": \"bear\",\n          \"age\": 4\n        },\n        {\n          \"name\": \"bird\",\n          \"age\": 6\n        }\n      ]\n    },\n    {\n      \"test\": {\n        \"name\": \"Ben\",\n        \"phone\": 456,\n        \"id\": 2\n      },\n      \"animals\": [\n        {\n          \"name\": \"fish\",\n          \"age\": 9\n        },\n        {\n          \"name\": \"rabbit\",\n          \"age\": 3\n        }\n      ]\n    },\n    {\n      \"test\": {\n        \"name\": \"Chris\",\n        \"phone\": 789,\n        \"id\": 3\n      },\n      \"animals\": [\n        {\n          \"name\": \"mouse\",\n          \"age\": 4\n        },\n        {\n          \"name\": \"pigeon\",\n          \"age\": 3\n        }\n      ]\n    },\n    {\n      \"test\": {\n        \"name\": \"Chris\",\n        \"phone\": 789,\n        \"id\": 3\n      },\n      \"animals\": [\n        {\n          \"name\": \"cat\",\n          \"age\": 2\n        },\n        {\n          \"name\": \"dog\",\n          \"age\": 3\n        }\n      ]\n    }\n  ]\n}\n   );\n\nreturn [];"
+      },
+      "id": "a4628e83-a4a1-4bd0-8792-9fb894c8b58f",
+      "name": "Assert1",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -3900,
+        2920
+      ],
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "jsCode": "const assert = require('node:assert');\n\nassert.deepStrictEqual(JSON.parse(JSON.stringify(items[0].json)),{\n  \"newData\": [\n    {\n      \"test\": {\n        \"name\": \"Ani\",\n        \"phone\": 123,\n        \"id\": 1\n      },\n      \"animals\": [\n        {\n          \"name\": \"bear\",\n          \"age\": 4\n        },\n        {\n          \"name\": \"bird\",\n          \"age\": 6\n        }\n      ]\n    },\n    {\n      \"test\": {\n        \"name\": \"Ben\",\n        \"phone\": 456,\n        \"id\": 2\n      },\n      \"animals\": [\n        {\n          \"name\": \"fish\",\n          \"age\": 9\n        },\n        {\n          \"name\": \"rabbit\",\n          \"age\": 3\n        }\n      ]\n    },\n    {\n      \"test\": {\n        \"name\": \"Chris\",\n        \"phone\": 789,\n        \"id\": 3\n      },\n      \"animals\": [\n        {\n          \"name\": \"mouse\",\n          \"age\": 4\n        },\n        {\n          \"name\": \"pigeon\",\n          \"age\": 3\n        }\n      ]\n    },\n    {\n      \"test\": {\n        \"name\": \"Chris\",\n        \"phone\": 789,\n        \"id\": 3\n      },\n      \"animals\": [\n        {\n          \"name\": \"cat\",\n          \"age\": 2\n        },\n        {\n          \"name\": \"dog\",\n          \"age\": 3\n        }\n      ]\n    }\n  ]\n}\n   );\n\nreturn [];"
+      },
+      "id": "7b0f7b09-ac31-4470-b294-66f5cda300b3",
+      "name": "Assert2",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -3900,
+        3120
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const assert = require('node:assert');\n\nassert.deepStrictEqual(JSON.parse(JSON.stringify(items[0].json)),{\n  \"newData\": [\n    {\n      \"animals\": [\n        {\n          \"name\": \"bear\",\n          \"age\": 4\n        },\n        {\n          \"name\": \"bird\",\n          \"age\": 6\n        }\n      ]\n    },\n    {\n      \"animals\": [\n        {\n          \"name\": \"fish\",\n          \"age\": 9\n        },\n        {\n          \"name\": \"rabbit\",\n          \"age\": 3\n        }\n      ]\n    },\n    {\n      \"animals\": [\n        {\n          \"name\": \"mouse\",\n          \"age\": 4\n        },\n        {\n          \"name\": \"pigeon\",\n          \"age\": 3\n        }\n      ]\n    },\n    {\n      \"animals\": [\n        {\n          \"name\": \"cat\",\n          \"age\": 2\n        },\n        {\n          \"name\": \"dog\",\n          \"age\": 3\n        }\n      ]\n    }\n  ]\n}\n   );\n\nreturn [];"
+      },
+      "id": "47bbae9c-2c68-44fc-b729-b7166ecbb0f2",
+      "name": "Assert3",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -3900,
+        3300
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const assert = require('node:assert');\n\nassert.deepStrictEqual(JSON.parse(JSON.stringify(items.map(x=> x.json))),[{\n    \"test\": {\n      \"name\": \"Ani\",\n      \"phone\": 123,\n      \"id\": 1\n    },\n    \"animals\": [\n      {\n        \"name\": \"bear\",\n        \"age\": 4\n      },\n      {\n        \"name\": \"bird\",\n        \"age\": 6\n      }\n    ]\n  },\n  {\n    \"test\": {\n      \"name\": \"Ben\",\n      \"phone\": 456,\n      \"id\": 2\n    },\n    \"animals\": [\n      {\n        \"name\": \"fish\",\n        \"age\": 9\n      },\n      {\n        \"name\": \"rabbit\",\n        \"age\": 3\n      }\n    ]\n  }\n                                                                          ]\n   );\n\nreturn [];"
+      },
+      "id": "bf8d6569-15c2-4401-b58e-9d83aabc248e",
+      "name": "Assert4",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -3420,
+        2740
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const assert = require('node:assert');\n\nassert.deepStrictEqual(JSON.parse(JSON.stringify(items.map(x=> x.json))),[\n  {\n    \"test\": {\n      \"name\": \"Chris\",\n      \"phone\": 789,\n      \"id\": 3\n    },\n    \"animals\": [\n      {\n        \"name\": \"mouse\",\n        \"age\": 4\n      },\n      {\n        \"name\": \"pigeon\",\n        \"age\": 3\n      }\n    ]\n  },\n  {\n    \"test\": {\n      \"name\": \"Chris\",\n      \"phone\": 789,\n      \"id\": 3\n    },\n    \"animals\": [\n      {\n        \"name\": \"cat\",\n        \"age\": 2\n      },\n      {\n        \"name\": \"dog\",\n        \"age\": 3\n      }\n    ]\n  }\n]\n   );\n\nreturn [];"
+      },
+      "id": "49971478-8a0c-411a-99a3-a880f599dec0",
+      "name": "Assert5",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -3420,
+        2960
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const assert = require('node:assert');\n\nassert.deepStrictEqual(JSON.parse(JSON.stringify(items.map(x=> x.json))),[\n  {\n    \"test\": {\n      \"name\": \"Ani\",\n      \"phone\": 123,\n      \"id\": 1\n    },\n    \"animals\": [\n      {\n        \"name\": \"bear\",\n        \"age\": 4\n      },\n      {\n        \"name\": \"bird\",\n        \"age\": 6\n      }\n    ]\n  },\n  {\n    \"test\": {\n      \"name\": \"Ben\",\n      \"phone\": 456,\n      \"id\": 2\n    },\n    \"animals\": [\n      {\n        \"name\": \"fish\",\n        \"age\": 9\n      },\n      {\n        \"name\": \"rabbit\",\n        \"age\": 3\n      }\n    ]\n  },\n  {\n    \"test\": {\n      \"name\": \"Chris\",\n      \"phone\": 789,\n      \"id\": 3\n    },\n    \"animals\": [\n      {\n        \"name\": \"mouse\",\n        \"age\": 4\n      },\n      {\n        \"name\": \"pigeon\",\n        \"age\": 3\n      }\n    ]\n  },\n  {\n    \"test\": {\n      \"name\": \"Chris\",\n      \"phone\": 789,\n      \"id\": 3\n    },\n    \"animals\": [\n      {\n        \"name\": \"cat\",\n        \"age\": 2\n      },\n      {\n        \"name\": \"dog\",\n        \"age\": 3\n      }\n    ]\n  }\n]\n   );\n\nreturn [];"
+      },
+      "id": "6c2c0556-4e44-4937-95bf-32e60e8dc3a0",
+      "name": "Assert6",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -2980,
+        2740
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const assert = require('node:assert');\n\nassert.deepStrictEqual(JSON.parse(JSON.stringify(items.map(x=> x.json))),[\n  {\n    \"test\": {\n      \"name\": \"Ani\",\n      \"phone\": 123,\n      \"id\": 1\n    },\n    \"animals\": [\n      {\n        \"name\": \"bear\",\n        \"age\": 4\n      },\n      {\n        \"name\": \"bird\",\n        \"age\": 6\n      }\n    ]\n  },\n  {\n    \"test\": {\n      \"name\": \"Ben\",\n      \"phone\": 456,\n      \"id\": 2\n    },\n    \"animals\": [\n      {\n        \"name\": \"fish\",\n        \"age\": 9\n      },\n      {\n        \"name\": \"rabbit\",\n        \"age\": 3\n      }\n    ]\n  },\n  {\n    \"test\": {\n      \"name\": \"Chris\",\n      \"phone\": 789,\n      \"id\": 3\n    },\n    \"animals\": [\n      {\n        \"name\": \"mouse\",\n        \"age\": 4\n      },\n      {\n        \"name\": \"pigeon\",\n        \"age\": 3\n      }\n    ]\n  },\n  {\n    \"test\": {\n      \"name\": \"Chris\",\n      \"phone\": 789,\n      \"id\": 3\n    },\n    \"animals\": [\n      {\n        \"name\": \"cat\",\n        \"age\": 2\n      },\n      {\n        \"name\": \"dog\",\n        \"age\": 3\n      }\n    ]\n  }\n]\n   );\n\nreturn [];"
+      },
+      "id": "8becbdc6-69d9-42e4-8b00-520bb63a435f",
+      "name": "Assert7",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -2980,
+        2920
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const assert = require('node:assert');\n\nassert.deepStrictEqual(JSON.parse(JSON.stringify(items.map(x=> x.json))),[\n  {\n    \"test\": {\n      \"name\": \"Ani\",\n      \"phone\": 123,\n      \"id\": 1\n    },\n    \"animals\": [\n      {\n        \"name\": \"bear\",\n        \"age\": 4\n      },\n      {\n        \"name\": \"bird\",\n        \"age\": 6\n      }\n    ]\n  },\n  {\n    \"test\": {\n      \"name\": \"Ben\",\n      \"phone\": 456,\n      \"id\": 2\n    },\n    \"animals\": [\n      {\n        \"name\": \"fish\",\n        \"age\": 9\n      },\n      {\n        \"name\": \"rabbit\",\n        \"age\": 3\n      }\n    ]\n  },\n  {\n    \"test\": {\n      \"name\": \"Chris\",\n      \"phone\": 789,\n      \"id\": 3\n    },\n    \"animals\": [\n      {\n        \"name\": \"mouse\",\n        \"age\": 4\n      },\n      {\n        \"name\": \"pigeon\",\n        \"age\": 3\n      }\n    ]\n  },\n  {\n    \"test\": {\n      \"name\": \"Chris\",\n      \"phone\": 789,\n      \"id\": 3\n    },\n    \"animals\": [\n      {\n        \"name\": \"cat\",\n        \"age\": 2\n      },\n      {\n        \"name\": \"dog\",\n        \"age\": 3\n      }\n    ]\n  }\n]\n   );\n\nreturn [];"
+      },
+      "id": "56a41e6d-a9eb-49b4-8b70-4a101d740b20",
+      "name": "Assert8",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -2980,
+        3120
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const assert = require('node:assert');\n\nassert.deepStrictEqual(JSON.parse(JSON.stringify(items.map(x=> x.json))),[\n  {\n    \"test\": {\n      \"name\": \"Ani\",\n      \"phone\": 123,\n      \"id\": 1\n    },\n    \"animals\": [\n      {\n        \"name\": \"bear\",\n        \"age\": 4\n      },\n      {\n        \"name\": \"bird\",\n        \"age\": 6\n      }\n    ]\n  },\n  {\n    \"test\": {\n      \"name\": \"Ben\",\n      \"phone\": 456,\n      \"id\": 2\n    },\n    \"animals\": [\n      {\n        \"name\": \"fish\",\n        \"age\": 9\n      },\n      {\n        \"name\": \"rabbit\",\n        \"age\": 3\n      }\n    ]\n  },\n  {\n    \"test\": {\n      \"name\": \"Chris\",\n      \"phone\": 789,\n      \"id\": 3\n    },\n    \"animals\": [\n      {\n        \"name\": \"mouse\",\n        \"age\": 4\n      },\n      {\n        \"name\": \"pigeon\",\n        \"age\": 3\n      }\n    ]\n  },\n  {\n    \"test\": {\n      \"name\": \"Chris\",\n      \"phone\": 789,\n      \"id\": 3\n    },\n    \"animals\": [\n      {\n        \"name\": \"cat\",\n        \"age\": 2\n      },\n      {\n        \"name\": \"dog\",\n        \"age\": 3\n      }\n    ]\n  }\n]\n   );\n\nreturn [];"
+      },
+      "id": "1b8eaa9a-4cee-406b-a2c4-30eda5c3df5b",
+      "name": "Assert9",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -2460,
+        2700
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const assert = require('node:assert');\n\nassert.deepStrictEqual(JSON.parse(JSON.stringify(items.map(x=> x.json))),[\n  {\n    \"test\": {\n      \"name\": \"Chris\",\n      \"phone\": 789,\n      \"id\": 3\n    },\n    \"animals\": [\n      {\n        \"name\": \"mouse\",\n        \"age\": 4\n      },\n      {\n        \"name\": \"pigeon\",\n        \"age\": 3\n      }\n    ]\n  },\n  {\n    \"test\": {\n      \"name\": \"Chris\",\n      \"phone\": 789,\n      \"id\": 3\n    },\n    \"animals\": [\n      {\n        \"name\": \"cat\",\n        \"age\": 2\n      },\n      {\n        \"name\": \"dog\",\n        \"age\": 3\n      }\n    ]\n  },\n  {\n    \"test\": {\n      \"name\": \"Ben\",\n      \"phone\": 456,\n      \"id\": 2\n    },\n    \"animals\": [\n      {\n        \"name\": \"fish\",\n        \"age\": 9\n      },\n      {\n        \"name\": \"rabbit\",\n        \"age\": 3\n      }\n    ]\n  },\n  {\n    \"test\": {\n      \"name\": \"Ani\",\n      \"phone\": 123,\n      \"id\": 1\n    },\n    \"animals\": [\n      {\n        \"name\": \"bear\",\n        \"age\": 4\n      },\n      {\n        \"name\": \"bird\",\n        \"age\": 6\n      }\n    ]\n  }\n]\n   );\n\nreturn [];"
+      },
+      "id": "b4fe4c66-2e6a-4423-95c9-7b59420818a5",
+      "name": "Assert10",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -2460,
+        2840
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const assert = require('node:assert');\n\nassert.deepStrictEqual(JSON.parse(JSON.stringify(items.map(x=> x.json))),[\n  {\n    \"test\": {\n      \"name\": \"Ani\",\n      \"phone\": 123,\n      \"id\": 1\n    },\n    \"animals\": [\n      {\n        \"name\": \"bear\",\n        \"age\": 4\n      },\n      {\n        \"name\": \"bird\",\n        \"age\": 6\n      }\n    ]\n  },\n  {\n    \"test\": {\n      \"name\": \"Chris\",\n      \"phone\": 789,\n      \"id\": 3\n    },\n    \"animals\": [\n      {\n        \"name\": \"cat\",\n        \"age\": 2\n      },\n      {\n        \"name\": \"dog\",\n        \"age\": 3\n      }\n    ]\n  },\n  {\n    \"test\": {\n      \"name\": \"Chris\",\n      \"phone\": 789,\n      \"id\": 3\n    },\n    \"animals\": [\n      {\n        \"name\": \"mouse\",\n        \"age\": 4\n      },\n      {\n        \"name\": \"pigeon\",\n        \"age\": 3\n      }\n    ]\n  },\n  {\n    \"test\": {\n      \"name\": \"Ben\",\n      \"phone\": 456,\n      \"id\": 2\n    },\n    \"animals\": [\n      {\n        \"name\": \"fish\",\n        \"age\": 9\n      },\n      {\n        \"name\": \"rabbit\",\n        \"age\": 3\n      }\n    ]\n  }\n]\n   );\n\nreturn [];"
+      },
+      "id": "3abb0bd2-579c-4721-8964-521562b6b339",
+      "name": "Assert11",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -2460,
+        3080
+      ],
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "jsCode": "const assert = require('node:assert');\n\nassert.deepStrictEqual(JSON.parse(JSON.stringify(items.map(x=> x.json))),[\n  {\n    \"test\": {\n      \"name\": \"Ani\",\n      \"phone\": 123,\n      \"id\": 1\n    },\n    \"animals\": [\n      {\n        \"name\": \"bear\",\n        \"age\": 4\n      },\n      {\n        \"name\": \"bird\",\n        \"age\": 6\n      }\n    ]\n  },\n  {\n    \"test\": {\n      \"name\": \"Ben\",\n      \"phone\": 456,\n      \"id\": 2\n    },\n    \"animals\": [\n      {\n        \"name\": \"fish\",\n        \"age\": 9\n      },\n      {\n        \"name\": \"rabbit\",\n        \"age\": 3\n      }\n    ]\n  },\n  {\n    \"test\": {\n      \"name\": \"Chris\",\n      \"phone\": 789,\n      \"id\": 3\n    },\n    \"animals\": [\n      {\n        \"name\": \"mouse\",\n        \"age\": 4\n      },\n      {\n        \"name\": \"pigeon\",\n        \"age\": 3\n      }\n    ]\n  },\n  {\n    \"test\": {\n      \"name\": \"Chris\",\n      \"phone\": 789,\n      \"id\": 3\n    },\n    \"animals\": [\n      {\n        \"name\": \"cat\",\n        \"age\": 2\n      },\n      {\n        \"name\": \"dog\",\n        \"age\": 3\n      }\n    ]\n  }\n]\n   );\n\nreturn [];"
+      },
+      "id": "e9df1b57-b85a-4d9f-8b05-542424dbbbd9",
+      "name": "Assert12",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -2460,
+        3280
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const assert = require('node:assert');\n\nassert.deepStrictEqual(JSON.parse(JSON.stringify(items.map(x=> x.json))),[\n  {\n    \"name\": \"bear\",\n    \"age\": 4\n  },\n  {\n    \"name\": \"bird\",\n    \"age\": 6\n  },\n  {\n    \"name\": \"fish\",\n    \"age\": 9\n  },\n  {\n    \"name\": \"rabbit\",\n    \"age\": 3\n  },\n  {\n    \"name\": \"mouse\",\n    \"age\": 4\n  },\n  {\n    \"name\": \"pigeon\",\n    \"age\": 3\n  },\n  {\n    \"name\": \"cat\",\n    \"age\": 2\n  },\n  {\n    \"name\": \"dog\",\n    \"age\": 3\n  }\n]\n   );\n\nreturn [];"
+      },
+      "id": "9096a07f-696c-4b7f-b38c-b94aaceddc6b",
+      "name": "Assert13",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -1980,
+        2700
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const assert = require('node:assert');\n\nassert.deepStrictEqual(JSON.parse(JSON.stringify(items.map(x=> x.json))),[\n  {\n    \"test\": {\n      \"name\": \"Ani\",\n      \"phone\": 123,\n      \"id\": 1\n    },\n    \"input\": {\n      \"name\": \"bear\",\n      \"age\": 4\n    }\n  },\n  {\n    \"test\": {\n      \"name\": \"Ani\",\n      \"phone\": 123,\n      \"id\": 1\n    },\n    \"input\": {\n      \"name\": \"bird\",\n      \"age\": 6\n    }\n  },\n  {\n    \"test\": {\n      \"name\": \"Ben\",\n      \"phone\": 456,\n      \"id\": 2\n    },\n    \"input\": {\n      \"name\": \"fish\",\n      \"age\": 9\n    }\n  },\n  {\n    \"test\": {\n      \"name\": \"Ben\",\n      \"phone\": 456,\n      \"id\": 2\n    },\n    \"input\": {\n      \"name\": \"rabbit\",\n      \"age\": 3\n    }\n  },\n  {\n    \"test\": {\n      \"name\": \"Chris\",\n      \"phone\": 789,\n      \"id\": 3\n    },\n    \"input\": {\n      \"name\": \"mouse\",\n      \"age\": 4\n    }\n  },\n  {\n    \"test\": {\n      \"name\": \"Chris\",\n      \"phone\": 789,\n      \"id\": 3\n    },\n    \"input\": {\n      \"name\": \"pigeon\",\n      \"age\": 3\n    }\n  },\n  {\n    \"test\": {\n      \"name\": \"Chris\",\n      \"phone\": 789,\n      \"id\": 3\n    },\n    \"input\": {\n      \"name\": \"cat\",\n      \"age\": 2\n    }\n  },\n  {\n    \"test\": {\n      \"name\": \"Chris\",\n      \"phone\": 789,\n      \"id\": 3\n    },\n    \"input\": {\n      \"name\": \"dog\",\n      \"age\": 3\n    }\n  }\n]\n   );\n\nreturn [];"
+      },
+      "id": "570f4188-de54-448e-b696-6b601f1d76ac",
+      "name": "Assert14",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -1980,
+        2900
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const assert = require('node:assert');\n\nassert.deepStrictEqual(JSON.parse(JSON.stringify(items.map(x=> x.json))),[\n  {\n    \"animals\": {\n      \"name\": \"bear\",\n      \"age\": 4\n    }\n  },\n  {\n    \"animals\": {\n      \"name\": \"bird\",\n      \"age\": 6\n    }\n  },\n  {\n    \"animals\": {\n      \"name\": \"fish\",\n      \"age\": 9\n    }\n  },\n  {\n    \"animals\": {\n      \"name\": \"rabbit\",\n      \"age\": 3\n    }\n  },\n  {\n    \"animals\": {\n      \"name\": \"mouse\",\n      \"age\": 4\n    }\n  },\n  {\n    \"animals\": {\n      \"name\": \"pigeon\",\n      \"age\": 3\n    }\n  },\n  {\n    \"animals\": {\n      \"name\": \"cat\",\n      \"age\": 2\n    }\n  },\n  {\n    \"animals\": {\n      \"name\": \"dog\",\n      \"age\": 3\n    }\n  }\n]\n   );\n\nreturn [];"
+      },
+      "id": "13dadf3b-53b0-4e45-933f-7f3406111032",
+      "name": "Assert15",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -1980,
+        3160
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const assert = require('node:assert');\n\nassert.deepStrictEqual(JSON.parse(JSON.stringify(items.map(x=> x.json))),[\n  {\n    \"animals\": \"[{\\\"name\\\":\\\"bear\\\",\\\"age\\\":4},{\\\"name\\\":\\\"bird\\\",\\\"age\\\":6}]\",\n    \"appended_test\": [\n      {\n        \"name\": \"Ani\",\n        \"phone\": 123,\n        \"id\": 1\n      }\n    ]\n  },\n  {\n    \"animals\": \"[{\\\"name\\\":\\\"fish\\\",\\\"age\\\":9},{\\\"name\\\":\\\"rabbit\\\",\\\"age\\\":3}]\",\n    \"appended_test\": [\n      {\n        \"name\": \"Ben\",\n        \"phone\": 456,\n        \"id\": 2\n      }\n    ]\n  },\n  {\n    \"animals\": \"[{\\\"name\\\":\\\"mouse\\\",\\\"age\\\":4},{\\\"name\\\":\\\"pigeon\\\",\\\"age\\\":3}]\",\n    \"appended_test\": [\n      {\n        \"name\": \"Chris\",\n        \"phone\": 789,\n        \"id\": 3\n      }\n    ]\n  },\n  {\n    \"animals\": \"[{\\\"name\\\":\\\"cat\\\",\\\"age\\\":2},{\\\"name\\\":\\\"dog\\\",\\\"age\\\":3}]\",\n    \"appended_test\": [\n      {\n        \"name\": \"Chris\",\n        \"phone\": 789,\n        \"id\": 3\n      }\n    ]\n  }\n]\n   );\n\nreturn [];"
+      },
+      "id": "cae0f43c-ea82-480a-8547-9104a92ae0e9",
+      "name": "Assert16",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -1540,
+        2700
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const assert = require('node:assert');\n\nassert.deepStrictEqual(JSON.parse(JSON.stringify(items[0].json)),{\n  \"{\\\"name\\\":\\\"Ani\\\",\\\"phone\\\":123,\\\"id\\\":1}\": {\n    \"average_test.name\": null\n  },\n  \"{\\\"name\\\":\\\"Ben\\\",\\\"phone\\\":456,\\\"id\\\":2}\": {\n    \"average_test.name\": null\n  },\n  \"{\\\"name\\\":\\\"Chris\\\",\\\"phone\\\":789,\\\"id\\\":3}\": {\n    \"average_test.name\": null\n  }\n}\n   );\n\nreturn{ \"status\": true};"
+      },
+      "id": "0501f482-fc93-45dd-aee7-568d7ea54fc5",
+      "name": "Assert17",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -1540,
+        2900
+      ],
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "jsCode": "const assert = require('node:assert');\n\nassert.deepStrictEqual(JSON.parse(JSON.stringify(items.map(x=> x.json))),[\n  {\n    \"test\": \"{\\\"name\\\":\\\"Ani\\\",\\\"phone\\\":123,\\\"id\\\":1}\",\n    \"concatenated_test.name\": \"Ani\"\n  },\n  {\n    \"test\": \"{\\\"name\\\":\\\"Ben\\\",\\\"phone\\\":456,\\\"id\\\":2}\",\n    \"concatenated_test.name\": \"Ben\"\n  },\n  {\n    \"test\": \"{\\\"name\\\":\\\"Chris\\\",\\\"phone\\\":789,\\\"id\\\":3}\",\n    \"concatenated_test.name\": \"Chris,Chris\"\n  }\n]\n   );\n\nreturn [];"
+      },
+      "id": "383e50d8-02e0-4f53-aeff-ee2812a61574",
+      "name": "Assert18",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -1540,
+        3080
+      ],
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "jsCode": "const assert = require('node:assert');\n\nassert.deepStrictEqual(JSON.parse(JSON.stringify(items.map(x=> x.json))),[\n  {\n    \"test.phone\": \"123\",\n    \"count_test.id\": 1\n  },\n  {\n    \"test.phone\": \"456\",\n    \"count_test.id\": 1\n  },\n  {\n    \"test.phone\": \"789\",\n    \"count_test.id\": 2\n  }\n]\n   );\n\nreturn [];"
+      },
+      "id": "94836156-a50e-4c7f-a8f2-6656ff27e8a5",
+      "name": "Assert19",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -1540,
+        3260
+      ],
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "jsCode": "const assert = require('node:assert');\n\nassert.deepStrictEqual(JSON.parse(JSON.stringify(items.map(x=> x.json))),[\n  {\n    \"test\": \"{\\\"name\\\":\\\"Ani\\\",\\\"phone\\\":123,\\\"id\\\":1}\",\n    \"unique_count_test.phone\": 1\n  },\n  {\n    \"test\": \"{\\\"name\\\":\\\"Ben\\\",\\\"phone\\\":456,\\\"id\\\":2}\",\n    \"unique_count_test.phone\": 1\n  },\n  {\n    \"test\": \"{\\\"name\\\":\\\"Chris\\\",\\\"phone\\\":789,\\\"id\\\":3}\",\n    \"unique_count_test.phone\": 1\n  }\n]\n   );\n\nreturn [];"
+      },
+      "id": "6dc54a70-d59c-4836-8148-279a9803ee62",
+      "name": "Assert20",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -1540,
+        3440
+      ],
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "jsCode": "const assert = require('node:assert');\n\nassert.deepStrictEqual(JSON.parse(JSON.stringify(items.map(x=> x.json))),[\n  {\n    \"test\": \"{\\\"name\\\":\\\"Ani\\\",\\\"phone\\\":123,\\\"id\\\":1}\",\n    \"max_test.id\": 1\n  },\n  {\n    \"test\": \"{\\\"name\\\":\\\"Ben\\\",\\\"phone\\\":456,\\\"id\\\":2}\",\n    \"max_test.id\": 2\n  },\n  {\n    \"test\": \"{\\\"name\\\":\\\"Chris\\\",\\\"phone\\\":789,\\\"id\\\":3}\",\n    \"max_test.id\": 3\n  }\n]\n   );\n\nreturn [];"
+      },
+      "id": "ffdf09fd-ba84-41c3-9c9f-c469509547fe",
+      "name": "Assert21",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -1540,
+        3620
+      ],
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "jsCode": "const assert = require('node:assert');\n\nassert.deepStrictEqual(JSON.parse(JSON.stringify(items.map(x=> x.json))),[\n  {\n    \"test\": \"{\\\"name\\\":\\\"Ani\\\",\\\"phone\\\":123,\\\"id\\\":1}\",\n    \"min_test.id\": 1\n  },\n  {\n    \"test\": \"{\\\"name\\\":\\\"Ben\\\",\\\"phone\\\":456,\\\"id\\\":2}\",\n    \"min_test.id\": 2\n  },\n  {\n    \"test\": \"{\\\"name\\\":\\\"Chris\\\",\\\"phone\\\":789,\\\"id\\\":3}\",\n    \"min_test.id\": 3\n  }\n]\n   );\n\nreturn [];"
+      },
+      "id": "e27804e4-5119-41e9-bc0f-2f244ed75e2b",
+      "name": "Assert22",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -1540,
+        3800
+      ],
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "jsCode": "const assert = require('node:assert');\n\nassert.deepStrictEqual(JSON.parse(JSON.stringify(items.map(x=> x.json))),[\n  {\n    \"test\": \"{\\\"name\\\":\\\"Ani\\\",\\\"phone\\\":123,\\\"id\\\":1}\",\n    \"sum_test.phone\": 123\n  },\n  {\n    \"test\": \"{\\\"name\\\":\\\"Ben\\\",\\\"phone\\\":456,\\\"id\\\":2}\",\n    \"sum_test.phone\": 456\n  },\n  {\n    \"test\": \"{\\\"name\\\":\\\"Chris\\\",\\\"phone\\\":789,\\\"id\\\":3}\",\n    \"sum_test.phone\": 1578\n  }\n]\n   );\n\nreturn [];"
+      },
+      "id": "2aef09db-7bb2-4602-8259-5edae9cb4911",
+      "name": "Assert23",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -1540,
+        3980
+      ],
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "jsCode": "return [\n  \n     {\n    \"test\": {\n      \"name\": \"Ani\",\n      \"phone\": 123,\n      \"id\": 1\n    },\n    \"animals\": [\n      {\n        \"name\": \"bear\",\n        \"age\": 4\n      },\n      {\n        \"name\": \"bird\",\n        \"age\": 6\n      }\n    ]\n  },\n  {\n    \"test\": {\n      \"name\": \"Ani\",\n      \"phone\": 123,\n      \"id\": 1\n    },\n    \"animals\": [\n      {\n        \"name\": \"bear\",\n        \"age\": 4\n      },\n      {\n        \"name\": \"bird\",\n        \"age\": 6\n      }\n    ]\n  },\n  {\n    \"test\": {\n      \"name\": \"Ben\",\n      \"phone\": 456,\n      \"id\": 2\n    },\n    \"animals\": [\n      {\n        \"name\": \"fish\",\n        \"age\": 9\n      },\n      {\n        \"name\": \"rabbit\",\n        \"age\": 3\n      }\n    ]\n  },\n  {\n    \"test\": {\n      \"name\": \"Chris\",\n      \"phone\": 789,\n      \"id\": 3\n    },\n    \"animals\": [\n      {\n        \"name\": \"mouse\",\n        \"age\": 4\n      },\n      {\n        \"name\": \"pigeon\",\n        \"age\": 3\n      }\n    ]\n  },\n  {\n    \"test\": {\n      \"name\": \"Chris\",\n      \"phone\": 789,\n      \"id\": 3\n    },\n    \"animals\": [\n      {\n        \"name\": \"cat\",\n        \"age\": 2\n      },\n      {\n        \"name\": \"dog\",\n        \"age\": 3\n      }\n    ]\n  }\n];\n"
+      },
+      "id": "e137d5d8-f634-47c8-a45d-1cd8353f56a8",
+      "name": "Code1",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -3180,
+        2460
+      ]
+    },
+    {
+      "parameters": {
+        "content": "Operation \"Summarize\" change is substituting dots (\".\") with underscores (\"_\") in the field value, such as \"test.name\" in new version is \"test_name\"."
+      },
+      "id": "97d14718-a7b1-459c-81ae-9f7b8a9c37e5",
+      "name": "Sticky Note29",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -1400,
+        2620
+      ]
+    }
+  ],
+  "connections": {
+    "Concatenate Items": {
+      "main": [
+        [
+          {
+            "node": "Assert",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Concatenate Items1": {
+      "main": [
+        [
+          {
+            "node": "Assert2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Concatenate Items2": {
+      "main": [
+        [
+          {
+            "node": "Assert3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Concatenate Items3": {
+      "main": [
+        [
+          {
+            "node": "Assert1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Limit": {
+      "main": [
+        [
+          {
+            "node": "Assert4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Limit1": {
+      "main": [
+        [
+          {
+            "node": "Assert5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Remove Duplicates": {
+      "main": [
+        [
+          {
+            "node": "Assert6",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Remove Duplicates1": {
+      "main": [
+        [
+          {
+            "node": "Assert7",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Remove Duplicates2": {
+      "main": [
+        [
+          {
+            "node": "Assert8",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When clicking \"Execute Workflow\"": {
+      "main": [
+        [
+          {
+            "node": "Code",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Code1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Sort": {
+      "main": [
+        [
+          {
+            "node": "Assert9",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Sort1": {
+      "main": [
+        [
+          {
+            "node": "Assert11",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Sort2": {
+      "main": [
+        [
+          {
+            "node": "Assert12",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Sort3": {
+      "main": [
+        [
+          {
+            "node": "Assert10",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out Items": {
+      "main": [
+        [
+          {
+            "node": "Assert13",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out Items1": {
+      "main": [
+        [
+          {
+            "node": "Assert14",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out Items2": {
+      "main": [
+        [
+          {
+            "node": "Assert15",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Summarize": {
+      "main": [
+        [
+          {
+            "node": "Assert16",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Summarize1": {
+      "main": [
+        [
+          {
+            "node": "Assert17",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Summarize2": {
+      "main": [
+        [
+          {
+            "node": "Assert18",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Summarize3": {
+      "main": [
+        [
+          {
+            "node": "Assert19",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Summarize4": {
+      "main": [
+        [
+          {
+            "node": "Assert20",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Summarize5": {
+      "main": [
+        [
+          {
+            "node": "Assert21",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Summarize6": {
+      "main": [
+        [
+          {
+            "node": "Assert22",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Summarize7": {
+      "main": [
+        [
+          {
+            "node": "Assert23",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code": {
+      "main": [
+        [
+          {
+            "node": "Concatenate Items",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Concatenate Items3",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Concatenate Items1",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Concatenate Items2",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Limit",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Limit1",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Sort",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Sort3",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Sort1",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Sort2",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Split Out Items",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Split Out Items1",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Split Out Items2",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Summarize",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Summarize1",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Summarize2",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Summarize3",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Summarize4",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Summarize5",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Summarize6",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Summarize7",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code1": {
+      "main": [
+        [
+          {
+            "node": "Remove Duplicates1",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Remove Duplicates2",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Remove Duplicates",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  }
+}
