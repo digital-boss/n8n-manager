@@ -1,4 +1,4 @@
-import { OperationMappings } from "../types";
+import type { OperationMappings } from "../types";
 
 export const operationMappings: OperationMappings = {
   string: {

@@ -1,16 +1,15 @@
-import { IConverter, INode } from "./types";
-import { ChangedNodeInformation } from "./types";
+import type { IConverter, INode, ConvertionResult } from "./types";
 
-export function transform(converters: IConverter[], nodes: INode[]): ChangedNodeInformation[] {
+export function transform(converters: IConverter[], nodes: INode[]): ConvertionResult[] {
 
-  const resultArray: ChangedNodeInformation[] = []; // Collect all transformation results here
+  const resultArray: ConvertionResult[] = []; // Collect all transformation results here
 
   nodes.forEach((node) => {
     for (const conv of converters) {
       if (conv.predicate(node)) {
         const result = conv.convert(node);
         const nodeType = node.type.substring(node.type.lastIndexOf('.') + 1);
-        resultArray.push({ nodeName: node.name, additionalText: result, type: nodeType });
+        resultArray.push({ nodeName: node.name, result, nodeType });
         break;
       }
     }

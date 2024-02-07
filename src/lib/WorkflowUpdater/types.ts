@@ -15,8 +15,8 @@ export interface WorkflowChange {
 export interface TodoItem {
   nodeType: string;
   workflow: string;
-  node: string;
-  additionalText?: string;
+  nodeName: string;
+  result?: string;
 }
 
 export interface ChangesReport {
@@ -29,15 +29,15 @@ export interface IConverter {
   convert: (node: INode) => string;
 }
 
-export interface ChangedNodeInformation {
-  type: string;
+export interface ConvertionResult {
+  nodeType: string;
   nodeName: string;
-  additionalText?: string;
+  result?: string;
 }
 
 export interface OperationMappings {
-  [key: string]: {
-    [key: string]: string;
+  [operationType: string]: {
+    [operationName: string]: string;
     default: string;
   };
 }

@@ -1,6 +1,5 @@
 import fs from 'node:fs';
-import { WorkflowChange, TodoItem, ChangesReport } from './types';
-
+import type { WorkflowChange, TodoItem, ChangesReport } from './types';
 
 function generateChanges(workflows: WorkflowChange[]): string {
   let reportContent = '';
@@ -29,8 +28,8 @@ function generateTodos(todos: { workflow: string; nodes: TodoItem[] }[], workflo
 
     if (matchingWorkflowChanges) {
       const nodesRequiringAttention = todo.nodes.filter((node: TodoItem) => {
-        const matchingNode = matchingWorkflowChanges.nodeNames.find((nodeName: string) => nodeName === node.node);
-        const additionalText = node.additionalText ?? '';
+        const matchingNode = matchingWorkflowChanges.nodeNames.find((nodeName: string) => nodeName === node.nodeName);
+        const additionalText = node.result ?? '';
 
         // Include nodes that require attention and don't contain success message
         return matchingNode && !additionalText.includes('Successfully updated');
@@ -42,9 +41,9 @@ function generateTodos(todos: { workflow: string; nodes: TodoItem[] }[], workflo
         reportContent += '  - Node names:\n';
 
         nodesRequiringAttention.forEach((node: TodoItem) => {
-          const additionalText = node.additionalText ?? '';
+          const additionalText = node.result ?? '';
 
-          reportContent += `    - [${node.nodeType}] ${node.node}: ${additionalText}\n`;
+          reportContent += `    - [${node.nodeType}] ${node.result}: ${additionalText}\n`;
         });
 
         reportContent += '\n';
