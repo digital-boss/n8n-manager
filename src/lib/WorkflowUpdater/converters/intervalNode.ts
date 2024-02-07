@@ -1,4 +1,4 @@
-import { IConverter, INode } from "../types";
+import type { IConverter, INode } from "../types";
 
 const checkNodeType = (t: string) => t === 'n8n-nodes-base.interval';
 
@@ -28,7 +28,6 @@ const ver1: IConverter = {
     return `Successfully updated Interval node ${node.name} to version 1.1`;
   }
 }
-
 
 const ver2: IConverter = {
   predicate: (node: INode) => {

@@ -22,8 +22,6 @@ const ver1: IConverter = {
   convert: (node: INode) => {
     node.typeVersion = 3;
 
-    let additionalText = "";
-
     if (node.parameters.operation === 'aggregateItems') {
       node.parameters.operation = 'concatenateItems';
 
@@ -43,7 +41,7 @@ const ver1: IConverter = {
     }
 
     if (node.parameters.operation === 'summarize') {
-      return additionalText = 'Operation "Summarize" change is substituting dots (".") with underscores ("_") in the field name, such as "test.name" in the new version is "test_name"';
+      return 'Operation "Summarize" change is substituting dots (".") with underscores ("_") in the field name, such as "test.name" in the new version is "test_name"';
     } else {
       return `Successfully updated Interval node ${node.name} to version 3`;
     }

@@ -1,4 +1,4 @@
-import { IConverter, INode } from "../types";
+import type { IConverter, INode } from "../types";
 
 const checkNodeType = (t: string) => t === 'n8n-nodes-base.merge';
 
@@ -124,7 +124,6 @@ const ver1: IConverter = {
     return `Successfully updated Merge node ${node.name} to version 2.1`;;
   }
 }
-
 
 const ver2: IConverter = {
   predicate: (node: INode) => {

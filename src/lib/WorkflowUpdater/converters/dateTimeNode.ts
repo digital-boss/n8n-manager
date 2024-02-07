@@ -1,4 +1,4 @@
-import { IConverter } from "../types";
+import type { IConverter } from "../types";
 
 const checkNodeType = (t: string) => t === 'n8n-nodes-base.dateTime';
 
@@ -11,7 +11,7 @@ const ver1: IConverter = {
     node.parameters.outputFieldName = node.parameters.dataPropertyName;
     node.typeVersion = 2;
 
-    let additionalText = "";
+    let todoMessage = "";
 
     if (node.parameters.action === "calculate") {
       node.parameters.operation = "subtractFromDate";
@@ -39,9 +39,9 @@ const ver1: IConverter = {
     delete node.parameters.value;
 
     if (node.parameters.operation == 'subtractFromDate') {
-      return additionalText = '"Subtract" operation returns +2:00 time zone offset.';
+      return todoMessage = '"Subtract" operation returns +2:00 time zone offset.';
     } else {
-      return additionalText;
+      return todoMessage;
     }
   },
 }

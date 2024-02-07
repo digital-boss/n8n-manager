@@ -1,4 +1,4 @@
-import { IConverter, INode } from "../types";
+import type { IConverter, INode } from "../types";
 
 const checkNodeType = (t: string) => t === 'n8n-nodes-base.function';
 
