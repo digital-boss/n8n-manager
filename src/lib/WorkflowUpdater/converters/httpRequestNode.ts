@@ -1,6 +1,46 @@
-import { IConverter, INode } from "../types";
+import type { IConverter, INode } from "../types";
 
 const checkNodeType = (t: string) => t === 'n8n-nodes-base.httpRequest';
+
+function updateOptions(node: INode, options: any): any {
+  const updatedOptions: any = {};
+
+  for (const option in options) {
+    switch (option) {
+      case 'batchInterval':
+      case 'batchSize':
+        updatedOptions.batching = {
+          batch: {
+            batchInterval: options.batchInterval,
+            batchSize: options.batchSize,
+          },
+        };
+        break;
+      case 'fullResponse':
+        updatedOptions.response = { response: { fullResponse: options.fullResponse } };
+        break;
+      case 'followRedirect':
+        updatedOptions.redirect = { redirect: {} };
+        break;
+      case 'ignoreResponseCode':
+        updatedOptions.response = { response: { neverError: options.ignoreResponseCode } };
+        break;
+      case 'proxy':
+        updatedOptions.proxy = options.proxy;
+        break;
+      case 'timeout':
+        updatedOptions.timeout = options.timeout;
+        break;
+      case 'bodyContentType':
+        node.parameters.contentType = options.bodyContentType;
+        break;
+      default:
+        break;
+    }
+  }
+
+  return updatedOptions;
+}
 
 const ver1: IConverter = {
   predicate: (node: INode) => {
@@ -70,50 +110,9 @@ const ver1: IConverter = {
     delete node.parameters.method;
 
     let additionalText: string[] = [];
-  
-    // Check for options and transform them if present
-    function updateOptions(options: any): any {
-      const updatedOptions: any = {};
-    
-      for (const option in options) {
-        switch (option) {
-          case 'batchInterval':
-          case 'batchSize':
-            updatedOptions.batching = {
-              batch: {
-                batchInterval: options.batchInterval,
-                batchSize: options.batchSize,
-              },
-            };
-            break;
-          case 'fullResponse':
-            updatedOptions.response = { response: { fullResponse: options.fullResponse } };
-            break;
-          case 'followRedirect':
-            updatedOptions.redirect = { redirect: {} };
-            break;
-          case 'ignoreResponseCode':
-            updatedOptions.response = { response: { neverError: options.ignoreResponseCode } };
-            break;
-          case 'proxy':
-            updatedOptions.proxy = options.proxy;
-            break;
-          case 'timeout':
-            updatedOptions.timeout = options.timeout;
-            break;
-          case 'bodyContentType':
-            node.parameters.contentType = options.bodyContentType;
-            break;
-          default:
-            break;
-        }
-      }
-    
-      return updatedOptions;
-    }
     
     if (node.parameters.options) {
-      const updatedOptions = updateOptions(node.parameters.options);
+      const updatedOptions = updateOptions(node, node.parameters.options);
       node.parameters.options = updatedOptions;
     }
   
@@ -153,7 +152,7 @@ const ver1: IConverter = {
     }
   
     node.parameters = { method, ...node.parameters };
-    return additionalText.join(',')
+    return additionalText.join('\n')
   }
 }
 
