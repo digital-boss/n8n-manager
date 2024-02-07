@@ -61,12 +61,12 @@ function updateChangesReport(modifiedNodes: any[], workflowName: string, changes
       changesReport.changes.push({ workflowName: workflowName, nodeNames: [modifiedNode.nodeName] });
     }
 
-    if (modifiedNode.todoMessage !== "") {
+    if (modifiedNode.result !== "") {
       const todoItem: TodoItem = {
         workflow: workflowName,
         nodeName: modifiedNode.nodeName,
-        todoMessage: modifiedNode.todoMessage,
-        nodeType: modifiedNode.type,
+        result: modifiedNode.result,
+        nodeType: modifiedNode.nodeType,
       };
       const existingTodo = changesReport.todos.find((todo) => todo.workflow === workflowName);
       if (existingTodo) {
