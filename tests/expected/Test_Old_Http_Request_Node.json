@@ -6,29 +6,31 @@
   "nodes": [
     {
       "parameters": {
-        "requestMethod": "HEAD",
+        "method": "HEAD",
         "url": "http://localhost:5678/webhook/d2568160-d906-4338-b7f0-78e1dcb8eda5",
         "options": {},
-        "headerParametersUi": {
-          "parameter": [
-            {
-              "name": "name",
-              "value": "Ani"
-            }
-          ]
-        },
-        "queryParametersUi": {
-          "parameter": [
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
             {
               "name": "age",
               "value": "13"
+            }
+          ]
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "name",
+              "value": "Ani"
             }
           ]
         }
       },
       "name": "Head",
       "type": "n8n-nodes-base.httpRequest",
-      "typeVersion": 1,
+      "typeVersion": 4.1,
       "position": [
         620,
         580
@@ -39,15 +41,16 @@
     },
     {
       "parameters": {
-        "requestMethod": "OPTIONS",
+        "method": "OPTIONS",
         "url": "http://localhost:5678/webhook/9b43a8a6-db70-4001-96d5-bce674ba071e",
-        "jsonParameters": true,
         "options": {},
-        "queryParametersJson": "={     \"name\": \"John Doe\",     \"email\": \"john.doe@example.com\",     \"age\": 30,     \"address\": {       \"street\": \"123 Main St\",       \"city\": \"Example City\",       \"state\": \"CA\",       \"zip\": \"12345\"     } }"
+        "sendQuery": true,
+        "specifyQuery": "json",
+        "jsonQuery": "={     \"name\": \"John Doe\",     \"email\": \"john.doe@example.com\",     \"age\": 30,     \"address\": {       \"street\": \"123 Main St\",       \"city\": \"Example City\",       \"state\": \"CA\",       \"zip\": \"12345\"     } }"
       },
       "name": "Options",
       "type": "n8n-nodes-base.httpRequest",
-      "typeVersion": 1,
+      "typeVersion": 4.1,
       "position": [
         640,
         300
@@ -57,37 +60,40 @@
     },
     {
       "parameters": {
-        "requestMethod": "PATCH",
+        "method": "PATCH",
         "url": "http://localhost:5678/webhook/147bce37-8acb-4097-9f08-90c21e321ef6",
         "options": {},
-        "bodyParametersUi": {
-          "parameter": [
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
             {
-              "name": "name",
-              "value": "Ani"
+              "name": "age",
+              "value": "13"
             }
           ]
         },
-        "headerParametersUi": {
-          "parameter": [
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
             {
               "name": "phone",
               "value": "222"
             }
           ]
         },
-        "queryParametersUi": {
-          "parameter": [
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
             {
-              "name": "age",
-              "value": "13"
+              "name": "name",
+              "value": "Ani"
             }
           ]
         }
       },
       "name": "Patch",
       "type": "n8n-nodes-base.httpRequest",
-      "typeVersion": 1,
+      "typeVersion": 4.1,
       "position": [
         80,
         300
@@ -96,37 +102,40 @@
     },
     {
       "parameters": {
-        "requestMethod": "PUT",
+        "method": "PUT",
         "url": "http://localhost:5678/webhook/04607968-482e-4376-99a6-c82442a98ef9",
         "options": {},
-        "bodyParametersUi": {
-          "parameter": [
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
             {
-              "name": "name",
-              "value": "Ani"
+              "name": "age",
+              "value": "13"
             }
           ]
         },
-        "headerParametersUi": {
-          "parameter": [
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
             {
               "name": "new",
               "value": "test"
             }
           ]
         },
-        "queryParametersUi": {
-          "parameter": [
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
             {
-              "name": "age",
-              "value": "13"
+              "name": "name",
+              "value": "Ani"
             }
           ]
         }
       },
       "name": "Put",
       "type": "n8n-nodes-base.httpRequest",
-      "typeVersion": 1,
+      "typeVersion": 4.1,
       "position": [
         80,
         -100
@@ -252,29 +261,18 @@
     },
     {
       "parameters": {
-        "requestMethod": "POST",
+        "method": "POST",
         "url": "http://localhost:5678/webhook/9b43a8a6-db70-4001-96d5-bce674ba071e",
         "options": {
-          "fullResponse": false
-        },
-        "bodyParametersUi": {
-          "parameter": [
-            {
-              "name": "age",
-              "value": "13"
+          "response": {
+            "response": {
+              "fullResponse": false
             }
-          ]
+          }
         },
-        "headerParametersUi": {
-          "parameter": [
-            {
-              "name": "test",
-              "value": "1"
-            }
-          ]
-        },
-        "queryParametersUi": {
-          "parameter": [
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
             {
               "name": "name",
               "value": "Ani"
@@ -284,11 +282,29 @@
               "value": "123"
             }
           ]
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "test",
+              "value": "1"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "age",
+              "value": "13"
+            }
+          ]
         }
       },
       "name": "POST",
       "type": "n8n-nodes-base.httpRequest",
-      "typeVersion": 1,
+      "typeVersion": 4.1,
       "position": [
         -420,
         -120
@@ -299,26 +315,28 @@
       "parameters": {
         "url": "http://localhost:5678/webhook/e58c05c3-74f6-429a-b182-e3c8d6af9d8e",
         "options": {},
-        "headerParametersUi": {
-          "parameter": [
-            {
-              "name": "name",
-              "value": "test"
-            }
-          ]
-        },
-        "queryParametersUi": {
-          "parameter": [
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
             {
               "name": "new",
               "value": "one"
+            }
+          ]
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "name",
+              "value": "test"
             }
           ]
         }
       },
       "name": "GET",
       "type": "n8n-nodes-base.httpRequest",
-      "typeVersion": 1,
+      "typeVersion": 4.1,
       "position": [
         -420,
         300
@@ -368,19 +386,28 @@
     },
     {
       "parameters": {
-        "requestMethod": "POST",
+        "method": "POST",
         "url": "http://localhost:5678/webhook/9b43a8a6-db70-4001-96d5-bce674ba071e",
-        "jsonParameters": true,
         "options": {
-          "fullResponse": false
+          "response": {
+            "response": {
+              "fullResponse": false
+            }
+          }
         },
-        "bodyParametersJson": "={{ $json }}",
-        "headerParametersJson": "={\"name\": \"Ani\"}",
-        "queryParametersJson": "{\"new\": \"one\"}"
+        "sendQuery": true,
+        "specifyQuery": "json",
+        "jsonQuery": "{\"new\": \"one\"}",
+        "sendHeaders": true,
+        "specifyHeaders": "json",
+        "jsonHeaders": "={\"name\": \"Ani\"}",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ $json }}"
       },
       "name": "POST with expresions",
       "type": "n8n-nodes-base.httpRequest",
-      "typeVersion": 1,
+      "typeVersion": 4.1,
       "position": [
         -420,
         60
@@ -418,14 +445,17 @@
     {
       "parameters": {
         "url": "http://localhost:5678/webhook/e58c05c3-74f6-429a-b182-e3c8d6af9d8e",
-        "jsonParameters": true,
         "options": {},
-        "headerParametersJson": "={\"name\":\"{{ $json.name }}\"}  ",
-        "queryParametersJson": "={\"phone\":\"{{ $json.phone }}\"}"
+        "sendQuery": true,
+        "specifyQuery": "json",
+        "jsonQuery": "={\"phone\":\"{{ $json.phone }}\"}",
+        "sendHeaders": true,
+        "specifyHeaders": "json",
+        "jsonHeaders": "={\"name\":\"{{ $json.name }}\"}  "
       },
       "name": "GET with Expressions",
       "type": "n8n-nodes-base.httpRequest",
-      "typeVersion": 1,
+      "typeVersion": 4.1,
       "position": [
         -420,
         460
@@ -447,17 +477,22 @@
     },
     {
       "parameters": {
-        "requestMethod": "PUT",
+        "method": "PUT",
         "url": "http://localhost:5678/webhook/04607968-482e-4376-99a6-c82442a98ef9",
-        "jsonParameters": true,
         "options": {},
-        "bodyParametersJson": "={\n    \"name\": \"John Doe\",\n    \"email\": \"john.doe@example.com\",\n    \"age\": 30,\n    \"address\": {\n      \"street\": \"123 Main St\",\n      \"city\": \"Example City\",\n      \"state\": \"CA\",\n      \"zip\": \"12345\"\n    }\n}",
-        "headerParametersJson": "={\"new\": \"test\" }",
-        "queryParametersJson": "={\"name\": \"{{ $json.name }}\" }"
+        "sendQuery": true,
+        "specifyQuery": "json",
+        "jsonQuery": "={\"name\": \"{{ $json.name }}\" }",
+        "sendHeaders": true,
+        "specifyHeaders": "json",
+        "jsonHeaders": "={\"new\": \"test\" }",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n    \"name\": \"John Doe\",\n    \"email\": \"john.doe@example.com\",\n    \"age\": 30,\n    \"address\": {\n      \"street\": \"123 Main St\",\n      \"city\": \"Example City\",\n      \"state\": \"CA\",\n      \"zip\": \"12345\"\n    }\n}"
       },
       "name": "Put with Expression",
       "type": "n8n-nodes-base.httpRequest",
-      "typeVersion": 1,
+      "typeVersion": 4.1,
       "position": [
         80,
         60
@@ -494,17 +529,22 @@
     },
     {
       "parameters": {
-        "requestMethod": "PATCH",
+        "method": "PATCH",
         "url": "http://localhost:5678/webhook/147bce37-8acb-4097-9f08-90c21e321ef6",
-        "jsonParameters": true,
         "options": {},
-        "bodyParametersJson": "={\n    \"name\": \"John Doe\",\n    \"email\": \"john.doe@example.com\",\n    \"age\": 30,\n    \"address\": {\n      \"street\": \"123 Main St\",\n      \"city\": \"Example City\",\n      \"state\": \"CA\",\n      \"zip\": \"12345\"\n    }\n}",
-        "headerParametersJson": "={\"name\": \"{{$json.name}}\"}",
-        "queryParametersJson": "={\"phone\": \"{{$json.phone}}\"}"
+        "sendQuery": true,
+        "specifyQuery": "json",
+        "jsonQuery": "={\"phone\": \"{{$json.phone}}\"}",
+        "sendHeaders": true,
+        "specifyHeaders": "json",
+        "jsonHeaders": "={\"name\": \"{{$json.name}}\"}",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n    \"name\": \"John Doe\",\n    \"email\": \"john.doe@example.com\",\n    \"age\": 30,\n    \"address\": {\n      \"street\": \"123 Main St\",\n      \"city\": \"Example City\",\n      \"state\": \"CA\",\n      \"zip\": \"12345\"\n    }\n}"
       },
       "name": "Patch with Expressions",
       "type": "n8n-nodes-base.httpRequest",
-      "typeVersion": 1,
+      "typeVersion": 4.1,
       "position": [
         80,
         460
@@ -528,16 +568,19 @@
     },
     {
       "parameters": {
-        "requestMethod": "HEAD",
+        "method": "HEAD",
         "url": "http://localhost:5678/webhook/d2568160-d906-4338-b7f0-78e1dcb8eda5",
-        "jsonParameters": true,
         "options": {},
-        "headerParametersJson": "={\"test\":123}",
-        "queryParametersJson": "={\"name\": \"Ani\"}"
+        "sendQuery": true,
+        "specifyQuery": "json",
+        "jsonQuery": "={\"name\": \"Ani\"}",
+        "sendHeaders": true,
+        "specifyHeaders": "json",
+        "jsonHeaders": "={\"test\":123}"
       },
       "name": "Head with Expressions",
       "type": "n8n-nodes-base.httpRequest",
-      "typeVersion": 1,
+      "typeVersion": 4.1,
       "position": [
         620,
         740
@@ -577,30 +620,28 @@
     },
     {
       "parameters": {
-        "requestMethod": "DELETE",
+        "method": "DELETE",
         "url": "http://localhost:5678/webhook/8df25297-b9b8-492a-ab37-019d640a2dc6",
         "options": {
-          "batchInterval": 1000,
-          "batchSize": 50,
-          "fullResponse": true,
-          "followAllRedirects": true,
-          "followRedirect": true,
+          "batching": {
+            "batch": {
+              "batchInterval": 1000,
+              "batchSize": 50
+            }
+          },
+          "response": {
+            "response": {
+              "fullResponse": true
+            }
+          },
+          "redirect": {
+            "redirect": {}
+          },
           "timeout": 10000
         },
-        "headerParametersUi": {
-          "parameter": [
-            {
-              "name": "name",
-              "value": "Jhon"
-            },
-            {
-              "name": "Authorization",
-              "value": "=test"
-            }
-          ]
-        },
-        "queryParametersUi": {
-          "parameter": [
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
             {
               "name": "fromDate",
               "value": "=date"
@@ -610,11 +651,24 @@
               "value": "Ani"
             }
           ]
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "name",
+              "value": "Jhon"
+            },
+            {
+              "name": "Authorization",
+              "value": "=test"
+            }
+          ]
         }
       },
       "name": "Delete1",
       "type": "n8n-nodes-base.httpRequest",
-      "typeVersion": 1,
+      "typeVersion": 4.1,
       "position": [
         60,
         720
@@ -696,17 +750,22 @@
     },
     {
       "parameters": {
-        "requestMethod": "DELETE",
+        "method": "DELETE",
         "url": "http://localhost:5678/webhook/8df25297-b9b8-492a-ab37-019d640a2dc6",
-        "jsonParameters": true,
         "options": {},
-        "bodyParametersJson": "={\"name\": \"{{$json.name}}\" }",
-        "headerParametersJson": "={\"test\": {{$json.test}}}",
-        "queryParametersJson": "={\"phone\": {{$json.phone}}}"
+        "sendQuery": true,
+        "specifyQuery": "json",
+        "jsonQuery": "={\"phone\": {{$json.phone}}}",
+        "sendHeaders": true,
+        "specifyHeaders": "json",
+        "jsonHeaders": "={\"test\": {{$json.test}}}",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\"name\": \"{{$json.name}}\" }"
       },
       "name": "Delete with Expressions",
       "type": "n8n-nodes-base.httpRequest",
-      "typeVersion": 1,
+      "typeVersion": 4.1,
       "position": [
         60,
         900
@@ -765,28 +824,20 @@
     },
     {
       "parameters": {
-        "requestMethod": "DELETE",
+        "method": "DELETE",
         "url": "http://localhost:5678/webhook/8df25297-b9b8-492a-ab37-019d640a2dc6",
         "allowUnauthorizedCerts": true,
         "options": {
-          "batchInterval": 1000,
-          "batchSize": 50,
-          "useQueryString": true
-        },
-        "headerParametersUi": {
-          "parameter": [
-            {
-              "name": "name",
-              "value": "Jhon"
-            },
-            {
-              "name": "Authorization",
-              "value": "=test"
+          "batching": {
+            "batch": {
+              "batchInterval": 1000,
+              "batchSize": 50
             }
-          ]
+          }
         },
-        "queryParametersUi": {
-          "parameter": [
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
             {
               "name": "color[1]",
               "value": "=red"
@@ -800,11 +851,24 @@
               "value": "green"
             }
           ]
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "name",
+              "value": "Jhon"
+            },
+            {
+              "name": "Authorization",
+              "value": "=test"
+            }
+          ]
         }
       },
       "name": "Delete Check Querystring",
       "type": "n8n-nodes-base.httpRequest",
-      "typeVersion": 1,
+      "typeVersion": 4.1,
       "position": [
         60,
         1080
@@ -884,13 +948,11 @@
       "parameters": {
         "url": "http://localhost:5678/webhook/86b982bf-deda-49ec-aece-1dc7cd65a1e0",
         "allowUnauthorizedCerts": true,
-        "options": {
-          "splitIntoItems": true
-        }
+        "options": {}
       },
       "name": "GET /Split into items",
       "type": "n8n-nodes-base.httpRequest",
-      "typeVersion": 1,
+      "typeVersion": 4.1,
       "position": [
         640,
         1040
@@ -905,12 +967,16 @@
         "url": "http://localhost:5678/webhook/bae0f4b9-ed9c-47f6-ae6d-19f2b14bd2c9",
         "allowUnauthorizedCerts": true,
         "options": {
-          "ignoreResponseCode": true
+          "response": {
+            "response": {
+              "neverError": true
+            }
+          }
         }
       },
       "name": "GET /Ignore Response Code",
       "type": "n8n-nodes-base.httpRequest",
-      "typeVersion": 1,
+      "typeVersion": 4.1,
       "position": [
         -420,
         660
