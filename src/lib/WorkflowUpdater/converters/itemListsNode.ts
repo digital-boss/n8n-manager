@@ -2,18 +2,6 @@ import { IConverter, INode } from "../types";
 
 const checkNodeType = (t: string) => t === 'n8n-nodes-base.itemLists';
 
-const updateFields = (fields: any) => {
-  if (fields?.fields) {
-    const extractedFields = Array.isArray(fields.fields)
-      ? fields.fields.map((field: any) => field.fieldName)
-      : fields.fields;
-
-    fields = extractedFields.length === 1 ? extractedFields[0] : extractedFields;
-    delete fields.fields;
-  }
-  return fields;
-};
-
 const ver1: IConverter = {
   predicate: (node: INode) => {
     return checkNodeType(node.type) && node.typeVersion === 1;
@@ -21,6 +9,8 @@ const ver1: IConverter = {
 
   convert: (node: INode) => {
     node.typeVersion = 3;
+
+    let todoMessage;
 
     if (node.parameters.operation === 'aggregateItems') {
       node.parameters.operation = 'concatenateItems';
@@ -41,10 +31,9 @@ const ver1: IConverter = {
     }
 
     if (node.parameters.operation === 'summarize') {
-      return 'Operation "Summarize" change is substituting dots (".") with underscores ("_") in the field name, such as "test.name" in the new version is "test_name"';
-    } else {
-      return `Successfully updated Interval node ${node.name} to version 3`;
+      todoMessage ='Operation "Summarize" change is substituting dots (".") with underscores ("_") in the field name, such as "test.name" in the new version is "test_name"';
     }
+    return todoMessage? todoMessage : `Successfully updated Interval node ${node.name} to version ${node.typeVersion}`;
   }
 };
 
@@ -104,7 +93,7 @@ const ver3: IConverter = {
         break;
 
     }
-    return `Successfully updated Interval node ${node.name} to version 3`; //TODO - what message to return( we update to 6 new nodes)
+    return `Successfully updated Item List node ${node.name} to version ${node.typeVersion}`; //TODO - what message to return( we update to 6 new nodes)
   }
 };
 
@@ -113,3 +102,16 @@ export const itemListsNodeConv: IConverter[] = [
   ver2,
   ver3
 ];
+
+//Helper functions
+const updateFields = (fields: any) => {
+  if (fields?.fields) {
+    const extractedFields = Array.isArray(fields.fields)
+      ? fields.fields.map((field: any) => field.fieldName)
+      : fields.fields;
+
+    fields = extractedFields.length === 1 ? extractedFields[0] : extractedFields;
+    delete fields.fields;
+  }
+  return fields;
+};

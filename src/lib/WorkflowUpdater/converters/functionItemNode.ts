@@ -13,11 +13,9 @@ const ver1: IConverter = {
         node.parameters.mode = "runOnceForEachItem";
         node.parameters.jsCode = node.parameters.functionCode.replace(/\bitem\b/g, 'item.json');
 
-        let todoMessage = "";
-
         delete node.parameters.functionCode;
 
-        return todoMessage = 'The node needs to be tested manually. Check the access to the input data and the returned format.';
+        return 'The node needs to be tested manually. Check the access to the input data and the returned format.';
 
     }
 }

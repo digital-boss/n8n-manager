@@ -9,11 +9,10 @@ const ver1: IConverter = {
 
   convert: (node: INode) => {
     node.type = 'n8n-nodes-base.manualTrigger';
-
-    return `Successfully updated Start node ${node.name} to node type "manualTrigger"`;;
+    
+    return `Successfully updated Start node ${node.name} to version ${node.typeVersion}`;
   }
 }
-
 
 const ver2: IConverter = {
   predicate: (node: INode) => {

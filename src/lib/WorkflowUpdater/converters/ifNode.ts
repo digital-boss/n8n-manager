@@ -4,6 +4,54 @@ import { v4 as uuid4 } from 'uuid';
 
 const checkNodeType = (t: string) => t === 'n8n-nodes-base.if';
 
+const ver1: IConverter = {
+  predicate: (node) => {
+    return checkNodeType(node.type) && node.typeVersion === 1;
+  },
+
+  convert: (node) => {
+    let todoMessage = "";
+
+    if (node.parameters.conditions) {
+      const conditionType = Object.keys(node.parameters.conditions).find(key => Array.isArray(node.parameters.conditions[key]));
+
+      if (conditionType) {
+        const oldConditions = node.parameters.conditions[conditionType][0];
+        const type = conditionType;
+        const operation = convertOperation(type, oldConditions);
+
+        if (type === "dateTime") {
+          todoMessage = 'New node version only supports DateTime values in the format YYYY-MM-DD (e.g., "2022-09-08"). Please ensure your configurations adhere to this format.';
+        }
+
+        setDefaultValuesForConditions(oldConditions, type, operation);
+
+        const newConditions = createNewConditionsStructure(oldConditions, type, operation);
+
+        updateNodeParameters(node, newConditions);
+      }
+    }
+    return todoMessage? todoMessage : `Successfully updated If node ${node.name} to version ${node.typeVersion}`;
+
+  },
+};
+
+const ver2: IConverter = {
+  predicate: (node) => {
+    return checkNodeType(node.type) && node.typeVersion === 3;
+  },
+
+  convert: (node) => {
+    return 'You need to manually update the node';
+  },
+};
+
+export const ifNodeConv: IConverter[] = [
+  ver1,
+  ver2,
+];
+
+//Helper functions
 const convertOperation = (type: string, oldConditions: any) => {
   return oldConditions.operation
     ? operationMappings[type]?.[oldConditions.operation] || oldConditions.operation
@@ -42,50 +90,3 @@ const updateNodeParameters = (node: any, newConditions: any) => {
   node.parameters.options = {};
   node.typeVersion = 2;
 };
-
-const ver1: IConverter = {
-  predicate: (node) => {
-    return checkNodeType(node.type) && node.typeVersion === 1;
-  },
-
-  convert: (node) => {
-    let additionalText = "";
-
-    if (node.parameters.conditions) {
-      const conditionType = Object.keys(node.parameters.conditions).find(key => Array.isArray(node.parameters.conditions[key]));
-
-      if (conditionType) {
-        const oldConditions = node.parameters.conditions[conditionType][0];
-        const type = conditionType;
-        const operation = convertOperation(type, oldConditions);
-
-        if (type === "dateTime") {
-          additionalText = 'New node version only supports DateTime values in the format YYYY-MM-DD (e.g., "2022-09-08"). Please ensure your configurations adhere to this format.';
-        }
-
-        setDefaultValuesForConditions(oldConditions, type, operation);
-
-        const newConditions = createNewConditionsStructure(oldConditions, type, operation);
-
-        updateNodeParameters(node, newConditions);
-      }
-    }
-
-    return additionalText || `Successfully updated If node ${node.name} to version ${node.typeVersion}`;
-  },
-};
-
-const ver2: IConverter = {
-  predicate: (node) => {
-    return checkNodeType(node.type) && node.typeVersion === 3;
-  },
-
-  convert: (node) => {
-    return 'You need to manually update the node';
-  },
-};
-
-export const ifNodeConv: IConverter[] = [
-  ver1,
-  ver2,
-];

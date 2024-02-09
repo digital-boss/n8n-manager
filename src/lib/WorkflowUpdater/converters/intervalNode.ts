@@ -6,8 +6,8 @@ const ver1: IConverter = {
   predicate: (node: INode) => {
     return checkNodeType(node.type) && node.typeVersion === 1;
   },
-
   convert: (node: INode) => {
+
     node.type = 'n8n-nodes-base.scheduleTrigger';
     node.typeVersion = 1.1;
 
@@ -25,7 +25,7 @@ const ver1: IConverter = {
         ]
       }
     };
-    return `Successfully updated Interval node ${node.name} to version 1.1`;
+    return `Successfully updated Interval node ${node.name} to version ${node.typeVersion}`;
   }
 }
 

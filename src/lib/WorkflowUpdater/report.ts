@@ -29,10 +29,10 @@ function generateTodos(todos: { workflow: string; nodes: TodoItem[] }[], workflo
     if (matchingWorkflowChanges) {
       const nodesRequiringAttention = todo.nodes.filter((node: TodoItem) => {
         const matchingNode = matchingWorkflowChanges.nodeNames.find((nodeName: string) => nodeName === node.nodeName);
-        const additionalText = node.result ?? '';
+        const result = node.result ?? '';
 
         // Include nodes that require attention and don't contain success message
-        return matchingNode && !additionalText.includes('Successfully updated');
+        return matchingNode && !result.includes('Successfully updated');
       });
 
       if (nodesRequiringAttention.length > 0) {
@@ -41,9 +41,9 @@ function generateTodos(todos: { workflow: string; nodes: TodoItem[] }[], workflo
         reportContent += '  - Node names:\n';
 
         nodesRequiringAttention.forEach((node: TodoItem) => {
-          const additionalText = node.result ?? '';
+          const result = node.result ?? '';
 
-          reportContent += `    - [${node.nodeType}] ${node.result}: ${additionalText}\n`;
+          reportContent += `    - [${node.nodeType}] ${node.result}\n`;
         });
 
         reportContent += '\n';

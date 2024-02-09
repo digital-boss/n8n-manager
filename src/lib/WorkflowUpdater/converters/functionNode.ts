@@ -13,9 +13,7 @@ const ver1: IConverter = {
     node.parameters.jsCode = node.parameters.functionCode;
     delete node.parameters.functionCode;
 
-    let additionalText = "";
-
-    return additionalText = 'The node needs to be tested manually. Check the access to the input data and returned format.';
+    return 'The node needs to be tested manually. Check the access to the input data and returned format.';
 
   }
 }
