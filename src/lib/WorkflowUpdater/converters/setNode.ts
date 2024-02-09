@@ -9,7 +9,7 @@ const ver1: IConverter = {
 
   convert: (node: INode) => {
     node.typeVersion = 3;
-
+    
     const transformedValues: any[] = [];
 
     // Transform "number" values
@@ -65,7 +65,7 @@ const ver1: IConverter = {
       node.parameters.include = "none";
       delete node.parameters.keepOnlySet;
     }
-    return `Successfully updated Set node ${node.name} to version ${node.typeVersion}`;
+    return "";
   }
 }
 
@@ -88,7 +88,7 @@ const ver3: IConverter = {
   convert: (node: INode) => {
     node.typeVersion = 3.2;
 
-    return `Successfully updated Set node ${node.name} to version 3.2`;
+    return "";
   }
 }
 

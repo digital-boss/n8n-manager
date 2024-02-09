@@ -1,5 +1,6 @@
 import type { OperationMappings } from "../types";
 
+// Mapping for if t.v 1 to 2 and switch node from t.v. 2 to t.v.3
 export const operationMappings: OperationMappings = {
   string: {
     notEqual: "notEquals",
@@ -26,7 +27,7 @@ export const operationMappings: OperationMappings = {
   },
 };
 
-export function setDefaultValues(value: any, defaultValue: any, type: string, operation: string): any {
+export const setDefaultValues = (value: any, defaultValue: any, type: string, operation: string) => {
   if (type === "string" && (operation === "exists" || operation === "notExists")) {
     return value || "";
   }

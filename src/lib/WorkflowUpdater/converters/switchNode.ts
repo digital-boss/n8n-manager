@@ -2,7 +2,7 @@ import type { IConverter, INode, Rule } from "../types";
 import { operationMappings, setDefaultValues } from './common';
 
 const checkNodeType = (t: string) => t === 'n8n-nodes-base.switch';
-  
+
 const convertOperation = (type: string, oldOperation: string) => {
     if ((type === "dateTime" || type === "string") && oldOperation) {
         return oldOperation;
@@ -18,7 +18,6 @@ const ver1: IConverter = {
 
     convert: (node: INode) => {
         node.typeVersion = 2;
-        let todoMessage = "";
         if (node.parameters.rules.rules) {
             //Loop through each rule
             node.parameters.rules.rules.forEach((rule: Rule) => {
@@ -36,7 +35,7 @@ const ver1: IConverter = {
                 node.parameters.fallbackOutput = lastRule.outputKey;
             }
         }
-        return `Successfully updated Interval node ${node.name} to version ${node.typeVersion}`;
+        return "";
     }
 
 };
@@ -60,7 +59,7 @@ const ver2: IConverter = {
                     node.parameters.dataType,
                     mappedOperation
                 );
-                
+
                 const conditions = {
                     conditions: {
                         options: {
@@ -108,7 +107,7 @@ const ver2: IConverter = {
         delete node.parameters.value1;
         delete node.parameters.dataType;
 
-        return todoMessage || `Successfully updated Interval node ${node.name} to version ${node.typeVersion}`;
+        return todoMessage;
     }
 };
 

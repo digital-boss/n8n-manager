@@ -8,9 +8,9 @@ const ver1: IConverter = {
   },
 
   convert: (node) => {
+    let todoMessage = "";
     node.parameters.outputFieldName = node.parameters.dataPropertyName;
     node.typeVersion = 2;
-    let todoMessage;
 
     if (node.parameters.action === "calculate") {
       node.parameters.operation = "subtractFromDate";
@@ -40,7 +40,7 @@ const ver1: IConverter = {
     if (node.parameters.operation == 'subtractFromDate') {
       todoMessage = '"Subtract" operation returns +2:00 time zone offset.';
     }
-    return todoMessage? todoMessage : `Successfully updated dateTime node ${node.name} to version ${node.typeVersion}`;
+    return todoMessage;
   },
 }
 

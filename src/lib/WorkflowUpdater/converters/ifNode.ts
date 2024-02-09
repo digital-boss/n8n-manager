@@ -1,8 +1,22 @@
 import type { IConverter } from "../types";
-import { operationMappings, setDefaultValues } from './common';
+import { operationMappings } from "./common";
 import { v4 as uuid4 } from 'uuid';
 
 const checkNodeType = (t: string) => t === 'n8n-nodes-base.if';
+
+
+const setDefaultValues = (value: any, defaultValue: any, type: string, operation: string) => {
+  if (type === "string" && (operation === "exists" || operation === "notExists")) {
+    return value || "";
+  }
+  return value || defaultValue;
+};
+
+const convertOperation = (type: string, oldConditions: any) => {
+  return oldConditions.operation
+    ? operationMappings[type]?.[oldConditions.operation] || oldConditions.operation
+    : operationMappings[type]?.default || "equals";
+};
 
 const ver1: IConverter = {
   predicate: (node) => {
@@ -24,15 +38,38 @@ const ver1: IConverter = {
           todoMessage = 'New node version only supports DateTime values in the format YYYY-MM-DD (e.g., "2022-09-08"). Please ensure your configurations adhere to this format.';
         }
 
-        setDefaultValuesForConditions(oldConditions, type, operation);
+        // Set default values for value1 and value2
+        oldConditions.value1 = setDefaultValues(oldConditions.value1, type === "number" ? 0 : false, type, operation);
+        oldConditions.value2 = setDefaultValues(oldConditions.value2, type === "number" ? 0 : false, type, operation);
 
-        const newConditions = createNewConditionsStructure(oldConditions, type, operation);
+        // Create the new conditions structure
+        const newConditions = {
+          options: {
+            caseSensitive: true,
+            leftValue: "",
+            typeValidation: "strict",
+          },
+          conditions: [
+            {
+              id: uuid4(), // Generate a unique ID
+              leftValue: oldConditions.value1,
+              rightValue: oldConditions.value2,
+              operator: {
+                type: type,
+                operation: operation,
+              },
+            },
+          ],
+          combinator: "and",
+        };
 
-        updateNodeParameters(node, newConditions);
+        node.parameters.conditions = newConditions;
+        node.parameters.options = {};
+        node.typeVersion = 2;
       }
     }
-    return todoMessage? todoMessage : `Successfully updated If node ${node.name} to version ${node.typeVersion}`;
 
+    return todoMessage;
   },
 };
 
@@ -50,43 +87,3 @@ export const ifNodeConv: IConverter[] = [
   ver1,
   ver2,
 ];
-
-//Helper functions
-const convertOperation = (type: string, oldConditions: any) => {
-  return oldConditions.operation
-    ? operationMappings[type]?.[oldConditions.operation] || oldConditions.operation
-    : operationMappings[type]?.default || "equals";
-};
-
-const setDefaultValuesForConditions = (oldConditions: any, type: string, operation: string) => {
-  oldConditions.value1 = setDefaultValues(oldConditions.value1, type === "number" ? 0 : false, type, operation);
-  oldConditions.value2 = setDefaultValues(oldConditions.value2, type === "number" ? 0 : false, type, operation);
-};
-
-const createNewConditionsStructure = (oldConditions: any, type: string, operation: string) => {
-  return {
-    options: {
-      caseSensitive: true,
-      leftValue: "",
-      typeValidation: "strict",
-    },
-    conditions: [
-      {
-        id: uuid4(), // Generate a unique ID
-        leftValue: oldConditions.value1,
-        rightValue: oldConditions.value2,
-        operator: {
-          type: type,
-          operation: operation,
-        },
-      },
-    ],
-    combinator: "and",
-  };
-};
-
-const updateNodeParameters = (node: any, newConditions: any) => {
-  node.parameters.conditions = newConditions;
-  node.parameters.options = {};
-  node.typeVersion = 2;
-};

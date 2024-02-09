@@ -8,6 +8,7 @@ const ver1: IConverter = {
   },
 
   convert: (node: INode) => {
+    let todoMessage = "";
     node.typeVersion = 4.1;
 
     if (node.parameters.requestMethod) {
@@ -69,8 +70,6 @@ const ver1: IConverter = {
     const method = node.parameters.method;
     delete node.parameters.method;
 
-    let todoMessage;
-
     // Check for options and transform them if present
     if (node.parameters.options) {
       const updatedOptions: any = {};
@@ -115,7 +114,7 @@ const ver1: IConverter = {
     if (node.parameters.responseFormat) {
       if (node.parameters.responseFormat === "string") {
         node.parameters.responseFormat = "json";
-        todoMessage ='The new version of the HTTP node not support response format "string"';
+        todoMessage = 'The new version of the HTTP node not support response format "string"';
       }
       node.parameters.options = {
         response: {
@@ -150,19 +149,19 @@ const ver1: IConverter = {
     node.parameters = { method, ...node.parameters };
 
     if (!node.parameters.options.splitIntoItems) {
-      todoMessage ='The new version of the HTTP node splits the response into items like the "splitIntoItems" option of the old node. Adjust the workflow as needed.';
+      todoMessage = 'The new version of the HTTP node splits the response into items like the "splitIntoItems" option of the old node. Adjust the workflow as needed.';
 
     }
 
     if (node.parameters.method == 'OPTIONS') {
-      todoMessage ='Request method "OPTIONS": you will need to manually check the response to ensure it is working as expected.';
+      todoMessage = 'Request method "OPTIONS": you will need to manually check the response to ensure it is working as expected.';
 
     }
     if (node.parameters.method == 'HEAD') {
-      todoMessage ='Request method "HEAD": you will need to manually check the response to ensure it is working as expected.';
+      todoMessage = 'Request method "HEAD": you will need to manually check the response to ensure it is working as expected.';
 
     }
-    return todoMessage? todoMessage : `Successfully updated HTTP request node ${node.name} to version ${node.typeVersion}`;
+    return todoMessage;
   }
 }
 

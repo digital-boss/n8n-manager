@@ -121,7 +121,7 @@ const ver1: IConverter = {
       default:
         break;
     }
-    return `Successfully updated Merge node ${node.name} to version ${node.typeVersion}`;
+    return "";
   }
 }
 

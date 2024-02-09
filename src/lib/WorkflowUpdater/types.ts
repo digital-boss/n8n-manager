@@ -21,7 +21,7 @@ export interface TodoItem {
 
 export interface ChangesReport {
   changes: WorkflowChange[];
-  todos: { workflow: string; nodes: TodoItem[] }[];
+  todos: TodoItem[];
 }
 
 export interface IConverter {
@@ -37,7 +37,7 @@ export interface ConvertionResult {
 
 export interface OperationMappings {
   [operationType: string]: {
-    [operationName: string]: string;
+    [operationValue: string]: string;
     default: string;
   };
 }

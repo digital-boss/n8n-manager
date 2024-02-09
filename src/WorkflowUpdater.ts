@@ -35,21 +35,23 @@ function processFile(dir: string, file: string, changesReport: ChangesReport, ou
     return;
   }
 
+  let workflowData;
+
   try {
-    const workflowData = JSON.parse(fs.readFileSync(filePath, 'utf8'));
-    const nodes = workflowData.nodes;
-    const workflowName = file.replace(/\.json$/, '');
-
-    const modifiedNodes = transform(converters, nodes);
-    updateChangesReport(modifiedNodes, workflowName, changesReport);
-
-    const updatedFilePath = path.join(outputDir, file);
-    fs.writeFileSync(updatedFilePath, JSON.stringify(workflowData, null, 2));
-
-    console.log(`File updated and saved to updatedNodes folder: ${file}`);
+    workflowData = JSON.parse(fs.readFileSync(filePath, 'utf8'));
   } catch (parseError) {
-    console.error(`Error processing file ${file}:`, parseError);
+    console.error(`Error reading file ${file}:`, parseError);
   }
+  const nodes = workflowData.nodes;
+  const workflowName = file.replace(/\.json$/, '');
+
+  const modifiedNodes = transform(converters, nodes);
+  updateChangesReport(modifiedNodes, workflowName, changesReport);
+
+  const updatedFilePath = path.join(outputDir, file);
+  fs.writeFileSync(updatedFilePath, JSON.stringify(workflowData, null, 2));
+
+  console.log(`File updated and saved to updatedNodes folder: ${file}`);
 }
 
 function updateChangesReport(modifiedNodes: any[], workflowName: string, changesReport: ChangesReport) {
@@ -68,12 +70,7 @@ function updateChangesReport(modifiedNodes: any[], workflowName: string, changes
         result: modifiedNode.result,
         nodeType: modifiedNode.nodeType,
       };
-      const existingTodo = changesReport.todos.find((todo) => todo.workflow === workflowName);
-      if (existingTodo) {
-        existingTodo.nodes.push(todoItem);
-      } else {
-        changesReport.todos.push({ workflow: workflowName, nodes: [todoItem] });
-      }
+      changesReport.todos.push(todoItem);
     }
   });
 }

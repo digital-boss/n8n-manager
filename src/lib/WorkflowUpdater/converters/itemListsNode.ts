@@ -9,9 +9,7 @@ const ver1: IConverter = {
 
   convert: (node: INode) => {
     node.typeVersion = 3;
-
-    let todoMessage;
-
+    let todoMessage = "";
     if (node.parameters.operation === 'aggregateItems') {
       node.parameters.operation = 'concatenateItems';
 
@@ -31,9 +29,9 @@ const ver1: IConverter = {
     }
 
     if (node.parameters.operation === 'summarize') {
-      todoMessage ='Operation "Summarize" change is substituting dots (".") with underscores ("_") in the field name, such as "test.name" in the new version is "test_name"';
+      todoMessage = 'Operation "Summarize" change is substituting dots (".") with underscores ("_") in the field name, such as "test.name" in the new version is "test_name"';
     }
-    return todoMessage? todoMessage : `Successfully updated Interval node ${node.name} to version ${node.typeVersion}`;
+    return todoMessage;
   }
 };
 
@@ -93,7 +91,7 @@ const ver3: IConverter = {
         break;
 
     }
-    return `Successfully updated Item List node ${node.name} to version ${node.typeVersion}`; //TODO - what message to return( we update to 6 new nodes)
+    return "";
   }
 };
 

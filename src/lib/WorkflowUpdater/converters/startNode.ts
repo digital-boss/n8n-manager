@@ -9,8 +9,8 @@ const ver1: IConverter = {
 
   convert: (node: INode) => {
     node.type = 'n8n-nodes-base.manualTrigger';
-    
-    return `Successfully updated Start node ${node.name} to version ${node.typeVersion}`;
+
+    return "";
   }
 }
 

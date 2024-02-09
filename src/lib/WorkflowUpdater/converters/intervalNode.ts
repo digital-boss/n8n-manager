@@ -25,7 +25,7 @@ const ver1: IConverter = {
         ]
       }
     };
-    return `Successfully updated Interval node ${node.name} to version ${node.typeVersion}`;
+    return "";
   }
 }
 
