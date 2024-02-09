@@ -82,7 +82,7 @@ const ver2: IConverter = {
                     },
                     outputKey,
                 };
-                if (node.parameters.type === "dateTime") {
+                if (node.parameters.dataType === "dateTime") {
                     todoMessage = 'New node version only supports DateTime values in the format YYYY-MM-DD (e.g., "2022-09-08"). Please ensure your configurations adhere to this format.';
                 }
                 // Explicitly set the mapped operation in the operator

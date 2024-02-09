@@ -212,3 +212,7 @@ Check and test all nodes manually in the workflows:
   - Node names
     - [dateTime] "Subtract" operation returns +2:00 time zone offset.
 
+6. Test_Switch_Node_Conv t.v2 to 3
+  - Node names
+    - [switch] New node version only supports DateTime values in the format YYYY-MM-DD (e.g., "2022-09-08"). Please ensure your configurations adhere to this format.
+
