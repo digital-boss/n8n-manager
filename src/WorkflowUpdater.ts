@@ -41,7 +41,9 @@ function processFile(dir: string, file: string, changesReport: ChangesReport, ou
     workflowData = JSON.parse(fs.readFileSync(filePath, 'utf8'));
   } catch (parseError) {
     console.error(`Error reading file ${file}:`, parseError);
+    return;
   }
+
   const nodes = workflowData.nodes;
   const workflowName = file.replace(/\.json$/, '');
 
@@ -56,21 +58,28 @@ function processFile(dir: string, file: string, changesReport: ChangesReport, ou
 
 function updateChangesReport(modifiedNodes: any[], workflowName: string, changesReport: ChangesReport) {
   modifiedNodes.forEach((modifiedNode) => {
-    const existingChange = changesReport.changes.find((change) => change.workflowName === workflowName);
-    if (existingChange) {
-      existingChange.nodeNames.push(modifiedNode.nodeName);
-    } else {
-      changesReport.changes.push({ workflowName: workflowName, nodeNames: [modifiedNode.nodeName] });
-    }
-
-    if (modifiedNode.result !== "") {
-      const todoItem: TodoItem = {
-        workflow: workflowName,
-        nodeName: modifiedNode.nodeName,
-        result: modifiedNode.result,
-        nodeType: modifiedNode.nodeType,
-      };
-      changesReport.todos.push(todoItem);
-    }
+    updateChanges(changesReport, modifiedNode, workflowName);
+    addTodoItem(changesReport, modifiedNode, workflowName);
   });
+}
+
+function updateChanges(changesReport: ChangesReport, modifiedNode: any, workflowName: string) {
+  const existingChange = changesReport.changes.find((change) => change.workflowName === workflowName);
+  if (existingChange) {
+    existingChange.nodeNames.push(modifiedNode.nodeName);
+  } else {
+    changesReport.changes.push({ workflowName: workflowName, nodeNames: [modifiedNode.nodeName] });
+  }
+}
+
+function addTodoItem(changesReport: ChangesReport, modifiedNode: any, workflowName: string) {
+  if (modifiedNode.result !== "") {
+    const todoItem: TodoItem = {
+      workflow: workflowName,
+      nodeName: modifiedNode.nodeName,
+      result: modifiedNode.result,
+      nodeType: modifiedNode.nodeType,
+    };
+    changesReport.todos.push(todoItem);
+  }
 }

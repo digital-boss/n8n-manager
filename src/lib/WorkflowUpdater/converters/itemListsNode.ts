@@ -2,6 +2,18 @@ import { IConverter, INode } from "../types";
 
 const checkNodeType = (t: string) => t === 'n8n-nodes-base.itemLists';
 
+const updateFields = (fields: any) => {
+  if (fields?.fields) {
+    const extractedFields = Array.isArray(fields.fields)
+      ? fields.fields.map((field: any) => field.fieldName)
+      : fields.fields;
+
+    fields = extractedFields.length === 1 ? extractedFields[0] : extractedFields;
+    delete fields.fields;
+  }
+  return fields;
+};
+
 const ver1: IConverter = {
   predicate: (node: INode) => {
     return checkNodeType(node.type) && node.typeVersion === 1;
@@ -92,7 +104,7 @@ const ver3: IConverter = {
 
     }
     return "";
-  }
+    }
 };
 
 export const itemListsNodeConv: IConverter[] = [
@@ -100,16 +112,3 @@ export const itemListsNodeConv: IConverter[] = [
   ver2,
   ver3
 ];
-
-//Helper functions
-const updateFields = (fields: any) => {
-  if (fields?.fields) {
-    const extractedFields = Array.isArray(fields.fields)
-      ? fields.fields.map((field: any) => field.fieldName)
-      : fields.fields;
-
-    fields = extractedFields.length === 1 ? extractedFields[0] : extractedFields;
-    delete fields.fields;
-  }
-  return fields;
-};
