@@ -2,6 +2,54 @@ import type { IConverter, INode } from "../types";
 
 const checkNodeType = (t: string) => t === 'n8n-nodes-base.httpRequest';
 
+function updateOptions(node: INode): void {
+  const method = node.parameters.method;
+  delete node.parameters.method;
+
+  // Check for options and transform them if present
+  if (node.parameters.options) {
+    const updatedOptions: any = {};
+
+    for (const option in node.parameters.options) {
+      switch (option) {
+        case 'batchInterval':
+        case 'batchSize':
+          updatedOptions.batching = {
+            batch: {
+              batchInterval: node.parameters.options.batchInterval,
+              batchSize: node.parameters.options.batchSize,
+            },
+          };
+          break;
+        case 'fullResponse':
+          updatedOptions.response = { response: { fullResponse: node.parameters.options.fullResponse } };
+          break;
+        case 'followRedirect':
+          updatedOptions.redirect = { redirect: {} };
+          break;
+        case 'ignoreResponseCode':
+          updatedOptions.response = { response: { neverError: node.parameters.options.ignoreResponseCode } };
+          break;
+        case 'proxy':
+          updatedOptions.proxy = node.parameters.options.proxy;
+          break;
+        case 'timeout':
+          updatedOptions.timeout = node.parameters.options.timeout;
+          break;
+        case 'bodyContentType':
+          node.parameters.contentType = node.parameters.options.bodyContentType;
+          break;
+        default:
+          break;
+      }
+    }
+
+    node.parameters.options = updatedOptions;
+  }
+
+  node.parameters = { method, ...node.parameters };
+}
+
 const ver1: IConverter = {
   predicate: (node: INode) => {
     return checkNodeType(node.type) && node.typeVersion === 1;
@@ -67,49 +115,7 @@ const ver1: IConverter = {
       delete node.parameters.jsonParameters;
     }
 
-    const method = node.parameters.method;
-    delete node.parameters.method;
-
-    // Check for options and transform them if present
-    if (node.parameters.options) {
-      const updatedOptions: any = {};
-
-      for (const option in node.parameters.options) {
-        switch (option) {
-          case 'batchInterval':
-          case 'batchSize':
-            updatedOptions.batching = {
-              batch: {
-                batchInterval: node.parameters.options.batchInterval,
-                batchSize: node.parameters.options.batchSize,
-              },
-            };
-            break;
-          case 'fullResponse':
-            updatedOptions.response = { response: { fullResponse: node.parameters.options.fullResponse } };
-            break;
-          case 'followRedirect':
-            updatedOptions.redirect = { redirect: {} };
-            break;
-          case 'ignoreResponseCode':
-            updatedOptions.response = { response: { neverError: node.parameters.options.ignoreResponseCode } };
-            break;
-          case 'proxy':
-            updatedOptions.proxy = node.parameters.options.proxy;
-            break;
-          case 'timeout':
-            updatedOptions.timeout = node.parameters.options.timeout;
-            break;
-          case 'bodyContentType':
-            node.parameters.contentType = node.parameters.options.bodyContentType;
-            break;
-          default:
-            break;
-        }
-      }
-
-      node.parameters.options = updatedOptions;
-    }
+    updateOptions(node);
 
     if (node.parameters.responseFormat) {
       if (node.parameters.responseFormat === "string") {
@@ -146,20 +152,15 @@ const ver1: IConverter = {
       node.parameters.authentication = 'genericCredentialType';
     }
 
-    node.parameters = { method, ...node.parameters };
-
     if (!node.parameters.options.splitIntoItems) {
       todoMessage = 'The new version of the HTTP node splits the response into items like the "splitIntoItems" option of the old node. Adjust the workflow as needed.';
-
     }
 
     if (node.parameters.method == 'OPTIONS') {
       todoMessage = 'Request method "OPTIONS": you will need to manually check the response to ensure it is working as expected.';
-
     }
     if (node.parameters.method == 'HEAD') {
       todoMessage = 'Request method "HEAD": you will need to manually check the response to ensure it is working as expected.';
-
     }
     return todoMessage;
   }
@@ -171,7 +172,7 @@ const ver2: IConverter = {
   },
 
   convert: (node: INode) => {
-    return 'Yon need manually update the node';
+    return 'You need to manually update the node';
   }
 }
 
