@@ -8,7 +8,6 @@ const ver1: IConverter = {
   },
 
   convert: (node) => {
-    let todoMessage = "";
     node.parameters.outputFieldName = node.parameters.dataPropertyName;
     node.typeVersion = 2;
 
@@ -38,9 +37,9 @@ const ver1: IConverter = {
     delete node.parameters.value;
 
     if (node.parameters.operation == 'subtractFromDate') {
-      todoMessage = '"Subtract" operation returns +2:00 time zone offset.';
+      return '"Subtract" operation returns +2:00 time zone offset.';
     }
-    return todoMessage;
+    return "";
   },
 }
 
