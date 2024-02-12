@@ -56,7 +56,7 @@ const ver1: IConverter = {
   },
 
   convert: (node: INode) => {
-    let todoMessage = "";
+    let todoMessage: string[] = [];
     node.typeVersion = 4.1;
 
     if (node.parameters.requestMethod) {
@@ -120,7 +120,7 @@ const ver1: IConverter = {
     if (node.parameters.responseFormat) {
       if (node.parameters.responseFormat === "string") {
         node.parameters.responseFormat = "json";
-        todoMessage = 'The new version of the HTTP node not support response format "string"';
+        todoMessage.push('The new version of the HTTP node not support response format "string"');
       }
       node.parameters.options = {
         response: {
@@ -153,16 +153,16 @@ const ver1: IConverter = {
     }
 
     if (!node.parameters.options.splitIntoItems) {
-      todoMessage = 'The new version of the HTTP node splits the response into items like the "splitIntoItems" option of the old node. Adjust the workflow as needed.';
+      todoMessage.push('The new version of the HTTP node splits the response into items like the "splitIntoItems" option of the old node. Adjust the workflow as needed.');
     }
 
     if (node.parameters.method == 'OPTIONS') {
-      todoMessage = 'Request method "OPTIONS": you will need to manually check the response to ensure it is working as expected.';
+      todoMessage.push('Request method "OPTIONS": you will need to manually check the response to ensure it is working as expected.');
     }
     if (node.parameters.method == 'HEAD') {
-      todoMessage = 'Request method "HEAD": you will need to manually check the response to ensure it is working as expected.';
+      todoMessage.push('Request method "HEAD": you will need to manually check the response to ensure it is working as expected.');
     }
-    return todoMessage;
+    return todoMessage.join('\n');
   }
 }
 
