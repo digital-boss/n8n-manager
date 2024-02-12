@@ -9,7 +9,7 @@ const ver1: IConverter = {
 
   convert: (node: INode) => {
     node.typeVersion = 3;
-    
+
     const transformedValues: any[] = [];
 
     // Transform "number" values
