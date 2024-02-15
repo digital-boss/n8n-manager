@@ -1,21 +1,5 @@
 import fs from 'node:fs';
-
-interface WorkflowChange {
-  workflowName: string;
-  nodeNames: string[];
-}
-
-interface TodoItem {
-  nodeType: string;
-  workflow: string;
-  node: string;
-  additionalText: string;
-}
-
-interface ChangesReport {
-  changes: WorkflowChange[];
-  todos: { workflow: string; nodes: TodoItem[] }[];
-}
+import type { WorkflowChange, TodoItem, ChangesReport } from './types';
 
 function generateChanges(workflows: WorkflowChange[]): string {
   let reportContent = '';
@@ -33,27 +17,31 @@ function generateChanges(workflows: WorkflowChange[]): string {
   return reportContent;
 }
 
-function generateTodos(todos: { workflow: string; nodes: TodoItem[] }[], workflowChanges: WorkflowChange[]): string {
+function generateTodos(todos: TodoItem[]): string {
   let reportContent = '';
 
-  todos.forEach((todo: { workflow: string; nodes: TodoItem[] }, index: number) => {
-    const workflowName = todo.workflow;
-    reportContent += ` ${index + 1}. ${workflowName.replace(/_/g, ' ').replace('.json', '')}\n`;
-    reportContent += '  - Node names:\n';
-
-    const matchingWorkflowChanges = workflowChanges.find(
-      (workflow: WorkflowChange) => workflow.workflowName === workflowName
-    );
-
-    if (matchingWorkflowChanges) {
-      todo.nodes.forEach((node: TodoItem) => {
-        const matchingNode = matchingWorkflowChanges.nodeNames.find((nodeName: string) => nodeName === node.node);
-
-        if (matchingNode) {
-          reportContent += `    - [${node.nodeType}] ${node.node}: ${node.additionalText}\n`;
-        }
-      });
+  const groupedTodos: { [workflowName: string]: { [nodeType: string]: TodoItem[] } } = {};
+  todos.forEach((todo: TodoItem) => {
+    if (!groupedTodos[todo.workflow]) {
+      groupedTodos[todo.workflow] = {};
     }
+    if (!groupedTodos[todo.workflow][todo.nodeType]) {
+      groupedTodos[todo.workflow][todo.nodeType] = [];
+    }
+    groupedTodos[todo.workflow][todo.nodeType].push(todo);
+  });
+
+  // Generate report content
+  Object.keys(groupedTodos).forEach((workflowName, index) => {
+    reportContent += `${index + 1}. ${workflowName}\n`;
+    const nodeTypes = groupedTodos[workflowName];
+    Object.keys(nodeTypes).forEach((nodeType) => {
+      reportContent += `  - Node names\n`;
+      nodeTypes[nodeType].forEach((node: TodoItem) => {
+        reportContent += `    - [${node.nodeType}] ${node.result}\n`;
+      });
+    });
+
     reportContent += '\n';
   });
 
@@ -73,7 +61,7 @@ export function generateChangesReport(changesReport: ChangesReport, filePath: st
     reportContent += `Activate the "Webhook Testing HTTP Node" workflow to test the Http Request node\n`;
     reportContent += `Check and test all nodes manually in the workflows:\n`;
 
-    reportContent += generateTodos(todos, workflows);
+    reportContent += generateTodos(todos);
   }
 
   fs.writeFile(filePath, reportContent, (err) => {

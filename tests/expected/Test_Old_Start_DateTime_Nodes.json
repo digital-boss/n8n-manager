@@ -29,11 +29,15 @@
     },
     {
       "parameters": {
+        "action": "calculate",
         "operation": "subtractFromDate",
         "duration": 12,
         "timeUnit": "hours",
-        "magnitude": "=2023-10-13",
-        "outputFieldName": "time"
+        "options": {
+          "fromFormat": ""
+        },
+        "outputFieldName": "time",
+        "magnitude": "=2023-10-13"
       },
       "name": "Calculate Date",
       "type": "n8n-nodes-base.dateTime",
@@ -62,9 +66,9 @@
     {
       "parameters": {
         "options": {},
+        "outputFieldName": "time",
         "operation": "formatDate",
-        "date": "2023-10-13T14:25:23.041+02:00",
-        "outputFieldName": "time"
+        "date": "2023-10-13T14:25:23.041+02:00"
       },
       "name": "MM/DD/YYYY",
       "type": "n8n-nodes-base.dateTime",
@@ -78,10 +82,10 @@
     {
       "parameters": {
         "options": {},
+        "outputFieldName": "time",
         "operation": "formatDate",
         "date": "=2023-10-13T14:25:23.041+02:00",
-        "format": "yyyy/MM/dd",
-        "outputFieldName": "time"
+        "format": "yyyy/MM/dd"
       },
       "name": "YYYY/MM/DD",
       "type": "n8n-nodes-base.dateTime",
@@ -95,10 +99,10 @@
     {
       "parameters": {
         "options": {},
+        "outputFieldName": "time",
         "operation": "formatDate",
         "date": "=2023-10-13T14:25:23.041+02:00",
-        "format": "MMMM dd yyyy",
-        "outputFieldName": "time"
+        "format": "MMMM dd yyyy"
       },
       "name": "MMMM DD YYYY",
       "type": "n8n-nodes-base.dateTime",
@@ -112,10 +116,10 @@
     {
       "parameters": {
         "options": {},
+        "outputFieldName": "time",
         "operation": "formatDate",
         "date": "=2023-10-13T14:25:23.041+02:00",
-        "format": "MM-dd-yyyy",
-        "outputFieldName": "time"
+        "format": "MM-dd-yyyy"
       },
       "name": "MM-DD-YYYY",
       "type": "n8n-nodes-base.dateTime",
@@ -129,10 +133,10 @@
     {
       "parameters": {
         "options": {},
+        "outputFieldName": "time",
         "operation": "formatDate",
         "date": "=2023-10-13T14:25:23.041+02:00",
-        "format": "yyyy-MM-dd",
-        "outputFieldName": "time"
+        "format": "yyyy-MM-dd"
       },
       "name": "YYYY-MM-DD",
       "type": "n8n-nodes-base.dateTime",
@@ -146,10 +150,10 @@
     {
       "parameters": {
         "options": {},
+        "outputFieldName": "time",
         "operation": "formatDate",
         "date": "=2023-10-13T14:25:23.041+02:00",
-        "format": "X",
-        "outputFieldName": "time"
+        "format": "X"
       },
       "name": "Unix Timestamp",
       "type": "n8n-nodes-base.dateTime",
@@ -163,10 +167,10 @@
     {
       "parameters": {
         "options": {},
+        "outputFieldName": "time",
         "operation": "formatDate",
         "date": "=2023-10-13T14:25:23.041+02:00",
-        "format": "x",
-        "outputFieldName": "time"
+        "format": "x"
       },
       "name": "Unix Ms Timestamp",
       "type": "n8n-nodes-base.dateTime",

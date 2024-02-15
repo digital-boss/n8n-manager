@@ -1,29 +1,13 @@
-import { INode } from "src/lib/utils/WorkflowUpdated";
+import type { IConverter, INode } from "../types";
 
-export class SetNode {
-  // Define the conditions and corresponding functions
+const checkNodeType = (t: string) => t === 'n8n-nodes-base.set';
 
-  private static versionConverters: [
-    (node: INode) => boolean,
-    (node: INode) => boolean
-  ][] = [
-    [SetNode.hasTypeVersion1, SetNode.modifySetNodeV1],
-    [SetNode.hasTypeVersion2, SetNode.modifySetNodeV2],
-  ];
+const ver1: IConverter = {
+  predicate: (node: INode) => {
+    return checkNodeType(node.type) && node.typeVersion === 1;
+  },
 
-  //TODO Add n8n version check to predicate
-
-  // Define the conditions for each version
-  private static hasTypeVersion1(node: INode): boolean {
-    return node.typeVersion === 1;
-  }
-
-  private static hasTypeVersion2(node: INode): boolean {
-    return node.typeVersion === 2;
-  }
-
-  // Version-specific functions
-  private static modifySetNodeV1(node: INode): boolean {
+  convert: (node: INode) => {
     node.typeVersion = 3;
 
     const transformedValues: any[] = [];
@@ -81,21 +65,35 @@ export class SetNode {
       node.parameters.include = "none";
       delete node.parameters.keepOnlySet;
     }
-    return true;
-  }
-
-  private static modifySetNodeV2(node: INode): boolean {
-    return false;
-  }
-
-  // Main convert method
-  public static convert(node: INode): boolean {
-    let isChanged = false;
-    for (const [condition, modifyFunction] of SetNode.versionConverters) {
-      if (condition(node)) {
-        isChanged = modifyFunction(node);
-      }
-    }
-    return isChanged;
+    return "";
   }
 }
+
+
+const ver2: IConverter = {
+  predicate: (node: INode) => {
+    return checkNodeType(node.type) && node.typeVersion === 2;
+  },
+
+  convert: (node: INode) => {
+    return 'Yon need manually update the node';
+  }
+}
+
+const ver3: IConverter = {
+  predicate: (node: INode) => {
+    return checkNodeType(node.type) && node.typeVersion === 3;
+  },
+
+  convert: (node: INode) => {
+    node.typeVersion = 3.2;
+
+    return "";
+  }
+}
+
+export const setNodeConv: IConverter[] = [
+  ver1,
+  ver2,
+  ver3,
+];

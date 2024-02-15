@@ -1,5 +1,6 @@
 {
   "meta": {
+    "templateCredsSetupCompleted": true,
     "instanceId": "ac7c827da56e852a0a6fec36e4b55ade4a0331714f3a850931f8ac704749495e"
   },
   "nodes": [
@@ -159,7 +160,7 @@
       "id": "6af643af-beb8-44fd-bbdf-04cebd261dd5",
       "name": "Assert",
       "type": "n8n-nodes-base.code",
-      "typeVersion": 2,
+      "typeVersion": 1,
       "position": [
         -220,
         300
@@ -172,7 +173,7 @@
       "id": "919b24ad-32ad-47f7-b382-0565c44d97fc",
       "name": "Assert1",
       "type": "n8n-nodes-base.code",
-      "typeVersion": 2,
+      "typeVersion": 1,
       "position": [
         -220,
         -120
@@ -185,7 +186,7 @@
       "id": "5d9bc68d-e2b3-476a-a7e6-2a824e139f62",
       "name": "Assert2",
       "type": "n8n-nodes-base.code",
-      "typeVersion": 2,
+      "typeVersion": 1,
       "position": [
         840,
         580
@@ -199,7 +200,7 @@
       "id": "79baf397-1e38-47e2-a98d-e054386a5a0d",
       "name": "Assert3",
       "type": "n8n-nodes-base.code",
-      "typeVersion": 2,
+      "typeVersion": 1,
       "position": [
         280,
         300
@@ -212,7 +213,7 @@
       "id": "0164a6c4-0452-4434-b494-782aa937c53b",
       "name": "Assert4",
       "type": "n8n-nodes-base.code",
-      "typeVersion": 2,
+      "typeVersion": 1,
       "position": [
         280,
         -100
@@ -225,7 +226,7 @@
       "id": "765fdc5b-ee46-4a36-bdc1-9c69adb64fc6",
       "name": "Assert5",
       "type": "n8n-nodes-base.code",
-      "typeVersion": 2,
+      "typeVersion": 1,
       "position": [
         280,
         900
@@ -238,7 +239,7 @@
       "id": "e9a6f4a1-73c9-4f58-b7db-2a23d80c83fc",
       "name": "Assert6",
       "type": "n8n-nodes-base.code",
-      "typeVersion": 2,
+      "typeVersion": 1,
       "position": [
         840,
         300
@@ -252,7 +253,7 @@
       "id": "e6e61e44-641b-4506-bd2c-8d79c4ba5665",
       "name": "Assert7",
       "type": "n8n-nodes-base.code",
-      "typeVersion": 2,
+      "typeVersion": 1,
       "position": [
         840,
         -100
@@ -349,7 +350,7 @@
       "id": "e17e4dac-131d-4faf-a723-e941215935c8",
       "name": "Assert8",
       "type": "n8n-nodes-base.code",
-      "typeVersion": 2,
+      "typeVersion": 1,
       "position": [
         -220,
         60
@@ -362,7 +363,7 @@
       "id": "7ed7149f-e337-437c-a4ea-75d21a454c4e",
       "name": "Return Data",
       "type": "n8n-nodes-base.code",
-      "typeVersion": 2,
+      "typeVersion": 1,
       "position": [
         780,
         -340
@@ -435,7 +436,7 @@
       "id": "bc04c605-adaf-445f-96c6-e834dc12cfbe",
       "name": "Assert9",
       "type": "n8n-nodes-base.code",
-      "typeVersion": 2,
+      "typeVersion": 1,
       "position": [
         -220,
         460
@@ -468,7 +469,7 @@
       "id": "d65c1af1-7188-44e9-9fde-0c843fb1979f",
       "name": "Assert10",
       "type": "n8n-nodes-base.code",
-      "typeVersion": 2,
+      "typeVersion": 1,
       "position": [
         280,
         60
@@ -520,7 +521,7 @@
       "id": "6b6ce3dc-c68b-4ecf-a562-730c26838ab4",
       "name": "Assert11",
       "type": "n8n-nodes-base.code",
-      "typeVersion": 2,
+      "typeVersion": 1,
       "position": [
         280,
         460
@@ -610,7 +611,7 @@
       "id": "8bee9453-4bdf-4406-ba26-14488cef9fd7",
       "name": "Assert12",
       "type": "n8n-nodes-base.code",
-      "typeVersion": 2,
+      "typeVersion": 1,
       "position": [
         840,
         740
@@ -696,7 +697,7 @@
       "id": "c94f8141-7d41-4d12-b595-ed4756ada84f",
       "name": "Assert13",
       "type": "n8n-nodes-base.code",
-      "typeVersion": 2,
+      "typeVersion": 1,
       "position": [
         280,
         720
@@ -741,7 +742,7 @@
       "id": "d6319531-5dcc-4eb8-871a-1a27d9027515",
       "name": "Assert14",
       "type": "n8n-nodes-base.code",
-      "typeVersion": 2,
+      "typeVersion": 1,
       "position": [
         840,
         40
@@ -881,7 +882,7 @@
       "id": "0a6b583d-eeb0-42c4-b1d0-1ef1d67fc164",
       "name": "Assert15",
       "type": "n8n-nodes-base.code",
-      "typeVersion": 2,
+      "typeVersion": 1,
       "position": [
         280,
         1080
@@ -989,7 +990,7 @@
       "id": "58242a32-d35b-4080-9cdf-e0aaba95e563",
       "name": "Assert16",
       "type": "n8n-nodes-base.code",
-      "typeVersion": 2,
+      "typeVersion": 1,
       "position": [
         -220,
         660
@@ -1294,5 +1295,6 @@
         ]
       ]
     }
-  }
+  },
+  "pinData": {}
 }
