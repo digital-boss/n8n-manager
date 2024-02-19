@@ -20,7 +20,7 @@ export interface IConfig {
     dir: string;
     outputDir: string;
     exclude: {
-      id: number[]
+      id: string[]
     }
   },
   nodesListFile: string;
