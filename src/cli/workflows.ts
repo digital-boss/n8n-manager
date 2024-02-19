@@ -7,13 +7,14 @@ import { WorkflowsFilter } from 'src/lib/utils/WorkflowsFilter';
 import { config, loadConfig } from './common/loadConfig';
 import { logOp } from './common/log';
 import { errorHandler } from './common/errorHandling';
+import { updateWorkflowCommand } from './workflows-update';
 
 const options = {
   name: new Option('-n, --name <string...>', 'Workflow names'),
   id: new Option('--id <string...>', 'Workflow ids'),
   excludeId: new Option('--exclude-id <string...>', 'Workflow ids to exclude'),
   dir: new Option('--dir <string>', 'Directory with workflows'),
-  outputDir: new Option('--output-dir <string>', 'Output directory for updated workflows'), // TODO Add the 'outputDir' option
+  outputDir: new Option('--output-dir <string>', 'Output directory for updated workflows'),
   tag: new Option('-t, --tag <string...>', 'Workflow tags'),
 }
 
@@ -149,7 +150,7 @@ export const wf = () => {
     .addOption(options.tag)
     .addOption(options.excludeId)
     .option('-kf, --keep-files', 'If no filters specified (id, name, tag) and --keep-files=false, then all workflow files before saving will be deleted. This is useful when you want to have exact copy of workflows in directory.', false)
-    .option('-sai, --save-as-is', 'If --save-as-is=false, then workflows which differs only with updatedAt property from existing file will not be overate', false)
+    .option('-sai, --save-as-is', 'If --save-as-is=false, then workflows which differs only with updatedAt property from existing file will not be overwritten', false)
     .action(createAction(async (opts, wf, cmd) => {
       const args: Parameters<typeof wf.save> = [
         opts.dir || config.workflows.dir,
@@ -163,25 +164,14 @@ export const wf = () => {
       }
     }))
 
-  cmd.command('update')
+    cmd.command('update')
     .description('Update workflows in the n8n instance.')
     .hook('preAction', loadConfig)
     .addOption(options.dir)
     .addOption(options.outputDir)
-    .option('--dry', 'Dry run: Show expected output without updating', false) // Add the 'dry' option
+    .option('--dry', 'Dry run: Show expected output without updating', false)
     .action(createAction(async (opts, wf, cmd) => {
-      const dir = opts.dir || config.workflows.dir;
-      const outputDir = opts.outputDir || config.workflows.outputDir || (dir.endsWith('/') ? dir : dir + '/') + '../updateWfs'; // TODO Before publish new version need to change folder name;
-
-      const args: Parameters<typeof wf.updateWorkflow> = [
-        opts.dir || config.workflows.dir, 
-        opts.outputDir || config.workflows.outputDir,
-      ]
-      logOp(cmd, args)
-      if (opts.dry === false) {
-        await wf.updateWorkflow(dir, outputDir);
-        logOp(cmd, ['Workflow update completed']);
-      }
+      await updateWorkflowCommand(opts, wf, cmd);
     }));
 
   cmd.command('publish')
