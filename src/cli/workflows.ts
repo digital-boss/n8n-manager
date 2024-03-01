@@ -14,7 +14,6 @@ const options = {
   id: new Option('--id <string...>', 'Workflow ids'),
   excludeId: new Option('--exclude-id <string...>', 'Workflow ids to exclude'),
   dir: new Option('--dir <string>', 'Directory with workflows'),
-  outputDir: new Option('--output-dir <string>', 'Output directory for updated workflows'),
   tag: new Option('-t, --tag <string...>', 'Workflow tags'),
 }
 
@@ -164,15 +163,7 @@ export const wf = () => {
       }
     }))
 
-    cmd.command('update')
-    .description('Update workflows in the n8n instance.')
-    .hook('preAction', loadConfig)
-    .addOption(options.dir)
-    .addOption(options.outputDir)
-    .option('--dry', 'Dry run: Show expected output without updating', false)
-    .action(createAction(async (opts, wf, cmd) => {
-      await updateWorkflowCommand(opts, wf, cmd);
-    }));
+  cmd.addCommand(updateWorkflowCommand());
 
   cmd.command('publish')
     .description('Publish workflow(s) to n8n instance.')
