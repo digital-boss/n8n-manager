@@ -44,7 +44,7 @@ export const createEmptyConfig = (): IConfig => {
     },
     workflows: {
       dir: '.',
-      exclude: {id: []},
+      exclude: { id: [] },
     },
     nodesListFile: './packages-nodes.txt'
   }

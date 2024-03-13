@@ -1,0 +1,545 @@
+{
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "ac7c827da56e852a0a6fec36e4b55ade4a0331714f3a850931f8ac704749495e"
+  },
+  "nodes": [
+    {
+      "parameters": {
+        "content": "Rules/String",
+        "height": 512.8734368966809,
+        "width": 351.91243675660655
+      },
+      "id": "aab7be51-1d71-4d25-81b6-b62b1c121831",
+      "name": "Sticky Note",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -1640,
+        340
+      ]
+    },
+    {
+      "parameters": {
+        "content": "Expression/Number",
+        "height": 359.2352135054264,
+        "width": 389.3250415044604
+      },
+      "id": "23ecf5d5-d3a5-4a17-8f59-a9b3f0e88007",
+      "name": "Sticky Note1",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -1260,
+        340
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "0def49fc-8aeb-4c4c-a9f4-e625a33d29e7",
+      "name": "When clicking \"Test Workflow\"",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -660,
+        160
+      ]
+    },
+    {
+      "parameters": {
+        "value1": "={{ $json.id }}",
+        "rules": {
+          "rules": [
+            {},
+            {
+              "operation": "smallerEqual",
+              "value2": 1,
+              "output": 1
+            },
+            {
+              "operation": "equal",
+              "value2": 2,
+              "output": 2
+            }
+          ]
+        },
+        "fallbackOutput": 3
+      },
+      "id": "f88d0350-91d7-4ae2-b81e-ff54a1c16cfa",
+      "name": "Switch2",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 1,
+      "position": [
+        -1240,
+        400
+      ]
+    },
+    {
+      "parameters": {
+        "dataType": "string",
+        "value1": "={{ $json.name }}",
+        "rules": {
+          "rules": [
+            {
+              "operation": "contains",
+              "value2": "Ani"
+            },
+            {
+              "operation": "notContains",
+              "value2": "Eli",
+              "output": 1
+            },
+            {
+              "operation": "endsWith",
+              "value2": "m",
+              "output": 2
+            }
+          ]
+        },
+        "fallbackOutput": 3
+      },
+      "id": "6fe93ef2-000e-4d47-bbe5-4ae7c4d9542c",
+      "name": "Switch",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 1,
+      "position": [
+        -1620,
+        400
+      ]
+    },
+    {
+      "parameters": {
+        "value1": "={{ $json.id }}",
+        "rules": {
+          "rules": [
+            {
+              "operation": "notEqual"
+            },
+            {
+              "operation": "larger",
+              "value2": 1,
+              "output": 1
+            },
+            {
+              "operation": "largerEqual",
+              "value2": 2,
+              "output": 2
+            }
+          ]
+        },
+        "fallbackOutput": 3
+      },
+      "id": "2fd7807b-9f20-4047-bc0d-c69a6dfa195c",
+      "name": "Switch3",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 1,
+      "position": [
+        -1240,
+        560
+      ]
+    },
+    {
+      "parameters": {
+        "dataType": "string",
+        "value1": "={{ $json.name }}",
+        "rules": {
+          "rules": [
+            {
+              "operation": "notEndsWith",
+              "value2": "Ani"
+            },
+            {
+              "value2": "Eli",
+              "output": 1
+            },
+            {
+              "operation": "notEqual",
+              "value2": "m",
+              "output": 2
+            }
+          ]
+        },
+        "fallbackOutput": 3
+      },
+      "id": "8adee0a9-ce63-4422-a646-52b3d6ced398",
+      "name": "Switch1",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 1,
+      "position": [
+        -1620,
+        560
+      ]
+    },
+    {
+      "parameters": {
+        "dataType": "string",
+        "value1": "={{ $json.name }}",
+        "rules": {
+          "rules": [
+            {
+              "operation": "regex",
+              "value2": "Ani"
+            },
+            {
+              "operation": "notRegex",
+              "value2": "Eli",
+              "output": 1
+            }
+          ]
+        },
+        "fallbackOutput": 3
+      },
+      "id": "8a2d14f2-587a-4e93-b9f7-16abca7e5707",
+      "name": "Switch4",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 1,
+      "position": [
+        -1620,
+        720
+      ]
+    },
+    {
+      "parameters": {
+        "dataType": "boolean",
+        "value1": "={{ $json.new }}",
+        "rules": {
+          "rules": [
+            {},
+            {
+              "value2": true,
+              "output": 1
+            }
+          ]
+        },
+        "fallbackOutput": 3
+      },
+      "id": "d352ae40-c798-4206-a9c6-475a95a77e20",
+      "name": "Switch5",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 1,
+      "position": [
+        -840,
+        400
+      ]
+    },
+    {
+      "parameters": {
+        "content": "Boolean",
+        "height": 221.89955323947765,
+        "width": 382.48156821954973
+      },
+      "id": "9ed5f92d-2190-435f-8eee-ea1fc3d2baf0",
+      "name": "Sticky Note2",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -849.2059418015492,
+        340
+      ]
+    },
+    {
+      "parameters": {
+        "content": "Date Time",
+        "height": 212.5926851675642,
+        "width": 337.8002529250979
+      },
+      "id": "d4c3cc55-808a-4d84-be94-affb7b4297ad",
+      "name": "Sticky Note3",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -440,
+        340
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "return {\n  \"name\": \"Ani\",\n  \"id\": 1,\n  \"new\": true,\n  \"date\": \"02/10/1978\"\n}"
+      },
+      "id": "10ca4047-ca0b-4a14-8b4f-2fc3a039a548",
+      "name": "Return items",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -480,
+        160
+      ]
+    },
+    {
+      "parameters": {
+        "dataType": "dateTime",
+        "value1": "={{ $json.date }}",
+        "rules": {
+          "rules": [
+            {
+              "value2": "=03/10/1978"
+            },
+            {
+              "operation": "before",
+              "value2": "=03/10/1978"
+            }
+          ]
+        },
+        "fallbackOutput": 3
+      },
+      "id": "d9fcff8e-0aa0-4afe-a521-c6a89daa9da8",
+      "name": "Switch7",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 1,
+      "position": [
+        -400,
+        400
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const assert = require('node:assert');\n\nassert.deepStrictEqual(JSON.parse(JSON.stringify(items[0].json)),{\n  \"name\": \"Ani\",\n  \"id\": 1,\n  \"new\": true,\n  \"date\": \"02/10/1978\"\n}\n   );\n\nreturn [];"
+      },
+      "id": "d143fc01-78c6-4c48-8ba9-bcb97dd05fda",
+      "name": "Assert5",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -1420,
+        380
+      ],
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "jsCode": "const assert = require('node:assert');\n\nassert.deepStrictEqual(JSON.parse(JSON.stringify(items[0].json)),{\n  \"name\": \"Ani\",\n  \"id\": 1,\n  \"new\": true,\n  \"date\": \"02/10/1978\"\n}\n   );\n\nreturn [];"
+      },
+      "id": "1a713f8d-380c-41e6-8601-4ca32c40d8be",
+      "name": "Assert",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -1420,
+        560
+      ],
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "jsCode": "const assert = require('node:assert');\n\nassert.deepStrictEqual(JSON.parse(JSON.stringify(items[0].json)),{\n  \"name\": \"Ani\",\n  \"id\": 1,\n  \"new\": true,\n  \"date\": \"02/10/1978\"\n}\n   );\n\nreturn [];"
+      },
+      "id": "bdebd67f-29b9-42d0-8e80-780f49a9c035",
+      "name": "Assert6",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -1440,
+        700
+      ],
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "jsCode": "const assert = require('node:assert');\n\nassert.deepStrictEqual(JSON.parse(JSON.stringify(items[0].json)),{\n  \"name\": \"Ani\",\n  \"id\": 1,\n  \"new\": true,\n  \"date\": \"02/10/1978\"\n}\n   );\n\nreturn [];"
+      },
+      "id": "2682be19-896b-497a-86d9-9db6dc56d165",
+      "name": "Assert7",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -1060,
+        380
+      ],
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "jsCode": "const assert = require('node:assert');\n\nassert.deepStrictEqual(JSON.parse(JSON.stringify(items[0].json)),{\n  \"name\": \"Ani\",\n  \"id\": 1,\n  \"new\": true,\n  \"date\": \"02/10/1978\"\n}\n   );\n\nreturn [];"
+      },
+      "id": "493bb51e-0890-418a-9bc6-8fe35165850e",
+      "name": "Assert8",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -1060,
+        540
+      ],
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "jsCode": "const assert = require('node:assert');\n\nassert.deepStrictEqual(JSON.parse(JSON.stringify(items[0].json)),{\n  \"name\": \"Ani\",\n  \"id\": 1,\n  \"new\": true,\n  \"date\": \"02/10/1978\"\n}\n   );\n\nreturn [];"
+      },
+      "id": "77fb062d-53e7-4f5d-a1af-c7251bd5a9cb",
+      "name": "Assert9",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -660,
+        380
+      ],
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "jsCode": "const assert = require('node:assert');\n\nassert.deepStrictEqual(JSON.parse(JSON.stringify(items[0].json)),{\n  \"name\": \"Ani\",\n  \"id\": 1,\n  \"new\": true,\n  \"date\": \"02/10/1978\"\n}\n   );\n\nreturn [];"
+      },
+      "id": "050753a7-1f17-49fa-b61c-c48c551e35e9",
+      "name": "Assert10",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -240,
+        360
+      ],
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "content": "## This workflow tests the conversion of Switch node type version 1 to 2\n",
+        "height": 211.4314189209486,
+        "width": 430.7248451651848
+      },
+      "id": "4284ffd9-7923-41b6-b765-b66ad8e57675",
+      "name": "Sticky Note27",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -1920,
+        60
+      ]
+    }
+  ],
+  "connections": {
+    "When clicking \"Test Workflow\"": {
+      "main": [
+        [
+          {
+            "node": "Return items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch2": {
+      "main": [
+        null,
+        [
+          {
+            "node": "Assert7",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "Assert5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch3": {
+      "main": [
+        [
+          {
+            "node": "Assert8",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch1": {
+      "main": [
+        null,
+        null,
+        [
+          {
+            "node": "Assert",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch4": {
+      "main": [
+        null,
+        [
+          {
+            "node": "Assert6",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch5": {
+      "main": [
+        null,
+        [
+          {
+            "node": "Assert9",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Return items": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Switch1",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Switch4",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Switch2",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Switch3",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Switch5",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Switch7",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch7": {
+      "main": [
+        [
+          {
+            "node": "Assert10",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {}
+}

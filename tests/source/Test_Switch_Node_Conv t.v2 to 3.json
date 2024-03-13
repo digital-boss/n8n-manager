@@ -1,0 +1,38 @@
+{
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "ac7c827da56e852a0a6fec36e4b55ade4a0331714f3a850931f8ac704749495e"
+  },
+  "nodes": [
+    {
+      "parameters": {
+        "dataType": "dateTime",
+        "value1": "={{ $json.date }}",
+        "rules": {
+          "rules": [
+            {
+              "value2": "=2022-09-10",
+              "outputKey": 0
+            },
+            {
+              "operation": "before",
+              "value2": "=2022-09-10",
+              "outputKey": 0
+            }
+          ]
+        },
+        "fallbackOutput": 0
+      },
+      "id": "e30edbb7-26e4-492c-8dac-ba784712ce94",
+      "name": "Switch7",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 2,
+      "position": [
+        1520,
+        540
+      ]
+    }
+  ],
+  "connections": {},
+  "pinData": {}
+}

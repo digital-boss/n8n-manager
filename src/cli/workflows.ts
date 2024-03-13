@@ -7,6 +7,7 @@ import { WorkflowsFilter } from 'src/lib/utils/WorkflowsFilter';
 import { config, loadConfig } from './common/loadConfig';
 import { logOp } from './common/log';
 import { errorHandler } from './common/errorHandling';
+import { updateWorkflowCommand } from './workflows-update';
 
 const options = {
   name: new Option('-n, --name <string...>', 'Workflow names'),
@@ -15,6 +16,7 @@ const options = {
   dir: new Option('--dir <string>', 'Directory with workflows'),
   tag: new Option('-t, --tag <string...>', 'Workflow tags'),
 }
+
 
 const createWorkflowsAgent = (cmd: Command) => {
   const publicApiCfg: IPublicApiConfig = {
@@ -31,12 +33,12 @@ const createWorkflowsAgent = (cmd: Command) => {
     proxy: config.proxy,
   }
   return new Workflows(publicApiCfg, restCliCfg);
-} 
+}
 
 const createAction = (
   fn: (opts: OptionValues, wf: Workflows, cmd: Command) => Promise<void>
 ) => {
-  return async function(this: Command) {
+  return async function (this: Command) {
     const opts = this.optsWithGlobals();
     const wf = createWorkflowsAgent(this);
     return fn(opts, wf, this).catch(errorHandler(opts, this));
@@ -146,8 +148,8 @@ export const wf = () => {
     .addOption(options.name)
     .addOption(options.tag)
     .addOption(options.excludeId)
-    .option('-kf, --keep-files', 'If no filters scpecified (id, name, tag) and --keep-files=false, then all workflow files before saving will be deleted. This is useful when you want to have exact copy of workflows in directory.', false)
-    .option('-sai, --save-as-is', 'If --save-as-is=false, then workflows which differs only with updatedAt property from existing file will not be overriten', false)
+    .option('-kf, --keep-files', 'If no filters specified (id, name, tag) and --keep-files=false, then all workflow files before saving will be deleted. This is useful when you want to have exact copy of workflows in directory.', false)
+    .option('-sai, --save-as-is', 'If --save-as-is=false, then workflows which differs only with updatedAt property from existing file will not be overwritten', false)
     .action(createAction(async (opts, wf, cmd) => {
       const args: Parameters<typeof wf.save> = [
         opts.dir || config.workflows.dir,
@@ -160,6 +162,8 @@ export const wf = () => {
         await wf.save(...args)
       }
     }))
+
+  cmd.addCommand(updateWorkflowCommand());
 
   cmd.command('publish')
     .description('Publish workflow(s) to n8n instance.')
@@ -181,7 +185,7 @@ export const wf = () => {
     }))
 
   cmd.command('setup-all')
-    .description('Setup n8n instalce workflows exactly the same as your --dir.')
+    .description('Setup n8n instance workflows exactly the same as your --dir.')
     .hook('preAction', loadConfig)
     .addOption(options.dir)
     .addOption(options.id)

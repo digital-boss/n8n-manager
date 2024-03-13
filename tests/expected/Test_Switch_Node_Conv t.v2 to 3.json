@@ -1,0 +1,73 @@
+{
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "ac7c827da56e852a0a6fec36e4b55ade4a0331714f3a850931f8ac704749495e"
+  },
+  "nodes": [
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict"
+                },
+                "conditions": [
+                  {
+                    "id": "e30edbb7-26e4-492c-8dac-ba784712ce94",
+                    "leftValue": "={{ $json.date }}",
+                    "rightValue": "=2022-09-10",
+                    "operator": {
+                      "type": "dateTime",
+                      "operation": "after"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "outputKey": 0
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict"
+                },
+                "conditions": [
+                  {
+                    "id": "e30edbb7-26e4-492c-8dac-ba784712ce94",
+                    "leftValue": "={{ $json.date }}",
+                    "rightValue": "=2022-09-10",
+                    "operator": {
+                      "type": "dateTime",
+                      "operation": "before"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "outputKey": 0
+            }
+          ]
+        },
+        "options": {
+          "fallbackOutput": "extra"
+        }
+      },
+      "id": "e30edbb7-26e4-492c-8dac-ba784712ce94",
+      "name": "Switch7",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3,
+      "position": [
+        1520,
+        540
+      ]
+    }
+  ],
+  "connections": {},
+  "pinData": {}
+}

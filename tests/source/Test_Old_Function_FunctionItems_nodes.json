@@ -1,0 +1,236 @@
+{
+  "meta": {
+    "instanceId": "ac7c827da56e852a0a6fec36e4b55ade4a0331714f3a850931f8ac704749495e"
+  },
+  "nodes": [
+    {
+      "parameters": {
+        "functionCode": "const data = items[0].json.id;\n\nreturn {data}"
+      },
+      "name": "Function",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [
+        140,
+        2380
+      ],
+      "id": "61edc3d1-3ee9-4b6b-abfa-c908d9543b73"
+    },
+    {
+      "parameters": {
+        "jsCode": "return [\n  {\n  \"id\": \"1\",\n  \"name\": \"Anna\",\n  \"email\": \"ana@mail.com\",\n  \"country\": \"ACC\"\n},\n    {\n  \"id\": \"2\",\n  \"name\": \"Toni\",\n  \"email\": \"toni@mail.com\",\n},\n      {\n  \"id\": \"5\",\n  \"name\": \"Peter\",\n  \"email\": \"peter@mail.com\",\n},\n  ]"
+      },
+      "id": "df026588-0496-4b0b-b264-513b8851e21b",
+      "name": "Return Data",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -160,
+        2180
+      ]
+    },
+    {
+      "parameters": {
+        "functionCode": "\n\nreturn item\n"
+      },
+      "name": "FunctionItem2",
+      "type": "n8n-nodes-base.functionItem",
+      "typeVersion": 1,
+      "position": [
+        140,
+        2180
+      ],
+      "id": "769bc1d0-9e7c-469f-afdc-801e2ff1f6e2"
+    },
+    {
+      "parameters": {
+        "functionCode": "const data = item1.id;\n\nreturn data\n"
+      },
+      "name": "FunctionItem Return String",
+      "type": "n8n-nodes-base.functionItem",
+      "typeVersion": 1,
+      "position": [
+        140,
+        2000
+      ],
+      "id": "1454b974-29ba-46d9-bc4b-e920c94d5a05",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "content": "## TODO\nWhen in mode \"Return one for each\", match \"item\" with regex and add \".json\"\nWhen in mode \"Return one for all\", match the input with regex and add \".map(x->x.json)\"\nWe can match and fix the input data, but can't check the returned format",
+        "height": 484.31796618314763,
+        "width": 418.0829367777018
+      },
+      "id": "c7a429eb-e1f7-4f7e-a954-76dc59434f84",
+      "name": "Sticky Note",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        20,
+        1680
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "3bb88407-5c8e-41c3-b1fe-9880d797d241",
+      "name": "When clicking \"Execute Workflow\"",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -360,
+        2180
+      ]
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "const data = item.json.id;\n\nreturn {data}\n"
+      },
+      "id": "ac2815e9-c1a8-45a9-b65e-27ce0ed39923",
+      "name": "New Code Node",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        140,
+        1860
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const assert = require('node:assert');\n\nassert.deepStrictEqual(JSON.parse(JSON.stringify(items.map(x=> x.json))),[\n  {\n    \"data\": \"1\"\n  },\n  {\n    \"data\": \"2\"\n  },\n  {\n    \"data\": \"5\"\n  }\n]\n   );\n\nreturn [];"
+      },
+      "id": "331f62a7-35bf-4ed5-a441-023b7e34d2ef",
+      "name": "Assert",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        340,
+        1860
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const assert = require('node:assert');\n\nassert.deepStrictEqual(JSON.parse(JSON.stringify(items.map(x=> x.json))),[\n  {\n    \"data\": \"1\"\n  },\n  {\n    \"data\": \"2\"\n  },\n  {\n    \"data\": \"5\"\n  }\n]\n   );\n\nreturn [];"
+      },
+      "id": "9e8df8f7-cb67-456a-9311-7f8372c48202",
+      "name": "Assert1",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        340,
+        2000
+      ],
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "jsCode": "const assert = require('node:assert');\n\nassert.deepStrictEqual(JSON.parse(JSON.stringify(items.map(x=> x.json))),[\n  {\n    \"id\": \"1\",\n    \"name\": \"Anna\",\n    \"email\": \"ana@mail.com\",\n    \"country\": \"ACC\"\n  },\n  {\n    \"id\": \"2\",\n    \"name\": \"Toni\",\n    \"email\": \"toni@mail.com\"\n  },\n  {\n    \"id\": \"5\",\n    \"name\": \"Peter\",\n    \"email\": \"peter@mail.com\"\n  }\n]\n   );\n\nreturn [];"
+      },
+      "id": "b058bcdb-5022-4f30-a6a5-48007155104f",
+      "name": "Assert2",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        340,
+        2180
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const assert = require('node:assert');\n\nassert.deepStrictEqual(JSON.parse(JSON.stringify(items[0].json)),{\n    \"data\": \"1\"\n  }\n\n   );\n\nreturn [];"
+      },
+      "id": "aa371bf6-01e1-496f-9a6f-dd780abfa7c9",
+      "name": "Assert3",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        340,
+        2380
+      ]
+    }
+  ],
+  "connections": {
+    "Function": {
+      "main": [
+        [
+          {
+            "node": "Assert3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Return Data": {
+      "main": [
+        [
+          {
+            "node": "FunctionItem Return String",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Function",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "FunctionItem2",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "New Code Node",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "FunctionItem2": {
+      "main": [
+        [
+          {
+            "node": "Assert2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "FunctionItem Return String": {
+      "main": [
+        [
+          {
+            "node": "Assert1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When clicking \"Execute Workflow\"": {
+      "main": [
+        [
+          {
+            "node": "Return Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "New Code Node": {
+      "main": [
+        [
+          {
+            "node": "Assert",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  }
+}

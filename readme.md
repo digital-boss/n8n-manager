@@ -14,7 +14,7 @@ Install globally by running `npm install -g @digital-boss/n8n-manager`. Then use
 
 ### Config file
 
-To use 8man, you need provide config file, containng n8n access parameters and other options. See example: [configs/8man-example.json](configs/8man-example.json). `8man --config path/to/config.json <command> <subcommand>`. You can create config files for each n8n instance you want to manage.
+To use 8man, you need provide config file, containing n8n access parameters and other options. See example: [configs/8man-example.json](configs/8man-example.json). `8man --config path/to/config.json <command> <subcommand>`. You can create config files for each n8n instance you want to manage.
 
 ### `--dry` flag
 

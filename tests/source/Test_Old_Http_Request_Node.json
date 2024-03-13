@@ -1,0 +1,1234 @@
+{
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "ac7c827da56e852a0a6fec36e4b55ade4a0331714f3a850931f8ac704749495e"
+  },
+  "nodes": [
+    {
+      "parameters": {
+        "requestMethod": "HEAD",
+        "url": "http://localhost:5678/webhook/d2568160-d906-4338-b7f0-78e1dcb8eda5",
+        "options": {},
+        "headerParametersUi": {
+          "parameter": [
+            {
+              "name": "name",
+              "value": "Ani"
+            }
+          ]
+        },
+        "queryParametersUi": {
+          "parameter": [
+            {
+              "name": "age",
+              "value": "13"
+            }
+          ]
+        }
+      },
+      "name": "Head",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 1,
+      "position": [
+        620,
+        580
+      ],
+      "id": "50ec1e3c-8489-4d00-b518-dddc917588bf",
+      "alwaysOutputData": true,
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "requestMethod": "OPTIONS",
+        "url": "http://localhost:5678/webhook/9b43a8a6-db70-4001-96d5-bce674ba071e",
+        "jsonParameters": true,
+        "options": {},
+        "queryParametersJson": "={     \"name\": \"John Doe\",     \"email\": \"john.doe@example.com\",     \"age\": 30,     \"address\": {       \"street\": \"123 Main St\",       \"city\": \"Example City\",       \"state\": \"CA\",       \"zip\": \"12345\"     } }"
+      },
+      "name": "Options",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 1,
+      "position": [
+        640,
+        300
+      ],
+      "id": "485e6562-8791-4274-86ac-fcdf9081f5a2",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "requestMethod": "PATCH",
+        "url": "http://localhost:5678/webhook/147bce37-8acb-4097-9f08-90c21e321ef6",
+        "options": {},
+        "bodyParametersUi": {
+          "parameter": [
+            {
+              "name": "name",
+              "value": "Ani"
+            }
+          ]
+        },
+        "headerParametersUi": {
+          "parameter": [
+            {
+              "name": "phone",
+              "value": "222"
+            }
+          ]
+        },
+        "queryParametersUi": {
+          "parameter": [
+            {
+              "name": "age",
+              "value": "13"
+            }
+          ]
+        }
+      },
+      "name": "Patch",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 1,
+      "position": [
+        80,
+        300
+      ],
+      "id": "acb2ce14-3a0a-42c2-aab9-d09299a0138c"
+    },
+    {
+      "parameters": {
+        "requestMethod": "PUT",
+        "url": "http://localhost:5678/webhook/04607968-482e-4376-99a6-c82442a98ef9",
+        "options": {},
+        "bodyParametersUi": {
+          "parameter": [
+            {
+              "name": "name",
+              "value": "Ani"
+            }
+          ]
+        },
+        "headerParametersUi": {
+          "parameter": [
+            {
+              "name": "new",
+              "value": "test"
+            }
+          ]
+        },
+        "queryParametersUi": {
+          "parameter": [
+            {
+              "name": "age",
+              "value": "13"
+            }
+          ]
+        }
+      },
+      "name": "Put",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 1,
+      "position": [
+        80,
+        -100
+      ],
+      "id": "806ab734-084a-42bd-b1e9-98ce274d3b7e"
+    },
+    {
+      "parameters": {},
+      "id": "2f83106a-b8f5-4dc1-b838-0e2eabf5d672",
+      "name": "When clicking \"Execute Workflow\"",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        600,
+        -340
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const assert = require('node:assert');\nconst data = items[0].json;\n\ndelete data.headers.accept;\n\nassert.deepStrictEqual(JSON.parse(JSON.stringify(items[0].json)),{\n  \"headers\": {\n    \"name\": \"test\",\n    \"user-agent\": \"axios/0.21.4\",\n    \"host\": \"localhost:5678\",\n    \"connection\": \"close\"\n  },\n  \"params\": {},\n  \"query\": {\n    \"new\": \"one\"\n  }\n}\n   );\n\nreturn [];"
+      },
+      "id": "6af643af-beb8-44fd-bbdf-04cebd261dd5",
+      "name": "Assert",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [
+        -220,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const assert = require('node:assert');\nconst data = items[0].json;\n\ndelete data.headers.accept;\n\nassert.deepStrictEqual(JSON.parse(JSON.stringify(items[0].json)),{\n  \"headers\": {\n  \n    \"test\": \"1\",\n    \"content-type\": \"application/json\",\n    \"user-agent\": \"axios/0.21.4\",\n    \"content-length\": \"12\",\n    \"host\": \"localhost:5678\",\n    \"connection\": \"close\"\n  },\n  \"params\": {},\n  \"query\": {\n    \"name\": \"Ani\",\n    \"phone\": \"123\"\n  },\n  \"body\": {\n    \"age\": \"13\"\n  }\n}\n   );\n\nreturn [];"
+      },
+      "id": "919b24ad-32ad-47f7-b382-0565c44d97fc",
+      "name": "Assert1",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [
+        -220,
+        -120
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const assert = require('node:assert');\nconst data = items[0].json;\n\ndelete data.headers.accept;\n\nassert.deepStrictEqual(JSON.parse(JSON.stringify(items[0].json)),{\n  \"headers\": {\n    \"test\": \"123\",\n    \"user-agent\": \"axios/0.21.4\",\n    \"host\": \"localhost:5678\",\n    \"connection\": \"close\"\n  },\n  \"params\": {},\n  \"query\": {\n    \"name\": \"Ani\"\n  }\n}\n   );\n\nreturn [];"
+      },
+      "id": "5d9bc68d-e2b3-476a-a7e6-2a824e139f62",
+      "name": "Assert2",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [
+        840,
+        580
+      ],
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "jsCode": "const assert = require('node:assert');\nconst data = items[0].json;\n\ndelete data.headers.accept;\n\nassert.deepStrictEqual(JSON.parse(JSON.stringify(items[0].json)),{\n  \"headers\": {\n    \"phone\": \"222\",\n    \"content-type\": \"application/json\",\n    \"user-agent\": \"axios/0.21.4\",\n    \"content-length\": \"14\",\n    \"host\": \"localhost:5678\",\n    \"connection\": \"close\"\n  },\n  \"params\": {},\n  \"query\": {\n    \"age\": \"13\"\n  },\n  \"body\": {\n    \"name\": \"Ani\"\n  }\n}\n   );\n\nreturn [];"
+      },
+      "id": "79baf397-1e38-47e2-a98d-e054386a5a0d",
+      "name": "Assert3",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [
+        280,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const assert = require('node:assert');\nconst data = items[0].json;\n\ndelete data.headers.accept;\n\nassert.deepStrictEqual(JSON.parse(JSON.stringify(items[0].json)),{\n  \"headers\": {\n    \"new\": \"test\",\n    \"content-type\": \"application/json\",\n    \"user-agent\": \"axios/0.21.4\",\n    \"content-length\": \"14\",\n    \"host\": \"localhost:5678\",\n    \"connection\": \"close\"\n  },\n  \"params\": {},\n  \"query\": {\n    \"age\": \"13\"\n  },\n  \"body\": {\n    \"name\": \"Ani\"\n  }\n}\n   );\n\nreturn [];"
+      },
+      "id": "0164a6c4-0452-4434-b494-782aa937c53b",
+      "name": "Assert4",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [
+        280,
+        -100
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const assert = require('node:assert');\nconst data = items[0].json;\n\ndelete data.headers.accept;\n  \nassert.deepStrictEqual(JSON.parse(JSON.stringify(items[0].json)),{\n  \"headers\": {\n    \"test\": \"1\",\n    \"content-type\": \"application/json\",\n    \"user-agent\": \"axios/0.21.4\",\n    \"content-length\": \"14\",\n    \"host\": \"localhost:5678\",\n    \"connection\": \"close\"\n  },\n  \"params\": {},\n  \"query\": {\n    \"phone\": \"123\"\n  },\n  \"body\": {\n    \"name\": \"Ani\"\n  }\n}\n   );\n\nreturn [];"
+      },
+      "id": "765fdc5b-ee46-4a36-bdc1-9c69adb64fc6",
+      "name": "Assert5",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [
+        280,
+        900
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const assert = require('node:assert');\n\nassert.deepStrictEqual(JSON.parse(JSON.stringify(items[0].json)),{\n  \"id\": [\n    1,\n    2,\n    3,\n    3\n  ]\n}\n   );\n\nreturn [];"
+      },
+      "id": "e9a6f4a1-73c9-4f58-b7db-2a23d80c83fc",
+      "name": "Assert6",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [
+        840,
+        300
+      ],
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "jsCode": "const assert = require('node:assert');\nconst data = items[0].json;\n\ndelete data.headers.accept;\n\nassert.deepStrictEqual(JSON.parse(JSON.stringify(items[0].json)),{\n  \"headers\": {\n    \"content-type\": \"application/json\",\n    \"user-agent\": \"axios/0.21.4\",\n    \"content-length\": \"28\",\n    \"host\": \"localhost:5678\",\n    \"authorization\": \"Basic dGVzdDp0ZXN0\",\n    \"connection\": \"close\"\n  },\n  \"params\": {},\n  \"query\": {},\n  \"body\": {\n    \"name\": \"Ani\",\n    \"phone\": \"123\"\n  }\n}\n   );\n\nreturn [];"
+      },
+      "id": "e6e61e44-641b-4506-bd2c-8d79c4ba5665",
+      "name": "Assert7",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [
+        840,
+        -100
+      ]
+    },
+    {
+      "parameters": {
+        "requestMethod": "POST",
+        "url": "http://localhost:5678/webhook/9b43a8a6-db70-4001-96d5-bce674ba071e",
+        "options": {
+          "fullResponse": false
+        },
+        "bodyParametersUi": {
+          "parameter": [
+            {
+              "name": "age",
+              "value": "13"
+            }
+          ]
+        },
+        "headerParametersUi": {
+          "parameter": [
+            {
+              "name": "test",
+              "value": "1"
+            }
+          ]
+        },
+        "queryParametersUi": {
+          "parameter": [
+            {
+              "name": "name",
+              "value": "Ani"
+            },
+            {
+              "name": "phone",
+              "value": "123"
+            }
+          ]
+        }
+      },
+      "name": "POST",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 1,
+      "position": [
+        -420,
+        -120
+      ],
+      "id": "9d7094a3-66ad-40a5-a7eb-e47545d1d08b"
+    },
+    {
+      "parameters": {
+        "url": "http://localhost:5678/webhook/e58c05c3-74f6-429a-b182-e3c8d6af9d8e",
+        "options": {},
+        "headerParametersUi": {
+          "parameter": [
+            {
+              "name": "name",
+              "value": "test"
+            }
+          ]
+        },
+        "queryParametersUi": {
+          "parameter": [
+            {
+              "name": "new",
+              "value": "one"
+            }
+          ]
+        }
+      },
+      "name": "GET",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 1,
+      "position": [
+        -420,
+        300
+      ],
+      "id": "ea7dd33b-da94-4033-9413-64b198e453df"
+    },
+    {
+      "parameters": {
+        "jsCode": "const assert = require('node:assert');\nconst data = items[0].json;\n\ndelete data.headers.accept;\n\nassert.deepStrictEqual(JSON.parse(JSON.stringify(data)),{\n  \"headers\": {\n    \"name\": \"Ani\",\n    \"content-type\": \"application/json\",\n    \"user-agent\": \"axios/0.21.4\",\n    \"content-length\": \"35\",\n    \"host\": \"localhost:5678\",\n    \"connection\": \"close\"\n  },\n  \"params\": {},\n  \"query\": {\n    \"new\": \"one\"\n  },\n  \"body\": {\n    \"name\": \"Ani\",\n    \"test\": 1,\n    \"phone\": 123\n  }\n}\n   );\n\nreturn [];"
+      },
+      "id": "e17e4dac-131d-4faf-a723-e941215935c8",
+      "name": "Assert8",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [
+        -220,
+        60
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "return {\n  \"name\": \"Ani\",\n  \"test\": 1,\n  \"phone\": 123,\n}"
+      },
+      "id": "7ed7149f-e337-437c-a4ea-75d21a454c4e",
+      "name": "Return Data",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [
+        780,
+        -340
+      ]
+    },
+    {
+      "parameters": {
+        "content": "## POST",
+        "height": 381.2644459551324,
+        "width": 405.4112848402448
+      },
+      "id": "7bd4b24a-1ef9-4daf-adc6-ee5a2fdb9cc8",
+      "name": "Sticky Note2",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -460,
+        -180
+      ]
+    },
+    {
+      "parameters": {
+        "requestMethod": "POST",
+        "url": "http://localhost:5678/webhook/9b43a8a6-db70-4001-96d5-bce674ba071e",
+        "jsonParameters": true,
+        "options": {
+          "fullResponse": false
+        },
+        "bodyParametersJson": "={{ $json }}",
+        "headerParametersJson": "={\"name\": \"Ani\"}",
+        "queryParametersJson": "{\"new\": \"one\"}"
+      },
+      "name": "POST with expresions",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 1,
+      "position": [
+        -420,
+        60
+      ],
+      "id": "79eae10a-344c-4028-abb2-2a82b1274f93"
+    },
+    {
+      "parameters": {
+        "content": "## GET",
+        "height": 579.8701973280386,
+        "width": 403.26308633582596
+      },
+      "id": "2980d839-bf0a-4a04-b314-a580384be429",
+      "name": "Sticky Note3",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -460,
+        240
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const assert = require('node:assert');\n\nconst data = items[0].json;\n\ndelete data.headers.accept;\n\nassert.deepStrictEqual(JSON.parse(JSON.stringify(items[0].json)),{\n  \"headers\": {\n    \"name\": \"Ani\",\n    \"user-agent\": \"axios/0.21.4\",\n    \"host\": \"localhost:5678\",\n    \"connection\": \"close\"\n  },\n  \"params\": {},\n  \"query\": {\n    \"phone\": \"123\"\n  }\n}\n   );\n\nreturn [];"
+      },
+      "id": "bc04c605-adaf-445f-96c6-e834dc12cfbe",
+      "name": "Assert9",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [
+        -220,
+        460
+      ]
+    },
+    {
+      "parameters": {
+        "url": "http://localhost:5678/webhook/e58c05c3-74f6-429a-b182-e3c8d6af9d8e",
+        "jsonParameters": true,
+        "options": {},
+        "headerParametersJson": "={\"name\":\"{{ $json.name }}\"}  ",
+        "queryParametersJson": "={\"phone\":\"{{ $json.phone }}\"}"
+      },
+      "name": "GET with Expressions",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 1,
+      "position": [
+        -420,
+        460
+      ],
+      "id": "f2e133d0-302a-43c2-b422-b9851076a651"
+    },
+    {
+      "parameters": {
+        "jsCode": "const assert = require('node:assert');\nconst data = items[0].json;\n\ndelete data.headers.accept;\n\nassert.deepStrictEqual(JSON.parse(JSON.stringify(items[0].json)),{\n  \"headers\": {\n    \"new\": \"test\",\n    \"content-type\": \"application/json\",\n    \"user-agent\": \"axios/0.21.4\",\n    \"content-length\": \"143\",\n    \"host\": \"localhost:5678\",\n    \"connection\": \"close\"\n  },\n  \"params\": {},\n  \"query\": {\n    \"name\": \"Ani\"\n  },\n  \"body\": {\n    \"name\": \"John Doe\",\n    \"email\": \"john.doe@example.com\",\n    \"age\": 30,\n    \"address\": {\n      \"street\": \"123 Main St\",\n      \"city\": \"Example City\",\n      \"state\": \"CA\",\n      \"zip\": \"12345\"\n    }\n  }\n}\n   );\n\nreturn [];"
+      },
+      "id": "d65c1af1-7188-44e9-9fde-0c843fb1979f",
+      "name": "Assert10",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [
+        280,
+        60
+      ]
+    },
+    {
+      "parameters": {
+        "requestMethod": "PUT",
+        "url": "http://localhost:5678/webhook/04607968-482e-4376-99a6-c82442a98ef9",
+        "jsonParameters": true,
+        "options": {},
+        "bodyParametersJson": "={\n    \"name\": \"John Doe\",\n    \"email\": \"john.doe@example.com\",\n    \"age\": 30,\n    \"address\": {\n      \"street\": \"123 Main St\",\n      \"city\": \"Example City\",\n      \"state\": \"CA\",\n      \"zip\": \"12345\"\n    }\n}",
+        "headerParametersJson": "={\"new\": \"test\" }",
+        "queryParametersJson": "={\"name\": \"{{ $json.name }}\" }"
+      },
+      "name": "Put with Expression",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 1,
+      "position": [
+        80,
+        60
+      ],
+      "id": "269d0499-dfc7-43e3-9ca6-2d344bbea972"
+    },
+    {
+      "parameters": {
+        "content": "## PUT",
+        "height": 367.91529164328654,
+        "width": 403.26308633582596
+      },
+      "id": "d978f758-c44b-4774-ad47-7bf0dd7d24c3",
+      "name": "Sticky Note4",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        40,
+        -160
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const assert = require('node:assert');\nconst data = items[0].json;\n\ndelete data.headers.accept;\n\nassert.deepStrictEqual(JSON.parse(JSON.stringify(items[0].json)),{\n  \"headers\": {\n    \"name\": \"Ani\",\n    \"content-type\": \"application/json\",\n    \"user-agent\": \"axios/0.21.4\",\n    \"content-length\": \"143\",\n    \"host\": \"localhost:5678\",\n    \"connection\": \"close\"\n  },\n  \"params\": {},\n  \"query\": {\n    \"phone\": \"123\"\n  },\n  \"body\": {\n    \"name\": \"John Doe\",\n    \"email\": \"john.doe@example.com\",\n    \"age\": 30,\n    \"address\": {\n      \"street\": \"123 Main St\",\n      \"city\": \"Example City\",\n      \"state\": \"CA\",\n      \"zip\": \"12345\"\n    }\n  }\n}\n   );\n\nreturn [];"
+      },
+      "id": "6b6ce3dc-c68b-4ecf-a562-730c26838ab4",
+      "name": "Assert11",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [
+        280,
+        460
+      ]
+    },
+    {
+      "parameters": {
+        "requestMethod": "PATCH",
+        "url": "http://localhost:5678/webhook/147bce37-8acb-4097-9f08-90c21e321ef6",
+        "jsonParameters": true,
+        "options": {},
+        "bodyParametersJson": "={\n    \"name\": \"John Doe\",\n    \"email\": \"john.doe@example.com\",\n    \"age\": 30,\n    \"address\": {\n      \"street\": \"123 Main St\",\n      \"city\": \"Example City\",\n      \"state\": \"CA\",\n      \"zip\": \"12345\"\n    }\n}",
+        "headerParametersJson": "={\"name\": \"{{$json.name}}\"}",
+        "queryParametersJson": "={\"phone\": \"{{$json.phone}}\"}"
+      },
+      "name": "Patch with Expressions",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 1,
+      "position": [
+        80,
+        460
+      ],
+      "id": "bb3b70e5-218f-42a3-b717-3bb8c4be847f"
+    },
+    {
+      "parameters": {
+        "content": "## PATCH",
+        "height": 367.91529164328654,
+        "width": 403.26308633582596
+      },
+      "id": "50855138-2ffe-4c5a-9639-91253e253fa2",
+      "name": "Sticky Note5",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        40,
+        240
+      ]
+    },
+    {
+      "parameters": {
+        "requestMethod": "HEAD",
+        "url": "http://localhost:5678/webhook/d2568160-d906-4338-b7f0-78e1dcb8eda5",
+        "jsonParameters": true,
+        "options": {},
+        "headerParametersJson": "={\"test\":123}",
+        "queryParametersJson": "={\"name\": \"Ani\"}"
+      },
+      "name": "Head with Expressions",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 1,
+      "position": [
+        620,
+        740
+      ],
+      "id": "1ce82259-9643-45d4-bb42-a5cde6006544",
+      "alwaysOutputData": true,
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "content": "## HEAD",
+        "height": 381.2644459551324,
+        "width": 403.26308633582596
+      },
+      "id": "5ff6475a-fa03-4eb6-9ee2-86fba68898f7",
+      "name": "Sticky Note6",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        600,
+        520
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const assert = require('node:assert');\nconst data = items[0].json;\n\ndelete data.headers.accept;\n\nassert.deepStrictEqual(JSON.parse(JSON.stringify(items[0].json)),{\n  \"headers\": {\n    \"test\": \"123\",\n    \"user-agent\": \"axios/0.21.4\",\n    \"host\": \"localhost:5678\",\n    \"connection\": \"close\"\n  },\n  \"params\": {},\n  \"query\": {\n    \"name\": \"Ani\"\n  }\n}\n   );\n\nreturn [];"
+      },
+      "id": "8bee9453-4bdf-4406-ba26-14488cef9fd7",
+      "name": "Assert12",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [
+        840,
+        740
+      ],
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "requestMethod": "DELETE",
+        "url": "http://localhost:5678/webhook/8df25297-b9b8-492a-ab37-019d640a2dc6",
+        "options": {
+          "batchInterval": 1000,
+          "batchSize": 50,
+          "fullResponse": true,
+          "followAllRedirects": true,
+          "followRedirect": true,
+          "timeout": 10000
+        },
+        "headerParametersUi": {
+          "parameter": [
+            {
+              "name": "name",
+              "value": "Jhon"
+            },
+            {
+              "name": "Authorization",
+              "value": "=test"
+            }
+          ]
+        },
+        "queryParametersUi": {
+          "parameter": [
+            {
+              "name": "fromDate",
+              "value": "=date"
+            },
+            {
+              "name": "new name",
+              "value": "Ani"
+            }
+          ]
+        }
+      },
+      "name": "Delete1",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 1,
+      "position": [
+        60,
+        720
+      ],
+      "id": "a6403814-f926-4b6f-bcb7-daabfee14d13"
+    },
+    {
+      "parameters": {
+        "content": "## DELETE",
+        "height": 586.4514927433695,
+        "width": 403.26308633582596
+      },
+      "id": "7a97d856-2a45-4f2e-a11d-46889a319c85",
+      "name": "Sticky Note7",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        40,
+        640
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const assert = require('node:assert');\nconst data = items[0].json;\n\ndelete data.body.headers.accept;\ndelete data.headers.date;\ndelete data.headers['content-length'];\ndelete data.headers.etag;\n\nassert.deepStrictEqual(JSON.parse(JSON.stringify(items[0].json)),{\n  \"body\": {\n    \"headers\": {\n      \"name\": \"Jhon\",\n      \"authorization\": \"test\",\n      \"user-agent\": \"axios/0.21.4\",\n      \"host\": \"localhost:5678\",\n      \"connection\": \"close\"\n    },\n    \"params\": {},\n    \"query\": {\n      \"fromDate\": \"date\",\n      \"new name\": \"Ani\"\n    }\n  },\n  \"headers\": {\n    \"content-type\": \"application/json; charset=utf-8\",\n    \"vary\": \"Accept-Encoding\",\n    \"connection\": \"close\"\n  },\n  \"statusCode\": 200,\n  \"statusMessage\": \"OK\"\n}\n   );\n\nreturn [];"
+      },
+      "id": "c94f8141-7d41-4d12-b595-ed4756ada84f",
+      "name": "Assert13",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [
+        280,
+        720
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://localhost:5678/webhook/9b43a8a6-db70-4001-96d5-bce674ba071e",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpBasicAuth",
+        "sendQuery": true,
+        "specifyQuery": "json",
+        "jsonQuery": "={\"new\": \"one\"}",
+        "sendHeaders": true,
+        "specifyHeaders": "json",
+        "jsonHeaders": "={\"send\": \"header\"}",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ $json }}",
+        "options": {}
+      },
+      "id": "6f9e758a-31f4-444c-aed2-7f892f86fb05",
+      "name": "Basic Auth/POST1",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        640,
+        40
+      ],
+      "credentials": {
+        "httpBasicAuth": {
+          "id": "60",
+          "name": "Test"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const assert = require('node:assert');\nconst data = items[0].json;\n\ndelete data.headers.accept;\n\nassert.deepStrictEqual(JSON.parse(JSON.stringify(items[0].json)),{\n  \"headers\": {\n    \"send\": \"header\",\n    \"content-type\": \"application/json\",\n    \"user-agent\": \"axios/0.21.4\",\n    \"content-length\": \"35\",\n    \"host\": \"localhost:5678\",\n    \"authorization\": \"Basic dGVzdDp0ZXN0\",\n    \"connection\": \"close\"\n  },\n  \"params\": {},\n  \"query\": {\n    \"new\": \"one\"\n  },\n  \"body\": {\n    \"name\": \"Ani\",\n    \"test\": 1,\n    \"phone\": 123\n  }\n}\n   );\n\nreturn [];"
+      },
+      "id": "d6319531-5dcc-4eb8-871a-1a27d9027515",
+      "name": "Assert14",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [
+        840,
+        40
+      ]
+    },
+    {
+      "parameters": {
+        "requestMethod": "DELETE",
+        "url": "http://localhost:5678/webhook/8df25297-b9b8-492a-ab37-019d640a2dc6",
+        "jsonParameters": true,
+        "options": {},
+        "bodyParametersJson": "={\"name\": \"{{$json.name}}\" }",
+        "headerParametersJson": "={\"test\": {{$json.test}}}",
+        "queryParametersJson": "={\"phone\": {{$json.phone}}}"
+      },
+      "name": "Delete with Expressions",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 1,
+      "position": [
+        60,
+        900
+      ],
+      "id": "f223cc98-0234-486b-baa5-87e397489add"
+    },
+    {
+      "parameters": {
+        "content": "## Basic Auth",
+        "height": 381.2644459551324,
+        "width": 403.26308633582596
+      },
+      "id": "1a523e48-44c6-4bfd-86d8-1c28febfbee7",
+      "name": "Sticky Note8",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        600,
+        -160
+      ]
+    },
+    {
+      "parameters": {
+        "url": "http://localhost:5678/webhook/e58c05c3-74f6-429a-b182-e3c8d6af9d8e",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpBasicAuth",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "name",
+              "value": "Ani"
+            },
+            {
+              "name": "phone",
+              "value": "123"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "dd80ef79-2c9d-4ddd-94cb-e307733c2907",
+      "name": "Basic Auth/GET",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        640,
+        -100
+      ],
+      "credentials": {
+        "httpBasicAuth": {
+          "id": "60",
+          "name": "Test"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "requestMethod": "DELETE",
+        "url": "http://localhost:5678/webhook/8df25297-b9b8-492a-ab37-019d640a2dc6",
+        "allowUnauthorizedCerts": true,
+        "options": {
+          "batchInterval": 1000,
+          "batchSize": 50,
+          "useQueryString": true
+        },
+        "headerParametersUi": {
+          "parameter": [
+            {
+              "name": "name",
+              "value": "Jhon"
+            },
+            {
+              "name": "Authorization",
+              "value": "=test"
+            }
+          ]
+        },
+        "queryParametersUi": {
+          "parameter": [
+            {
+              "name": "color[1]",
+              "value": "=red"
+            },
+            {
+              "name": "color[0]",
+              "value": "blue"
+            },
+            {
+              "name": "color[2]",
+              "value": "green"
+            }
+          ]
+        }
+      },
+      "name": "Delete Check Querystring",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 1,
+      "position": [
+        60,
+        1080
+      ],
+      "id": "1ae62ef4-f324-4bca-9475-ba81ee863241"
+    },
+    {
+      "parameters": {
+        "jsCode": "const assert = require('node:assert');\nconst data = items[0].json;\n\ndelete data.headers.accept;\n\nassert.deepStrictEqual(JSON.parse(JSON.stringify(items[0].json)),{\n  \"headers\": {\n    \"name\": \"Jhon\",\n    \"authorization\": \"test\",\n    \"user-agent\": \"axios/0.21.4\",\n    \"host\": \"localhost:5678\",\n    \"connection\": \"close\"\n  },\n  \"params\": {},\n  \"query\": {\n    \"color\": [\n      \"blue\",\n      \"red\",\n      \"green\"\n    ]\n  }\n}\n   );\n\nreturn [];"
+      },
+      "id": "0a6b583d-eeb0-42c4-b1d0-1ef1d67fc164",
+      "name": "Assert15",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [
+        280,
+        1080
+      ]
+    },
+    {
+      "parameters": {
+        "content": "## TODO\nCheck splite into items options",
+        "height": 286.3064943016505,
+        "width": 222.70286795000823
+      },
+      "id": "244c6249-058b-48e8-9cee-53237e9df9a7",
+      "name": "Sticky Note12",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        600,
+        940
+      ]
+    },
+    {
+      "parameters": {
+        "content": "In the new version of the HTTP node \"splitIntoItems\" options are no longer supported?"
+      },
+      "id": "b57d2de0-a127-473e-87c4-ff0759da06f8",
+      "name": "Sticky Note1",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        860,
+        940
+      ]
+    },
+    {
+      "parameters": {
+        "content": "Request method \"OPTIONS\": you will need to manually check the response to ensure it is working as expected."
+      },
+      "id": "0c1098e3-1a57-4d72-bab7-2b4058c93aee",
+      "name": "Sticky Note10",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        1020,
+        280
+      ]
+    },
+    {
+      "parameters": {
+        "content": "## OPTIONS",
+        "height": 233.81548368278254,
+        "width": 391.7318275701643
+      },
+      "id": "f2efea9d-2540-466d-b6b7-239e31f61a5b",
+      "name": "Sticky Note13",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        600,
+        240
+      ]
+    },
+    {
+      "parameters": {
+        "url": "http://localhost:5678/webhook/86b982bf-deda-49ec-aece-1dc7cd65a1e0",
+        "allowUnauthorizedCerts": true,
+        "options": {
+          "splitIntoItems": true
+        }
+      },
+      "name": "GET /Split into items",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 1,
+      "position": [
+        640,
+        1040
+      ],
+      "id": "7d08c599-ba0e-4a2e-8ec1-41cd0e286441",
+      "alwaysOutputData": false,
+      "retryOnFail": false,
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "url": "http://localhost:5678/webhook/bae0f4b9-ed9c-47f6-ae6d-19f2b14bd2c9",
+        "allowUnauthorizedCerts": true,
+        "options": {
+          "ignoreResponseCode": true
+        }
+      },
+      "name": "GET /Ignore Response Code",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 1,
+      "position": [
+        -420,
+        660
+      ],
+      "id": "67d1f1c7-effa-4987-ab60-77076db17ed9"
+    },
+    {
+      "parameters": {
+        "jsCode": "const assert = require('node:assert');\n\nconst data = items[0].json;\n\ndelete data.headers.accept;\n\nassert.deepStrictEqual(JSON.parse(JSON.stringify(items[0].json)),{\n  \"headers\": {\n    \"phone\": \"222\",\n    \"content-type\": \"application/json\",\n    \"user-agent\": \"axios/0.21.4\",\n    \"content-length\": \"14\",\n    \"host\": \"localhost:5678\",\n    \"connection\": \"close\"\n  },\n  \"params\": {},\n  \"query\": {\n    \"age\": \"13\"\n  },\n  \"body\": {\n    \"name\": \"Ani\"\n  }\n}\n   );\n\nreturn [];"
+      },
+      "id": "58242a32-d35b-4080-9cdf-e0aaba95e563",
+      "name": "Assert16",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [
+        -220,
+        660
+      ]
+    },
+    {
+      "parameters": {
+        "content": "Request method \"HEAD\": you will need to manually check the response to ensure it is working as expected."
+      },
+      "id": "d70f834f-02ff-4786-bfd6-1b7ee9b8d8b0",
+      "name": "Sticky Note11",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        1020,
+        520
+      ]
+    }
+  ],
+  "connections": {
+    "Head": {
+      "main": [
+        [
+          {
+            "node": "Assert2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Options": {
+      "main": [
+        [
+          {
+            "node": "Assert6",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Patch": {
+      "main": [
+        [
+          {
+            "node": "Assert3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Put": {
+      "main": [
+        [
+          {
+            "node": "Assert4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When clicking \"Execute Workflow\"": {
+      "main": [
+        [
+          {
+            "node": "POST",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "GET",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Head",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Put",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Patch",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Basic Auth/GET",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Return Data",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "GET /Ignore Response Code",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "POST": {
+      "main": [
+        [
+          {
+            "node": "Assert1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GET": {
+      "main": [
+        [
+          {
+            "node": "Assert",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Return Data": {
+      "main": [
+        [
+          {
+            "node": "POST with expresions",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "GET with Expressions",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Put with Expression",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Patch with Expressions",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Head with Expressions",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Delete1",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Delete with Expressions",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Basic Auth/POST1",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Delete Check Querystring",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "POST with expresions": {
+      "main": [
+        [
+          {
+            "node": "Assert8",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GET with Expressions": {
+      "main": [
+        [
+          {
+            "node": "Assert9",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Put with Expression": {
+      "main": [
+        [
+          {
+            "node": "Assert10",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Patch with Expressions": {
+      "main": [
+        [
+          {
+            "node": "Assert11",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Head with Expressions": {
+      "main": [
+        [
+          {
+            "node": "Assert12",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Delete1": {
+      "main": [
+        [
+          {
+            "node": "Assert13",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Basic Auth/POST1": {
+      "main": [
+        [
+          {
+            "node": "Assert14",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Delete with Expressions": {
+      "main": [
+        [
+          {
+            "node": "Assert5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Basic Auth/GET": {
+      "main": [
+        [
+          {
+            "node": "Assert7",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Delete Check Querystring": {
+      "main": [
+        [
+          {
+            "node": "Assert15",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GET /Ignore Response Code": {
+      "main": [
+        [
+          {
+            "node": "Assert16",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {}
+}
