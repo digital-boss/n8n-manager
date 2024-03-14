@@ -26,7 +26,7 @@ export interface ChangesReport {
 
 export interface IConverter {
   predicate: (node: INode) => boolean;
-  convert: (node: INode) => string;
+  convert: (node: INode) => string; // ToDo: Let's move strings combining loginc outside the converters. Make return type string[].
 }
 
 export interface ConvertionResult {
@@ -35,13 +35,7 @@ export interface ConvertionResult {
   result?: string;
 }
 
-export interface OperationMappings {
-  [operationType: string]: {
-    [operationValue: string]: string;
-    default: string;
-  };
-}
-
+// ToDo: Move it to corresponding converter
 export interface Rule {
   outputKey: number;
   output: any;

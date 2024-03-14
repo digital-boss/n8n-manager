@@ -5,6 +5,8 @@ export function transform(converters: IConverter[], nodes: INode[]): ConvertionR
   const resultArray: ConvertionResult[] = []; // Collect all transformation results here
 
   nodes.forEach((node) => {
+    // ToDo: make node immutable (Object.freeze) and pass immutable object into predicate and converter.
+    // This is how we make sure that no predicate and converter mutate node.
     for (const conv of converters) {
       if (conv.predicate(node)) {
         const result = conv.convert(node);

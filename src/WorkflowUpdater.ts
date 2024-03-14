@@ -27,6 +27,16 @@ export function updateWorkflows(dir: string, outputDir: string) {
   generateChangesReport(changesReport, changesReportFilePath);
 }
 
+function loadWorkflowFromFile(filePath: string): any {
+  const content = fs.readFileSync(filePath, 'utf8');
+
+  try {
+    return JSON.parse(content);
+  } catch (parseError) {
+    throw new Error(`Error parsing file ${filePath}`);
+  }
+}
+
 function processFile(dir: string, file: string, changesReport: ChangesReport, outputDir: string) {
   const filePath = path.join(dir, file);
 
@@ -35,14 +45,7 @@ function processFile(dir: string, file: string, changesReport: ChangesReport, ou
     return;
   }
 
-  let workflowData;
-
-  try {
-    workflowData = JSON.parse(fs.readFileSync(filePath, 'utf8'));
-  } catch (parseError) {
-    console.error(`Error reading file ${file}:`, parseError);
-    return;
-  }
+  const workflowData = loadWorkflowFromFile(filePath);
 
   const nodes = workflowData.nodes;
   const workflowName = file.replace(/\.json$/, '');
