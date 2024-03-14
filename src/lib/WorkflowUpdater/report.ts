@@ -1,4 +1,4 @@
-import fs from 'node:fs';
+import fs from 'node:fs'; // ToDo: Libs shouldn't write to files directly.
 import type { WorkflowChange, TodoItem, ChangesReport } from './types';
 
 function generateChanges(workflows: WorkflowChange[]): string {

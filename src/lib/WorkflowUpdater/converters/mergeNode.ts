@@ -1,3 +1,20 @@
+/**
+ToDo: Try following approach for writing converters. We will see the resulting structure this way. Follow DRY.
+
+const convert = (node) => {
+  const result = {
+    ...node,
+    b: node.B,
+    c: node.C.map(i => ({...}))
+  }
+  delete result.B;
+  delete result.C;
+  return result;
+}
+
+ */
+
+
 import type { IConverter, INode } from "../types";
 
 const checkNodeType = (t: string) => t === 'n8n-nodes-base.merge';
