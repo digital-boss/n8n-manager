@@ -1,4 +1,4 @@
-import type { IConverter, INode, Rule } from "../types";
+import type { IConverter, INode } from "../types";
 import { operationMappings, setDefaultValues } from './common';
 
 const checkNodeType = (t: string) => t === 'n8n-nodes-base.switch';
@@ -9,6 +9,11 @@ const convertOperation = (type: string, oldOperation: string) => {
   }
   return operationMappings[type]?.[oldOperation] || operationMappings[type]?.default || "equals";
 };
+
+interface Rule {
+  outputKey: number;
+  output: any;
+}
 
 const ver1: IConverter = {
   predicate: (node: INode) => {

@@ -34,9 +34,3 @@ export interface ConvertionResult {
   nodeName: string;
   result?: string;
 }
-
-// ToDo: Move it to corresponding converter
-export interface Rule {
-  outputKey: number;
-  output: any;
-}
