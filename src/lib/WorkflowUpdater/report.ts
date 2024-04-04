@@ -1,24 +1,36 @@
-import fs from 'node:fs'; // ToDo: Libs shouldn't write to files directly.
 import type { WorkflowChange, TodoItem, ChangesReport } from './types';
 
-function generateChanges(workflows: WorkflowChange[]): string {
-  let reportContent = '';
+/**
+ * 
+ * @param workflows 
+ * @returns string[]
+ * This function returns information regarding the updated workflows to the user
+ */
+function getChanges(workflows: WorkflowChange[]): string[] {
+  let reportContent: string[] = [];
 
   workflows.forEach((workflowChanges: WorkflowChange, index: number) => {
     const workflowName = workflowChanges.workflowName;
-    reportContent += `${index + 1}. ${workflowName.replace(/_/g, ' ').replace('.json', '')}\n`;
-    reportContent += '  - Modified node names:\n';
+    reportContent.concat([
+      `${index + 1}. ${workflowName.replace(/_/g, ' ').replace('.json', '')}\n`,
+      '- Modified node names:',
+    ]);
     workflowChanges.nodeNames.forEach((nodeName: string) => {
-      reportContent += `    - ${nodeName}\n`;
+      reportContent.push(`    - ${nodeName}`);
     });
-    reportContent += '\n';
   });
 
   return reportContent;
 }
 
-function generateTodos(todos: TodoItem[]): string {
-  let reportContent = '';
+/**
+ * 
+ * @param todos 
+ * @returns string[]
+ * This function returns information of the ToDos that should be manually reviewed by the user
+ */
+function getTodos(todos: TodoItem[]): string[] {
+  let reportContent: string[] = [];
 
   const groupedTodos: { [workflowName: string]: { [nodeType: string]: TodoItem[] } } = {};
   todos.forEach((todo: TodoItem) => {
@@ -33,42 +45,41 @@ function generateTodos(todos: TodoItem[]): string {
 
   // Generate report content
   Object.keys(groupedTodos).forEach((workflowName, index) => {
-    reportContent += `${index + 1}. ${workflowName}\n`;
+    reportContent.push(`${index + 1}. ${workflowName}`);
     const nodeTypes = groupedTodos[workflowName];
     Object.keys(nodeTypes).forEach((nodeType) => {
-      reportContent += `  - Node names\n`;
+      reportContent.push(`  - Node names`);
       nodeTypes[nodeType].forEach((node: TodoItem) => {
-        reportContent += `    - [${node.nodeType}] ${node.result}\n`;
+        reportContent.push(`    - [${node.nodeType}] ${node.todo}`);
       });
     });
-
-    reportContent += '\n';
   });
 
   return reportContent;
 }
 
-export function generateChangesReport(changesReport: ChangesReport, filePath: string): void {
-  let reportContent = '# Changes Report\n\n';
+/**
+ * 
+ * @param changesReport 
+ * @returns string[]
+ * This function returns information regarding the updated workflows to the user
+ */
+export function generateChangesReport(changesReport: ChangesReport): string[] {
+  let reportContent = ['# Changes Report\n'];
   const workflows = changesReport.changes || [];
-  reportContent += generateChanges(workflows);
+  reportContent.concat(getChanges(workflows));
 
   const todos = changesReport.todos || [];
 
   if (todos.length > 0) {
-    reportContent += '## TODO\n';
-    reportContent += '\n';
-    reportContent += `Activate the "Webhook Testing HTTP Node" workflow to test the Http Request node\n`;
-    reportContent += `Check and test all nodes manually in the workflows:\n`;
+    reportContent.concat([
+        '## TODO\n',
+        `Activate the "Webhook Testing HTTP Node" workflow to test the Http Request node`,
+        `Check and test all nodes manually in the workflows:`
+      ]);
 
-    reportContent += generateTodos(todos);
+    reportContent.concat(getTodos(todos));
   }
 
-  fs.writeFile(filePath, reportContent, (err) => {
-    if (err) {
-      console.error('Error writing changes report file:', err);
-    } else {
-      console.log('Changes report generated and saved:', filePath);
-    }
-  });
+  return reportContent;
 }

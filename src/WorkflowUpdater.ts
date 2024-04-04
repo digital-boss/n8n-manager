@@ -24,7 +24,15 @@ export function updateWorkflows(dir: string, outputDir: string) {
   });
 
   const changesReportFilePath = path.join(outputDir, 'ChangesReport.md');
-  generateChangesReport(changesReport, changesReportFilePath);
+  const reportContent = generateChangesReport(changesReport).join('\n');
+  fs.writeFile(changesReportFilePath, reportContent, (err) => {
+    if (err) {
+      console.error('Error writing changes report file:', err);
+    } else {
+      console.log('Changes report generated and saved:', changesReportFilePath);
+    }
+  });
+
 }
 
 function loadWorkflowFromFile(filePath: string): any {
