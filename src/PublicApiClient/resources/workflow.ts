@@ -20,6 +20,7 @@ export class Workflow extends ResourceBase {
       }
     }
     if (cursor != '') {
+      // @ts-ignore
       options.params.cursor = cursor;
     }
     return this.httpClient.request(options)
