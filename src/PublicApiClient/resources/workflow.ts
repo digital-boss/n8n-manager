@@ -11,14 +11,18 @@ export class Workflow extends ResourceBase {
   //   }
   // }
 
-  getAll () {
-    return this.httpClient.request({
+  getAll (cursor: string = '') {
+    const options = {
       url: '/workflows',
       method: 'GET',
       params: {
         limit: 250,
       }
-    })
+    }
+    if (cursor != '') {
+      options.params.cursor = cursor;
+    }
+    return this.httpClient.request(options)
   }
   
   get (id: string) {

@@ -92,8 +92,11 @@ export class Workflows {
 
   private async fetchAllWf(): Promise<IWorkflow[]> {
     const result = await this.publicApiClient.workflow.getAll();
-    if (result.data.nextCursor) {
-      throw new Error('It time to implement paging!')
+    // Pagination implemented for more than 250 workflows
+    while (result.data.nextCursor) {
+      result.data.data.push(
+        (await this.publicApiClient.workflow.getAll(result.data.nextCursor)).data.data
+      );
     }
     return result.data.data;
   }
