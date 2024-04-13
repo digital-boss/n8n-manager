@@ -8,6 +8,11 @@ import { WorkflowsFilter } from "./utils/WorkflowsFilter";
 import { IWorkflow } from "./utils/Workflow";
 import { AxiosResponse } from "axios";
 
+interface IGetAllWorkflowsResponse {
+  data: IWorkflow[];
+  nextCursor: string | null;
+}
+
 const getFileName = (wf: IWorkflow) => {
   const name = wf.name
     .replace(/::|: /g, ' - ')
@@ -94,14 +99,12 @@ export class Workflows {
   private async fetchAllWf(): Promise<IWorkflow[]> {
     let allWorkflows: IWorkflow[] = [];
     let nextCursor: string | null = null;
-
     do {
-        const response: AxiosResponse<{ data: IWorkflow[], nextCursor: string | null }> = await this.publicApiClient.workflow.getAll(nextCursor !== null ? nextCursor : undefined);
-        const { data, nextCursor: responseNextCursor } = response.data;
-        allWorkflows = allWorkflows.concat(data);
-        nextCursor = responseNextCursor;
+        const response: AxiosResponse<IGetAllWorkflowsResponse> = await this.publicApiClient.workflow
+          .getAll(nextCursor !== null ? nextCursor : undefined);
+        allWorkflows = allWorkflows.concat(response.data.data);
+        nextCursor = response.data.nextCursor;
     } while (nextCursor);
-
     return allWorkflows;
 }
   /**
