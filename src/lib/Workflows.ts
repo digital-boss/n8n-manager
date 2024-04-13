@@ -6,6 +6,7 @@ import { IRestCliConfig, RestCliClient } from "src/RestCliClient";
 import equal from 'fast-deep-equal';
 import { WorkflowsFilter } from "./utils/WorkflowsFilter";
 import { IWorkflow } from "./utils/Workflow";
+import { AxiosResponse } from "axios";
 
 const getFileName = (wf: IWorkflow) => {
   const name = wf.name
@@ -91,16 +92,18 @@ export class Workflows {
   }
 
   private async fetchAllWf(): Promise<IWorkflow[]> {
-    const result = await this.publicApiClient.workflow.getAll();
-    // Pagination implemented for more than 250 workflows
-    while (result.data.nextCursor) {
-      result.data.data.push(
-        (await this.publicApiClient.workflow.getAll(result.data.nextCursor)).data.data
-      );
-    }
-    return result.data.data;
-  }
+    let allWorkflows: IWorkflow[] = [];
+    let nextCursor: string | null = null;
 
+    do {
+        const response: AxiosResponse<{ data: IWorkflow[], nextCursor: string | null }> = await this.publicApiClient.workflow.getAll(nextCursor !== null ? nextCursor : undefined);
+        const { data, nextCursor: responseNextCursor } = response.data;
+        allWorkflows = allWorkflows.concat(data);
+        nextCursor = responseNextCursor;
+    } while (nextCursor);
+
+    return allWorkflows;
+}
   /**
    * Fetch from n8n instance
    * @param wfFilter 
