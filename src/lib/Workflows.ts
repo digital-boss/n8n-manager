@@ -10,7 +10,7 @@ import { AxiosResponse } from "axios";
 
 interface IGetAllWorkflowsResponse {
   data: IWorkflow[];
-  nextCursor: string | null;
+  nextCursor?: string;
 }
 
 const getFileName = (wf: IWorkflow) => {
@@ -98,7 +98,7 @@ export class Workflows {
 
   private async fetchAllWf(): Promise<IWorkflow[]> {
     let allWorkflows: IWorkflow[] = [];
-    let nextCursor: string | null = null;
+    let nextCursor: string | undefined = undefined;
     do {
         const response: AxiosResponse<IGetAllWorkflowsResponse> = await this.publicApiClient.workflow
           .getAll(nextCursor !== null ? nextCursor : undefined);

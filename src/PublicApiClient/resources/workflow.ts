@@ -11,7 +11,7 @@ export class Workflow extends ResourceBase {
   //   }
   // }
 
-  getAll (cursor: string = '') {
+  getAll (cursor?: string) {
     const options: AxiosRequestConfig = {
       url: '/workflows',
       method: 'GET',
@@ -19,7 +19,7 @@ export class Workflow extends ResourceBase {
         limit: 250,
       }
     }
-    if (cursor != '') {
+    if (cursor) {
       options.params.cursor = cursor;
     }
     return this.httpClient.request(options)
