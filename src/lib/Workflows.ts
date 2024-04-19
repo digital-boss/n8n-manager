@@ -6,6 +6,12 @@ import { IRestCliConfig, RestCliClient } from "src/RestCliClient";
 import equal from 'fast-deep-equal';
 import { WorkflowsFilter } from "./utils/WorkflowsFilter";
 import { IWorkflow } from "./utils/Workflow";
+import { AxiosResponse } from "axios";
+
+interface IGetAllWorkflowsResponse {
+  data: IWorkflow[];
+  nextCursor?: string;
+}
 
 const getFileName = (wf: IWorkflow) => {
   const name = wf.name
@@ -91,13 +97,16 @@ export class Workflows {
   }
 
   private async fetchAllWf(): Promise<IWorkflow[]> {
-    const result = await this.publicApiClient.workflow.getAll();
-    if (result.data.nextCursor) {
-      throw new Error('It time to implement paging!')
-    }
-    return result.data.data;
-  }
-
+    let allWorkflows: IWorkflow[] = [];
+    let nextCursor: string | undefined = undefined;
+    do {
+        const response: AxiosResponse<IGetAllWorkflowsResponse> = await this.publicApiClient.workflow
+          .getAll(nextCursor !== null ? nextCursor : undefined);
+        allWorkflows = allWorkflows.concat(response.data.data);
+        nextCursor = response.data.nextCursor;
+    } while (nextCursor);
+    return allWorkflows;
+}
   /**
    * Fetch from n8n instance
    * @param wfFilter 

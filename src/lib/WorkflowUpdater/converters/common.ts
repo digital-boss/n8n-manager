@@ -1,4 +1,10 @@
-import type { OperationMappings } from "../types";
+
+interface OperationMappings {
+  [operationType: string]: {
+    [operationValue: string]: string;
+    default: string;
+  };
+}
 
 // Mapping for if t.v 1 to 2 and switch node from t.v. 2 to t.v.3
 export const operationMappings: OperationMappings = {

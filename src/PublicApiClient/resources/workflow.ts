@@ -1,5 +1,5 @@
 import { ResourceBase } from "./resourceBase";
-import { AxiosResponse } from "axios";
+import { AxiosRequestConfig, AxiosResponse } from "axios";
 
 export class Workflow extends ResourceBase {
 
@@ -11,14 +11,18 @@ export class Workflow extends ResourceBase {
   //   }
   // }
 
-  getAll () {
-    return this.httpClient.request({
+  getAll (cursor?: string) {
+    const options: AxiosRequestConfig = {
       url: '/workflows',
       method: 'GET',
       params: {
         limit: 250,
       }
-    })
+    }
+    if (cursor) {
+      options.params.cursor = cursor;
+    }
+    return this.httpClient.request(options)
   }
   
   get (id: string) {
