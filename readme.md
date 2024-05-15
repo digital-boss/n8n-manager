@@ -27,12 +27,25 @@ If you do not want to install 8man globally on your system, or do not want to in
 
 To build image run:
 
-    docker build . -t 8man:latest
+    Building Locally
+        docker build . -t 8man:latest
+    
+    or 
+
+    Use the digital-boss image:
+        docker run digitalboss/8man:latest
 
 To run:
 
     docker run --network host -v $PWD:/app 8man:latest 8man --config /app/configs/local.json wf list
 
+To set an alias:
+
+    alias 8man='docker run --network host -v $PWD:/app 8man:latest 8man'
+
+    or
+
+    alias 8man='docker run --network host -v $PWD:/app digitalboss/8man:latest 8man'
 
 ## Installing nodes from npm.digital-boss.cloud registry
 
@@ -59,7 +72,7 @@ Publish to npm:
 
 ### The requested webhook "POST import-workflow" is not registered
 
-Problem: `8man --config ... wf publish` responds with error
+Problems: `8man --config ... wf publish` responds with error
 
 ```js
 {
@@ -70,3 +83,27 @@ Problem: `8man --config ... wf publish` responds with error
 ```
 
 Solution: Restart n8n or ReActivate system workflow manually. 
+
+```js
+{
+  code: 403,
+  message: "Request failed with status code 403",
+  stack: "AxiosError: Request failed with status code 403\n    at settle (/root/.nvm/versions/node/v18.17.0/lib/node_modules/@digital-boss/n8n-manager/dist/cli.js:14255:12)\n    at IncomingMessage.handleStreamEnd (/root/.nvm/versions/node/v18.17.0/lib/node_modules/@digital-boss/n8n-manager/dist/cli.js:15111:11)\n    at IncomingMessage.emit (node:events:526:35)\n    at endReadableNT (node:internal/streams/readable:1359:12)\n    at process.processTicksAndRejections (node:internal/process/task_queues:82:21)",
+  "code": "ERR_BAD_REQUEST"
+}
+```
+
+Solution: 
+ - Check Credentials: Ensure that the credentials provided are correct.
+ - Verify Workflow and Configuration Files: Verify that the workflow and configuration files are correctly configured.
+ - Use Absolute Path: Sometimes, the issue can be related to the path from the configuration file. Try using an absolute path to resolve any path-related issues.
+
+ ```js
+{
+  code: "ETIMEDOUT",
+  message: "connect ETIMEDOUT 100.70.70.255:443",
+  stack: "Error: connect ETIMEDOUT 100.70.70.255:443\n    at AxiosError.from (/root/.nvm/versions/node/v18.17.0/lib/node_modules/@digital-boss/n8n-manager/dist/cli.js:13526:14)\n    at RedirectableRequest.handleRequestError (/root/.nvm/versions/node/v18.17.0/lib/node_modules/@digital-boss/n8n-manager/dist/cli.js:15126:33)\n    at RedirectableRequest.emit (node:events:514:28)\n    at eventHandlers.<computed> (/root/.nvm/versions/node/v18.17.0/lib/node_modules/@digital-boss/n8n-manager/dist/cli.js:12084:28)\n    at ClientRequest.emit (node:events:514:28)\n    at TLSSocket.socketErrorListener (node:_http_client:501:9)\n    at TLSSocket.emit (node:events:514:28)\n    at emitErrorNT (node:internal/streams/destroy:151:8)\n    at emitErrorCloseNT (node:internal/streams/destroy:116:3)\n    at process.processTicksAndRejections (node:internal/process/task_queues:82:21)"
+}
+```
+
+Solution: Check your VPN connection. 
