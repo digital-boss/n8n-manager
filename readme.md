@@ -95,9 +95,11 @@ Solution: Restart n8n or ReActivate system workflow manually.
 
 Solution: 
  - Check Credentials: Ensure that the credentials provided are correct.
- - Verify Workflow and Configuration Files: Verify that the workflow and configuration files are correctly configured.
- - Use Absolute Path: Sometimes, the issue can be related to the path from the configuration file. Try using an absolute path to resolve any path-related issues.
-
+ - Ensure that the credentials in the workflow n8n-CLI REST Client are consistent with those in the configuration file. It is important to verify that both sets of credentials match.
+ - Make sure that provided path to config file is exist:
+    - Use absolute paths to guarantee the existence of the provided path to the configuration file.
+        - For example, instead of './workflows' in the configuration file, use '/home/user/workflows'.
+        - Similarly, when executing in the terminal, avoid '../8man/your-name-of-conf-file.json'; use '/home/user/8man/your-name-of-conf-file.json'.
  ```js
 {
   code: "ETIMEDOUT",
