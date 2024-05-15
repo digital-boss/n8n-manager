@@ -68,11 +68,13 @@ Publish to npm:
 - npm login
 - npm publish
 
-## Issues
+## Known Issues and possible solutions
 
-### The requested webhook "POST import-workflow" is not registered
+`8man` could respond with errors. Take a close look at the error message to understand the problem and find a working solution. Below are some error cases and possible solutions.
 
-Problems: `8man --config ... wf publish` responds with error
+### 404: The requested webhook "POST import-workflow" is not registered
+
+Error:
 
 ```js
 {
@@ -82,30 +84,45 @@ Problems: `8man --config ... wf publish` responds with error
 }
 ```
 
-Solution: Restart n8n or ReActivate system workflow manually. 
+Solution: Restart n8n or ReActivate system workflow (`n8n-CLI REST Client`) manually. 
+
+
+### 403: Request failed with status code 403
+
+Error:
 
 ```js
 {
   code: 403,
-  message: "Request failed with status code 403",
-  stack: "AxiosError: Request failed with status code 403\n    at settle (/root/.nvm/versions/node/v18.17.0/lib/node_modules/@digital-boss/n8n-manager/dist/cli.js:14255:12)\n    at IncomingMessage.handleStreamEnd (/root/.nvm/versions/node/v18.17.0/lib/node_modules/@digital-boss/n8n-manager/dist/cli.js:15111:11)\n    at IncomingMessage.emit (node:events:526:35)\n    at endReadableNT (node:internal/streams/readable:1359:12)\n    at process.processTicksAndRejections (node:internal/process/task_queues:82:21)",
-  "code": "ERR_BAD_REQUEST"
+  message: "Request failed with status code 403"
 }
 ```
 
-Solution: 
- - Check Credentials: Ensure that the credentials provided are correct.
- - Ensure that the credentials in the workflow n8n-CLI REST Client are consistent with those in the configuration file. It is important to verify that both sets of credentials match.
- - Make sure that provided path to config file is exist:
-    - Use absolute paths to guarantee the existence of the provided path to the configuration file.
-        - For example, instead of './workflows' in the configuration file, use '/home/user/workflows'.
-        - Similarly, when executing in the terminal, avoid '../8man/your-name-of-conf-file.json'; use '/home/user/8man/your-name-of-conf-file.json'.
- ```js
+**HTTP 403** is an HTTP status code meaning access to the requested resource is forbidden. The server understood the request, but will not fulfill it, if it was correct.
+
+Possible reasons:
+
+- Check Credentials: Ensure that the credentials provided in config file (`restCliClient` section) equals to ones specified in `n8n-CLI REST Client` workflow.
+- Make sure that the path to config file exists. `cat <path/to/config.json>`. 
+  - If you executing 8man from docker image, then paths are related to docker container. 
+  - Check if `8man` is actually an alias of bash function. To check if `8man` is an alias or a function rather than an executable file, you can use the `type 8man` command. Then check the actual command, may be you using `8man` from docker and path should be related to container.
+  - Consider using an absolute path to help resolve any path-related issues.
+
+
+### connect ETIMEDOUT
+
+Error:
+
+```js
 {
   code: "ETIMEDOUT",
-  message: "connect ETIMEDOUT 100.70.70.255:443",
-  stack: "Error: connect ETIMEDOUT 100.70.70.255:443\n    at AxiosError.from (/root/.nvm/versions/node/v18.17.0/lib/node_modules/@digital-boss/n8n-manager/dist/cli.js:13526:14)\n    at RedirectableRequest.handleRequestError (/root/.nvm/versions/node/v18.17.0/lib/node_modules/@digital-boss/n8n-manager/dist/cli.js:15126:33)\n    at RedirectableRequest.emit (node:events:514:28)\n    at eventHandlers.<computed> (/root/.nvm/versions/node/v18.17.0/lib/node_modules/@digital-boss/n8n-manager/dist/cli.js:12084:28)\n    at ClientRequest.emit (node:events:514:28)\n    at TLSSocket.socketErrorListener (node:_http_client:501:9)\n    at TLSSocket.emit (node:events:514:28)\n    at emitErrorNT (node:internal/streams/destroy:151:8)\n    at emitErrorCloseNT (node:internal/streams/destroy:116:3)\n    at process.processTicksAndRejections (node:internal/process/task_queues:82:21)"
+  message: "connect ETIMEDOUT ...:443"
 }
 ```
 
-Solution: Check your VPN connection. 
+`connect ETIMEDOUT` means a networking issue. Client application can't reach destination. 
+
+Possible reasons:
+
+- Your internet may not be working. 
+- If you use VPN - Check your VPN connection.
