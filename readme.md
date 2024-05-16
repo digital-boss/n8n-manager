@@ -44,12 +44,13 @@ If you want to use https://npm.digital-boss.cloud as npm registry, then install 
 ### Publish new version
 
 Commit new version and tag:
-- patch `src/version.ts`
-- `npm run build`
-- commit
-- `npm version patch`
+- `npm version patch` or minor or major, depending on your versioning needs
 - `git push`
-- push tag, for example: `git push origin v0.1.1`
+- push tag, for example: `git push origin v0.1.1`, or push all local tags: `git push --tags`
+
+Note: For more information on how the version scripts work check:
+https://docs.npmjs.com/cli/v8/commands/npm-version
+https://github.com/axelpale/genversion/blob/master/README.md
 
 Publish to npm:
 - npm login
