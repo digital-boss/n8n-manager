@@ -6,6 +6,36 @@
 > A critical note about [queue mode](https://docs.n8n.io/hosting/scaling/queue-mode/). In queue mode community nodes should be installed in n8n docker image, which used by every worker. So don't use `8man npm` commands for n8n cluster configured in queue mode.
 
 
+- [n8n Manager](#n8n-manager)
+  - [Why?](#why)
+  - [Key Features](#key-features)
+  - [Installation](#installation)
+    - [Option 1: Install npm package globally](#option-1-install-npm-package-globally)
+    - [Option 2: Run from docker image](#option-2-run-from-docker-image)
+  - [Basic Usage](#basic-usage)
+    - [Get help](#get-help)
+    - [Config file](#config-file)
+    - [`--dry` flag](#--dry-flag)
+  - [Full Commands list](#full-commands-list)
+    - [Main features](#main-features)
+    - [Workflows management](#workflows-management)
+    - [Credentials management](#credentials-management)
+    - [Community packages management](#community-packages-management)
+    - [API key management](#api-key-management)
+    - [Owner account](#owner-account)
+  - [Installing nodes from npm.digital-boss.cloud registry](#installing-nodes-from-npmdigital-bosscloud-registry)
+  - [Development](#development)
+    - [Release new version](#release-new-version)
+      - [Push new version commit](#push-new-version-commit)
+      - [Publish package to npm](#publish-package-to-npm)
+      - [Publish docker image to docker hub](#publish-docker-image-to-docker-hub)
+    - [Updating readme](#updating-readme)
+  - [Known Issues and possible solutions](#known-issues-and-possible-solutions)
+    - [404: The requested webhook "POST import-workflow" is not registered](#404-the-requested-webhook-post-import-workflow-is-not-registered)
+    - [403: Request failed with status code 403](#403-request-failed-with-status-code-403)
+    - [connect ETIMEDOUT](#connect-etimedout)
+
+
 ## Why?
 
 This utility was created as to a request for a convenient tool for managing n8n instances via the REST protocol using the command line interface.
