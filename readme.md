@@ -223,20 +223,45 @@ If you want to use https://npm.digital-boss.cloud as npm registry, then install 
 
 ## Development
 
-### Publish new version
+### Release new version
 
-Commit new version and tag:
-- `npm version patch` or minor or major, depending on your versioning needs
+- Push new version commit in git repo
+- Publish package to npmjs registry
+- Publish docker image to docker hub
+
+#### Push new version commit
+
+- Make sure you have clean working directory, commit all your changes. `git stash` all your work-in-progress changes that you don't want to commit in new release.
+- Commit new version and tag: `npm version patch` (or `minor` or `major`, depending on your versioning needs). I will make a commit with version name (example: 0.1.13), including files: package.json, package-lock.json and version.ts.
 - `git push`
-- push tag, for example: `git push origin v0.1.1`, or push all local tags: `git push --tags`
+- push tag, for example: `git tag --list`, then `git push origin v0.1.1`
 
-Note: For more information on how the version scripts work check:
-https://docs.npmjs.com/cli/v8/commands/npm-version
-https://github.com/axelpale/genversion/blob/master/README.md
+Order of execution (more details [here](https://docs.npmjs.com/cli/v7/commands/npm-version#description)):
 
-Publish to npm:
-- npm login
-- npm publish
+- Bump version in `package.json` as requested (patch, minor, major, etc).
+- Run the `version` script. These scripts have access to the new version in package.json, so `genversion` will get updated version number. Scripts should explicitly add generated files to the commit using `git add`.
+- Commit and tag.
+
+Note: For more information refer to [`npm version`](https://docs.npmjs.com/cli/v8/commands/npm-version) command docs and [`genversion`](https://github.com/axelpale/genversion/blob/master/README.md) package:
+
+
+#### Publish package to npm
+
+- `npm login`
+- `npm publish`
+
+#### Publish docker image to docker hub
+
+```sh
+docker login                   # use `digitalboss` login
+ver="0.1.14"                   # replace version with latest
+make docker/build VER="$ver"
+make docker/push VER="$ver"
+```
+
+### Updating readme
+
+When you updating readme, consider also to update readme for [docker hub](./docs/docker-hub-readme.md). It has less content than main readme, but in case you want to change some general information, it should be also updated at docker hub. Then put new content at: https://hub.docker.com/r/digitalboss/8man
 
 
 ## Known Issues and possible solutions

@@ -1,8 +1,10 @@
 docker/build:
-	docker build -t maestrow/8man:latest .
+	docker build -t digitalboss/8man:latest .
+	docker build -t digitalboss/8man:$(VER) .
 
 docker/push:
-	docker push maestrow/8man:latest
+	docker push digitalboss/8man:latest
+	docker build -t digitalboss/8man:$(VER) .
 
 clean:
 	rm -rf ./workflows/*
