@@ -8,3 +8,4 @@ configs/*
 .idea
 /data
 /*.log
+.vscode
