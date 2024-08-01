@@ -166,6 +166,10 @@ export class Workflows {
       console.log(`Publishing [${outputIdsList}]`);
       const res = await this.restCliClient.importWorkflow(wfs);
       console.log(res.status, res.data);
+      const activeWfIds = wfs.filter(wf=> wf.active).map(wf => wf.id);
+      for (const id of activeWfIds) {
+        await this.publicApiClient.workflow.activate(id);
+      }
     } else {
       console.log('There are no workflows to publish.');
     }
