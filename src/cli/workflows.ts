@@ -15,6 +15,7 @@ const options = {
   excludeId: new Option('--exclude-id <string...>', 'Workflow ids to exclude'),
   dir: new Option('--dir <string>', 'Directory with workflows'),
   tag: new Option('-t, --tag <string...>', 'Workflow tags'),
+  activate: new Option('-a, --activate', 'Activate the workflow(s) after publishing').default(true),
 }
 
 
@@ -173,16 +174,20 @@ export const wf = () => {
     .addOption(options.name)
     .addOption(options.tag)
     .addOption(options.excludeId)
+    .addOption(options.activate)
     .action(createAction(async (opts, wf, cmd) => {
+      const wfFilter = getWfFilter(opts, config);
       const args: Parameters<typeof wf.publish> = [
         opts.dir || config.workflows.dir,
-        getWfFilter(opts, config)
-      ]
-      logOp(cmd, args)
+        wfFilter,
+        opts.activate
+      ];
+      logOp(cmd, args);
       if (opts.dry === false) {
-        await wf.publish(...args)
+        await wf.deactivate(wfFilter) // Deactivate to avoid conflict
+        await wf.publish(...args);
       }
-    }))
+    }));
 
   cmd.command('setup-all')
     .description('Setup n8n instance workflows exactly the same as your --dir.')
@@ -192,16 +197,20 @@ export const wf = () => {
     .addOption(options.name)
     .addOption(options.tag)
     .addOption(options.excludeId)
+    .addOption(options.activate)
     .action(createAction(async (opts, wf, cmd) => {
+      const wfFilter = getWfFilter(opts, config);
       const args: Parameters<typeof wf.setupAll> = [
         opts.dir || config.workflows.dir,
-        getWfFilter(opts, config)
-      ]
-      logOp(cmd, args)
+        getWfFilter(opts, config),
+        opts.activate
+      ];
+      logOp(cmd, args);
       if (opts.dry === false) {
-        await wf.setupAll(...args)
+        await wf.deactivate(wfFilter) // Deactivate to avoid conflict
+        await wf.setupAll(...args);
       }
-    }))
+    }));
 
   return cmd;
 }
