@@ -171,18 +171,6 @@ export class Workflows {
     }
   }
 
-  private async activateWfs(wfs: IWorkflow[]) {
-    console.log('Activating workflows...');
-    for (const wf of wfs) {
-      try {
-        await this.publicApiClient.workflow.activate(wf.id);
-        console.log(`Activated ${wf.id}.`);
-      } catch (error) {
-        console.error(`Failed to activate ${wf.id}:`, error);
-      }
-    }
-  }
-
   /****************************************************************************
    * Public
    */
@@ -276,10 +264,14 @@ export class Workflows {
   async publish(dir: string, wfFilter: WorkflowsFilter, activate: boolean) {
     const wfs = this.getWorkflowsFromDir(dir, wfFilter);
     await this.publishWfs(wfs);
-  
+
     if (activate) {
-      const workflowsToActivate = wfs.filter(wf => wf.active);
-      await this.activateWfs(workflowsToActivate);
+        const activeWorkflowIds = wfs
+            .filter(wf => wf.active)
+            .map(wf => wf.id);
+        const activeFilter = new WorkflowsFilter();
+        activeFilter.id = activeWorkflowIds;
+        await this.activate(activeFilter);
     }
   }
 
@@ -304,8 +296,12 @@ export class Workflows {
   
     await this.publishWfs(wfsFromDir);
     if (activate) {
-      const workflowsToActivate = wfsFromDir.filter(wf => wf.active);
-      await this.activateWfs(workflowsToActivate);
+      const activeWorkflowIds = wfsFromDir
+        .filter(wf => wf.active)
+        .map(wf => wf.id);
+      const activeFilter = new WorkflowsFilter();
+      activeFilter.id = activeWorkflowIds;
+      await this.activate(activeFilter);
     }
   }
 }
