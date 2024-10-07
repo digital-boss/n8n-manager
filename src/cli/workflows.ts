@@ -16,6 +16,7 @@ const options = {
   dir: new Option('--dir <string>', 'Directory with workflows'),
   tag: new Option('-t, --tag <string...>', 'Workflow tags'),
   activate: new Option('-a, --activate', 'Activate the workflow(s) after publishing').default(true),
+  deactivateBefore: new Option('--deactivate-before', 'Deactivate the workflow(s) before publishing').default(false),
 }
 
 
@@ -175,6 +176,7 @@ export const wf = () => {
     .addOption(options.tag)
     .addOption(options.excludeId)
     .addOption(options.activate)
+    .addOption(options.deactivateBefore)
     .action(createAction(async (opts, wf, cmd) => {
       const wfFilter = getWfFilter(opts, config);
       const args: Parameters<typeof wf.publish> = [
@@ -183,8 +185,11 @@ export const wf = () => {
         opts.activate
       ];
       logOp(cmd, args);
+      if (opts.deactivateBefore) {
+        await wf.deactivate(wfFilter); // Deactivate to avoid conflict
+      }
+      // Proceed with publishing
       if (opts.dry === false) {
-        await wf.deactivate(wfFilter) // Deactivate to avoid conflict
         await wf.publish(...args);
       }
     }));
@@ -198,6 +203,7 @@ export const wf = () => {
     .addOption(options.tag)
     .addOption(options.excludeId)
     .addOption(options.activate)
+    .addOption(options.deactivateBefore)
     .action(createAction(async (opts, wf, cmd) => {
       const wfFilter = getWfFilter(opts, config);
       const args: Parameters<typeof wf.setupAll> = [
@@ -206,8 +212,11 @@ export const wf = () => {
         opts.activate
       ];
       logOp(cmd, args);
+      if (opts.deactivateBefore) {
+        await wf.deactivate(wfFilter); // Deactivate to avoid conflict
+      }
+      // Proceed with setup
       if (opts.dry === false) {
-        await wf.deactivate(wfFilter) // Deactivate to avoid conflict
         await wf.setupAll(...args);
       }
     }));
