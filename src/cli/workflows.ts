@@ -185,11 +185,11 @@ export const wf = () => {
         opts.activate
       ];
       logOp(cmd, args);
-      if (opts.deactivateBefore) {
-        await wf.deactivate(wfFilter); // Deactivate to avoid conflict
-      }
       // Proceed with publishing
       if (opts.dry === false) {
+        if (opts.deactivateBefore) {
+          await wf.deactivate(wfFilter); // Deactivate to avoid conflict
+        }
         await wf.publish(...args);
       }
     }));
@@ -212,11 +212,11 @@ export const wf = () => {
         opts.activate
       ];
       logOp(cmd, args);
-      if (opts.deactivateBefore) {
-        await wf.deactivate(wfFilter); // Deactivate to avoid conflict
-      }
       // Proceed with setup
       if (opts.dry === false) {
+        if (opts.deactivateBefore) {
+          await wf.deactivate(wfFilter); // Deactivate to avoid conflict
+        }
         await wf.setupAll(...args);
       }
     }));
