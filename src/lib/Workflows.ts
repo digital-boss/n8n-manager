@@ -261,11 +261,11 @@ export class Workflows {
       }
     }
   }
-  async publish(dir: string, wfFilter: WorkflowsFilter, activate: boolean) {
+  async publish(dir: string, wfFilter: WorkflowsFilter, doNotActivate: boolean) {
     const wfs = this.getWorkflowsFromDir(dir, wfFilter);
     await this.publishWfs(wfs);
 
-    if (activate) {
+    if (!doNotActivate) {
         const activeWorkflowIds = wfs
             .filter(wf => wf.active)
             .map(wf => wf.id);
@@ -275,7 +275,7 @@ export class Workflows {
     }
   }
 
-  async setupAll(dir: string, wfFilter: WorkflowsFilter, activate: boolean) {
+  async setupAll(dir: string, wfFilter: WorkflowsFilter, doNotActivate: boolean) {
     const excludeFilted = WorkflowsFilter.create(i => i.exclude.id = [...wfFilter.exclude.id]);
 
     // Fetch workflows from server and directory
@@ -295,7 +295,7 @@ export class Workflows {
     }
   
     await this.publishWfs(wfsFromDir);
-    if (activate) {
+    if (!doNotActivate) {
       const activeWorkflowIds = wfsFromDir
         .filter(wf => wf.active)
         .map(wf => wf.id);

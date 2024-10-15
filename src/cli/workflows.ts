@@ -15,7 +15,7 @@ const options = {
   excludeId: new Option('--exclude-id <string...>', 'Workflow ids to exclude'),
   dir: new Option('--dir <string>', 'Directory with workflows'),
   tag: new Option('-t, --tag <string...>', 'Workflow tags'),
-  activate: new Option('-a, --activate', 'Activate the workflow(s) after publishing').default(true),
+  doNotActivate: new Option('-dna, --do-not-activate', 'Don\'t activate the workflow(s) after publishing').default(false),
   deactivateBefore: new Option('--deactivate-before', 'Deactivate the workflow(s) before publishing').default(false),
 }
 
@@ -175,14 +175,14 @@ export const wf = () => {
     .addOption(options.name)
     .addOption(options.tag)
     .addOption(options.excludeId)
-    .addOption(options.activate)
+    .addOption(options.doNotActivate)
     .addOption(options.deactivateBefore)
     .action(createAction(async (opts, wf, cmd) => {
       const wfFilter = getWfFilter(opts, config);
       const args: Parameters<typeof wf.publish> = [
         opts.dir || config.workflows.dir,
         wfFilter,
-        opts.activate
+        opts.doNotActivate
       ];
       logOp(cmd, args);
       // Proceed with publishing
@@ -202,14 +202,14 @@ export const wf = () => {
     .addOption(options.name)
     .addOption(options.tag)
     .addOption(options.excludeId)
-    .addOption(options.activate)
+    .addOption(options.doNotActivate)
     .addOption(options.deactivateBefore)
     .action(createAction(async (opts, wf, cmd) => {
       const wfFilter = getWfFilter(opts, config);
       const args: Parameters<typeof wf.setupAll> = [
         opts.dir || config.workflows.dir,
         getWfFilter(opts, config),
-        opts.activate
+        opts.doNotActivate
       ];
       logOp(cmd, args);
       // Proceed with setup
