@@ -15,6 +15,8 @@ const options = {
   excludeId: new Option('--exclude-id <string...>', 'Workflow ids to exclude'),
   dir: new Option('--dir <string>', 'Directory with workflows'),
   tag: new Option('-t, --tag <string...>', 'Workflow tags'),
+  doNotActivate: new Option('-dna, --do-not-activate', 'Don\'t activate the workflow(s) after publishing. If false (by default) - the activation process will be performed for published workflows, published wf will be activated only if it had active flag in it\'s json.').default(false),
+  deactivateBefore: new Option('--deactivate-before', 'Deactivate the workflow(s) before publishing').default(false),
 }
 
 
@@ -173,16 +175,24 @@ export const wf = () => {
     .addOption(options.name)
     .addOption(options.tag)
     .addOption(options.excludeId)
+    .addOption(options.doNotActivate)
+    .addOption(options.deactivateBefore)
     .action(createAction(async (opts, wf, cmd) => {
+      const wfFilter = getWfFilter(opts, config);
       const args: Parameters<typeof wf.publish> = [
         opts.dir || config.workflows.dir,
-        getWfFilter(opts, config)
-      ]
-      logOp(cmd, args)
+        wfFilter,
+        opts.doNotActivate
+      ];
+      logOp(cmd, args);
+      // Proceed with publishing
       if (opts.dry === false) {
-        await wf.publish(...args)
+        if (opts.deactivateBefore) {
+          await wf.deactivate(wfFilter); // Deactivate to avoid conflict
+        }
+        await wf.publish(...args);
       }
-    }))
+    }));
 
   cmd.command('setup-all')
     .description('Setup n8n instance workflows exactly the same as your --dir.')
@@ -192,16 +202,24 @@ export const wf = () => {
     .addOption(options.name)
     .addOption(options.tag)
     .addOption(options.excludeId)
+    .addOption(options.doNotActivate)
+    .addOption(options.deactivateBefore)
     .action(createAction(async (opts, wf, cmd) => {
+      const wfFilter = getWfFilter(opts, config);
       const args: Parameters<typeof wf.setupAll> = [
         opts.dir || config.workflows.dir,
-        getWfFilter(opts, config)
-      ]
-      logOp(cmd, args)
+        getWfFilter(opts, config),
+        opts.doNotActivate
+      ];
+      logOp(cmd, args);
       if (opts.dry === false) {
-        await wf.setupAll(...args)
+        if (opts.deactivateBefore) {
+          // We deactivate the workflow before publishing to avoid conflicts that can arise when activating a workflow that might already have active triggers or schedules, which n8n doesn’t handle well. More details about this issue can be found here: https://community.n8n.io/t/workflow-could-not-be-activated/19621 (Workflow could not be activated).
+          await wf.deactivate(wfFilter);
+        }
+        await wf.setupAll(...args);
       }
-    }))
+    }));
 
   return cmd;
 }
