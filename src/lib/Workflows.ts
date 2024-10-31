@@ -171,6 +171,16 @@ export class Workflows {
     }
   }
 
+  private async activateWfs(wfs: IWorkflow[]) {
+    const activeWorkflowIds = wfs
+      .filter(wf => wf.active)
+      .map(wf => wf.id);
+    const activeFilter = new WorkflowsFilter();
+    activeFilter.id = activeWorkflowIds;
+    await this.activate(activeFilter);
+  }
+
+
   /****************************************************************************
    * Public
    */
@@ -266,12 +276,7 @@ export class Workflows {
     await this.publishWfs(wfs);
 
     if (!doNotActivate) {
-        const activeWorkflowIds = wfs
-            .filter(wf => wf.active)
-            .map(wf => wf.id);
-        const activeFilter = new WorkflowsFilter();
-        activeFilter.id = activeWorkflowIds;
-        await this.activate(activeFilter);
+      await this.activateWfs(wfs);
     }
   }
 
@@ -295,13 +300,9 @@ export class Workflows {
     }
   
     await this.publishWfs(wfsFromDir);
+
     if (!doNotActivate) {
-      const activeWorkflowIds = wfsFromDir
-        .filter(wf => wf.active)
-        .map(wf => wf.id);
-      const activeFilter = new WorkflowsFilter();
-      activeFilter.id = activeWorkflowIds;
-      await this.activate(activeFilter);
+      await this.activateWfs(wfsFromDir);
     }
   }
 }
