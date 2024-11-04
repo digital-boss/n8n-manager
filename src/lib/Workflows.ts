@@ -62,8 +62,8 @@ const getWfFromFile = (file: string): IWorkflow => {
 }
 
 const areWfsEqual = (a: IWorkflow, b: IWorkflow): boolean => {
-  const x = {...a}
-  const y = {...b}
+  const x = { ...a }
+  const y = { ...b }
   x.updatedAt = y.updatedAt
   return equal(x, y);
 }
@@ -100,13 +100,13 @@ export class Workflows {
     let allWorkflows: IWorkflow[] = [];
     let nextCursor: string | undefined = undefined;
     do {
-        const response: AxiosResponse<IGetAllWorkflowsResponse> = await this.publicApiClient.workflow
-          .getAll(nextCursor !== null ? nextCursor : undefined);
-        allWorkflows = allWorkflows.concat(response.data.data);
-        nextCursor = response.data.nextCursor;
+      const response: AxiosResponse<IGetAllWorkflowsResponse> = await this.publicApiClient.workflow
+        .getAll(nextCursor !== null ? nextCursor : undefined);
+      allWorkflows = allWorkflows.concat(response.data.data);
+      nextCursor = response.data.nextCursor;
     } while (nextCursor);
     return allWorkflows;
-}
+  }
   /**
    * Fetch from n8n instance
    * @param wfFilter 
@@ -251,19 +251,17 @@ export class Workflows {
     for (const wf of wfsFromSrv) {
       const newFileName = getFileName(wf);
       const newFilePath = path.join(dir, newFileName);
-  
       // Check if there is already a workflow with the same ID but a different name
       const existingFile = filesList.find(file => getIdFromFileName(file) === wf.id);
-  
-      if (existingFile && existingFile !== newFileName) {
-        // If workflow with the same ID but a different name exists, remove the old file
-        fs.unlinkSync(path.join(dir, existingFile));
-      }
       if (
         saveAsIs
         || !fs.existsSync(newFilePath)
         || !areWfsEqual(getWfFromFile(newFilePath), wf)
       ) {
+        // Delete the old file if there's a workflow with the same ID but a different name
+        if (existingFile && existingFile !== newFileName) {
+          fs.unlinkSync(path.join(dir, existingFile));
+        }
         const content = JSON.stringify(wf, undefined, 2);
         fs.writeFileSync(newFilePath, content);
       }
