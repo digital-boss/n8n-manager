@@ -247,8 +247,7 @@ export class Workflows {
   ) {
     const wfsFromSrv = await this.getWorkflowsFromSrv(wfFilter);
     const filesList = getWorkflowFiles(dir)
-      .filter(byIds(wfFilter)); // filter needed to exclude system workflow from deletion.
-
+      .filter(byIds(wfFilter)); // Filter needed to exclude system workflows from deletion.
     const wfsToDelete = filesList.filter(f => wfsFromSrv.findIndex(srv => srv.id === getIdFromFileName(f)) === -1);
 
     if (!keepFiles) {
@@ -257,17 +256,23 @@ export class Workflows {
       }
     }
 
+    // Save or update workflows from the server
     for (const wf of wfsFromSrv) {
-      const fileName = getFileName(wf);
-      const filePath = path.join(dir, fileName);
-
+      const newFileName = getFileName(wf);
+      const newFilePath = path.join(dir, newFileName);
+      // Check if there is already a workflow with the same ID but a different name
+      const existingFile = filesList.find(file => getIdFromFileName(file) === wf.id);
       if (
         saveAsIs
-        || !fs.existsSync(filePath)
-        || !areWfsEqual(getWfFromFile(filePath), wf)
+        || !fs.existsSync(newFilePath)
+        || !areWfsEqual(getWfFromFile(newFilePath), wf)
       ) {
+        // Delete the old file if there's a workflow with the same ID but a different name
+        if (existingFile && existingFile !== newFileName) {
+          fs.unlinkSync(path.join(dir, existingFile));
+        }
         const content = JSON.stringify(wf, undefined, 2);
-        fs.writeFileSync(filePath, content);
+        fs.writeFileSync(newFilePath, content);
       }
     }
   }
