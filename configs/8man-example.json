@@ -19,5 +19,8 @@
       "id": ["51"]
     }
   },
+  "dataTables": {
+    "dir": "/datatables"
+  },
   "nodesListFile": "/workflows/packages-nodes.txt"
 }

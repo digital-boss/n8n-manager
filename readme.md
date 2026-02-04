@@ -1,6 +1,6 @@
 # n8n Manager
 
-`8man` is a CLI tool for [n8n](https://github.com/n8n-io/n8n) instances management. It can manage workflows, credentials, community nodes, API Key, owner account. It can upgrade old nodes to new versions (such as http node set node, function / code node etc).
+`8man` is a CLI tool for [n8n](https://github.com/n8n-io/n8n) instances management. It can manage workflows, credentials, data tables, community nodes, API Key, owner account. It can upgrade old nodes to new versions (such as http node set node, function / code node etc).
 
 > [!WARNING]
 > A critical note about [queue mode](https://docs.n8n.io/hosting/scaling/queue-mode/). In queue mode community nodes should be installed in n8n docker image, which used by every worker. So don't use `8man npm` commands for n8n cluster configured in queue mode.
@@ -67,6 +67,10 @@ General Features:
 
 - **Credential** Management
   - Easily import and export credentials to streamline your workflow automation.
+
+- **Data Tables** Management
+  - List, save, publish, and delete data tables (including schema and data).
+  - Migrate data tables between n8n environments (dev, staging, production).
 
 - **Community Nodes** Management
   - List, save, install, uninstall, and update N8N node packages effortlessly.
@@ -152,6 +156,7 @@ Options:
 Commands:
   wf
   creds
+  dt
   npm
   apiKey
   owner
@@ -194,6 +199,29 @@ Commands:
   export [options]  Export credentials.
   help [command]    display help for command
 ```
+
+### Data Tables management
+
+> **Note**: DataTables API requires n8n **v1.15.0+**. Run `node test-datatables.js <config>` to verify.
+
+```sh
+$ 8man dt
+Usage: 8man dt [options] [command]
+
+Options:
+  -h, --help        display help for command
+
+Commands:
+  list [options]     List data tables from n8n instance.
+  delete [options]   Delete data table(s) from n8n instance.
+  save [options]     Save data tables to directory.
+  publish [options]  Publish data table(s) to n8n instance.
+  setup-all [options] Setup n8n instance data tables exactly the same as your --dir.
+  help [command]     display help for command
+```
+
+See [DATATABLES.md](./DATATABLES.md) for detailed usage and troubleshooting.
+
 
 ### Community packages management
 
