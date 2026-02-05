@@ -137,17 +137,17 @@ export class DataTables {
   private async getDataTablesFromSrv(dataTableIds?: string[]): Promise<IDataTable[]> {
 
     if (dataTableIds && dataTableIds.length > 0) {
-      const dataTables = await Promise.all(
+      const dataTablesWithData = await Promise.all(
         dataTableIds.map(async (id) => {
           const dtResponse = await this.publicApiClient.dataTable.get(id);
-          const dataTable = dtResponse.data as IDataTable;
+          const dataTableWithData = dtResponse.data as IDataTable;
 
-          dataTable.rows = await this.fetchAllRows(id);
+          dataTableWithData.rows = await this.fetchAllRows(id);
           
-          return dataTable;
+          return dataTableWithData;
         })
       );
-      return dataTables;
+      return dataTablesWithData;
     } else {
       const dataTables = await this.fetchAllDataTables();
       
@@ -166,22 +166,30 @@ export class DataTables {
   // Get data tables from directory
 
   private getDataTablesFromDir(dir: string, dataTableIdentifiers?: string[]): IDataTable[] {
-    const files = getDataTableFiles(dir);
+    const fileNames = getDataTableFiles(dir);
     
-    let filteredFiles = files;
+    let filteredFileNames = fileNames;
     if (dataTableIdentifiers && dataTableIdentifiers.length > 0) {
-      // Load all tables to check both ID and name
-      const allTables = files.map(f => getDataTableFromFile(path.join(dir, f)));
-      filteredFiles = files.filter(f => {
-        const tableName = getNameFromFileName(f);
-        const table = allTables.find(t => getNameFromFileName(getFileName(t)) === tableName);
-        if (!table) return false;
-        // Match by either ID or name
-        return dataTableIdentifiers.includes(table.id) || dataTableIdentifiers.includes(table.name);
+      // Load all tables from files to check both ID and name
+      const allTablesFromFiles = fileNames.map(fileName => 
+        getDataTableFromFile(path.join(dir, fileName))
+      );
+      
+      filteredFileNames = fileNames.filter(fileName => {
+        const tableNameFromFileName = getNameFromFileName(fileName);
+        const tableFromFile = allTablesFromFiles.find(t => 
+          getNameFromFileName(getFileName(t)) === tableNameFromFileName
+        );
+        if (!tableFromFile) return false;
+        // Match by either ID or name from the table data
+        return dataTableIdentifiers.includes(tableFromFile.id) || 
+               dataTableIdentifiers.includes(tableFromFile.name);
       });
     }
     
-    return filteredFiles.map(f => getDataTableFromFile(path.join(dir, f)));
+    return filteredFileNames.map(fileName => 
+      getDataTableFromFile(path.join(dir, fileName))
+    );
   }
 
   // Publish data tables to n8n instance
@@ -202,24 +210,18 @@ export class DataTables {
     for (const dt of dataTables) {
       try {
         let existingDataTable: IDataTable | null = null;
-        let actualTableId = dt.id;
+        let actualTableId: string;
         
-        // Try to find table by ID first
-        try {
-          const response = await this.publicApiClient.dataTable.get(dt.id);
-          existingDataTable = response.data as IDataTable;
-        } catch (error: any) {
-          if (error.response?.status !== 404) {
-            throw error;
+        // Find table by NAME
+        const tableByName = allExistingTables.find(t => t.name === dt.name);
+        if (tableByName) {
+          existingDataTable = tableByName;
+          actualTableId = tableByName.id;
+          if (tableByName.id !== dt.id) {
+            console.log(`  Found table "${dt.name}" with ID ${actualTableId} (file had ID ${dt.id} from different environment)`);
           }
-          
-          // ID not found, try to find by NAME
-          const tableByName = allExistingTables.find(t => t.name === dt.name);
-          if (tableByName) {
-            existingDataTable = tableByName;
-            actualTableId = tableByName.id;
-            console.log(`  Table ID ${dt.id} not found, but found table by name "${dt.name}" with ID ${actualTableId} on this environment`);
-          }
+        } else {
+          actualTableId = dt.id; // Will be replaced when creating new table
         }
 
         if (existingDataTable) {
@@ -301,36 +303,41 @@ export class DataTables {
     }
   }
 
-  async delete(identifiers: string[]) {
+  async delete(ids?: string[], names?: string[]) {
     // Fetch all tables to support deletion by name
     const allTables = await this.fetchAllDataTables();
     
-    for (const identifier of identifiers) {
-      let tableToDelete = allTables.find(t => t.id === identifier);
-      
-      if (!tableToDelete) {
-        tableToDelete = allTables.find(t => t.name === identifier);
-      }
-      
-      if (tableToDelete) {
-        process.stdout.write(`Deleting "${tableToDelete.name}" (${tableToDelete.id})... `);
-        await this.publicApiClient.dataTable.delete(tableToDelete.id);
-        console.log('Done.');
-      } else {
-      }
+    const tablesToDeleteById = ids 
+      ? allTables.filter(t => ids.includes(t.id))
+      : [];
+    
+    const tablesToDeleteByName = names
+      ? allTables.filter(t => names.includes(t.name))
+      : [];
+    
+    // Combine and remove duplicates
+    const tablesToDelete = [...new Set([...tablesToDeleteById, ...tablesToDeleteByName])];
+    
+    for (const table of tablesToDelete) {
+      process.stdout.write(`Deleting "${table.name}" (${table.id})... `);
+      await this.publicApiClient.dataTable.delete(table.id);
+      console.log('Done.');
     }
   }
  
   async save(
     dir: string,
-    dataTableIdentifiers?: string[],
+    ids?: string[],
+    names?: string[],
     keepFiles: boolean = false,
   ) {
     if (!fs.existsSync(dir)) {
       fs.mkdirSync(dir, { recursive: true });
     }
 
-    const dataTablesFromSrv = await this.getDataTablesFromSrv(dataTableIdentifiers);
+    // Combine ids and names for server fetch
+    const identifiers = [...(ids || []), ...(names || [])];
+    const dataTablesFromSrv = await this.getDataTablesFromSrv(identifiers.length > 0 ? identifiers : undefined);
     const filesList = getDataTableFiles(dir);
     
     // Load existing files to check by name
@@ -342,11 +349,11 @@ export class DataTables {
       }
     }).filter(t => t !== null) as IDataTable[];
     
-    const relevantFiles = dataTableIdentifiers && dataTableIdentifiers.length > 0
+    const relevantFiles = (ids || names)
       ? filesList.filter(f => {
           const table = existingTables.find(t => getFileName(t) === f);
           if (!table) return false;
-          return dataTableIdentifiers.includes(table.id) || dataTableIdentifiers.includes(table.name);
+          return (ids && ids.includes(table.id)) || (names && names.includes(table.name));
         })
       : filesList;
     
@@ -370,8 +377,9 @@ export class DataTables {
     }
   }
 
-  async publish(dir: string, dataTableIds?: string[], webhookPayload?: any) {
-    const dataTables = this.getDataTablesFromDir(dir, dataTableIds);
+  async publish(dir: string, ids?: string[], names?: string[], webhookPayload?: any) {
+    const identifiers = [...(ids || []), ...(names || [])];
+    const dataTables = this.getDataTablesFromDir(dir, identifiers.length > 0 ? identifiers : undefined);
     const payload = webhookPayload ? { ...webhookPayload, dataTables } : undefined;
     await this.publishDataTables(dataTables, payload);
   }

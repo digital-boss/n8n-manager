@@ -68,14 +68,14 @@ export const dt = () => {
     .addOption(options.name)
     .addOption(options.projectId)
     .action(createAction(async (opts, dt, cmd) => {
-      const identifiers = [...(opts.id || []), ...(opts.name || [])];
-      if (identifiers.length === 0) {
+      if (!opts.id && !opts.name) {
         console.error('Error: --id or --name is required');
         process.exit(1);
       }
 
       const args: Parameters<typeof dt.delete> = [
-        identifiers
+        opts.id,
+        opts.name
       ];
       logOp(cmd, args);
       if (opts.dry === false) {
@@ -92,10 +92,10 @@ export const dt = () => {
     .addOption(options.keepFiles)
     .addOption(options.projectId)
     .action(createAction(async (opts, dt, cmd) => {
-      const identifiers = [...(opts.id || []), ...(opts.name || [])];
       const args: Parameters<typeof dt.save> = [
         opts.dir || config.dataTables?.dir || './datatables',
-        identifiers.length > 0 ? identifiers : undefined,
+        opts.id,
+        opts.name,
         opts.keepFiles
       ];
       logOp(cmd, args);
@@ -112,13 +112,13 @@ export const dt = () => {
     .addOption(options.name)
     .addOption(options.projectId)
     .action(createAction(async (opts, dt, cmd) => {
-      const identifiers = [...(opts.id || []), ...(opts.name || [])];
       const payload = {
         config,
       };
       const args: Parameters<typeof dt.publish> = [
         opts.dir || config.dataTables?.dir || './datatables',
-        identifiers.length > 0 ? identifiers : undefined,
+        opts.id,
+        opts.name,
         payload
       ];
       logOp(cmd, args);
