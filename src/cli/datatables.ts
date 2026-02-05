@@ -6,7 +6,8 @@ import { logOp } from './common/log';
 import { errorHandler } from './common/errorHandling';
 
 const options = {
-  id: new Option('--id <string...>', 'Data table ids'),
+  id: new Option('--id <string...>', 'Data table IDs'),
+  name: new Option('-n, --name <string...>', 'Data table names'),
   dir: new Option('--dir <string>', 'Directory with data tables'),
   projectId: new Option('--project-id <string>', 'Project ID'),
   dataTableId: new Option('--data-table-id <string>', 'Data Table ID'),
@@ -64,15 +65,17 @@ export const dt = () => {
     .description('Delete data table(s) from n8n instance.')
     .hook('preAction', loadConfig)
     .addOption(options.id)
+    .addOption(options.name)
     .addOption(options.projectId)
     .action(createAction(async (opts, dt, cmd) => {
-      if (!opts.id || opts.id.length === 0) {
-        console.error('Error: --id is required');
+      const identifiers = [...(opts.id || []), ...(opts.name || [])];
+      if (identifiers.length === 0) {
+        console.error('Error: --id or --name is required');
         process.exit(1);
       }
 
       const args: Parameters<typeof dt.delete> = [
-        opts.id
+        identifiers
       ];
       logOp(cmd, args);
       if (opts.dry === false) {
@@ -85,12 +88,14 @@ export const dt = () => {
     .hook('preAction', loadConfig)
     .addOption(options.dir)
     .addOption(options.id)
+    .addOption(options.name)
     .addOption(options.keepFiles)
     .addOption(options.projectId)
     .action(createAction(async (opts, dt, cmd) => {
+      const identifiers = [...(opts.id || []), ...(opts.name || [])];
       const args: Parameters<typeof dt.save> = [
         opts.dir || config.dataTables?.dir || './datatables',
-        opts.id,
+        identifiers.length > 0 ? identifiers : undefined,
         opts.keepFiles
       ];
       logOp(cmd, args);
@@ -104,14 +109,16 @@ export const dt = () => {
     .hook('preAction', loadConfig)
     .addOption(options.dir)
     .addOption(options.id)
+    .addOption(options.name)
     .addOption(options.projectId)
     .action(createAction(async (opts, dt, cmd) => {
+      const identifiers = [...(opts.id || []), ...(opts.name || [])];
       const payload = {
         config,
       };
       const args: Parameters<typeof dt.publish> = [
         opts.dir || config.dataTables?.dir || './datatables',
-        opts.id,
+        identifiers.length > 0 ? identifiers : undefined,
         payload
       ];
       logOp(cmd, args);

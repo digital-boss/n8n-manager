@@ -116,15 +116,18 @@ export class DataTable extends ResourceBase {
       filters
     };
     
+    const filterJson = JSON.stringify(filterObj);
     const url = `/data-tables/${dataTableId}/rows/delete`;
     this.logRequest('DELETE', url, { rowCount: rowIds.length });
+    
+    // Build URL with properly encoded filter parameter
+    const searchParams = new URLSearchParams();
+    searchParams.append('filter', filterJson);
+    searchParams.append('returnData', 'false');
+    
     return this.httpClient.request({
-      url,
+      url: `${url}?${searchParams.toString()}`,
       method: 'DELETE',
-      params: {
-        filter: JSON.stringify(filterObj),
-        returnData: false
-      }
     });
   }
 }
