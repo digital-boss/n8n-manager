@@ -15,6 +15,11 @@ interface IDataTable {
   updatedAt?: string;
 }
 
+// Data table with rows populated (used when fetching with data)
+interface IDataTableWithData extends IDataTable {
+  rows: IDataTableRow[];
+}
+
 interface IDataTableColumn {
   id: string;
   name: string;
@@ -134,13 +139,13 @@ export class DataTables {
 
   // Fetch data tables from n8n instance with columns and rows
 
-  private async getDataTablesFromSrv(dataTableIds?: string[]): Promise<IDataTable[]> {
+  private async getDataTablesFromSrv(dataTableIds?: string[]): Promise<IDataTableWithData[]> {
 
     if (dataTableIds && dataTableIds.length > 0) {
       const dataTablesWithData = await Promise.all(
         dataTableIds.map(async (id) => {
           const dtResponse = await this.publicApiClient.dataTable.get(id);
-          const dataTableWithData = dtResponse.data as IDataTable;
+          const dataTableWithData = dtResponse.data as IDataTableWithData;
 
           dataTableWithData.rows = await this.fetchAllRows(id);
           
@@ -155,7 +160,7 @@ export class DataTables {
         dataTables.map(async (dt) => {
           dt.rows = await this.fetchAllRows(dt.id);
           
-          return dt;
+          return dt as IDataTableWithData;
         })
       );
       
@@ -164,31 +169,39 @@ export class DataTables {
   }
 
   // Get data tables from directory
+  // Filters by IDs and/or names if provided, otherwise returns all tables
+  // Returns tables with rows loaded from files
 
-  private getDataTablesFromDir(dir: string, dataTableIdentifiers?: string[]): IDataTable[] {
+  private getDataTablesFromDir(dir: string, ids?: string[], names?: string[]): IDataTableWithData[] {
     const fileNames = getDataTableFiles(dir);
     
     let filteredFileNames = fileNames;
-    if (dataTableIdentifiers && dataTableIdentifiers.length > 0) {
-      // Load all tables from files to check both ID and name
+    if ((ids && ids.length > 0) || (names && names.length > 0)) {
+      // Load all tables from files to match against their ID and name properties
       const allTablesFromFiles = fileNames.map(fileName => 
         getDataTableFromFile(path.join(dir, fileName))
       );
       
       filteredFileNames = fileNames.filter(fileName => {
+        // Extract the table name from the filename (e.g., "MyTable.json" -> "MyTable")
         const tableNameFromFileName = getNameFromFileName(fileName);
+        
+        // Find the corresponding table object loaded from the file
         const tableFromFile = allTablesFromFiles.find(t => 
           getNameFromFileName(getFileName(t)) === tableNameFromFileName
         );
         if (!tableFromFile) return false;
-        // Match by either ID or name from the table data
-        return dataTableIdentifiers.includes(tableFromFile.id) || 
-               dataTableIdentifiers.includes(tableFromFile.name);
+        
+        // Check if this table matches any of the provided IDs or names
+        const matchesId = ids && ids.includes(tableFromFile.id);
+        const matchesName = names && names.includes(tableFromFile.name);
+        
+        return matchesId || matchesName;
       });
     }
     
     return filteredFileNames.map(fileName => 
-      getDataTableFromFile(path.join(dir, fileName))
+      getDataTableFromFile(path.join(dir, fileName)) as IDataTableWithData
     );
   }
 
@@ -284,7 +297,7 @@ export class DataTables {
    * Public Methods
    */
 
-  // List all data tables in the project
+  // List all data tables from n8n instance
  
   async list(json: boolean) {
     const res = await this.fetchAllDataTables();
@@ -378,8 +391,7 @@ export class DataTables {
   }
 
   async publish(dir: string, ids?: string[], names?: string[], webhookPayload?: any) {
-    const identifiers = [...(ids || []), ...(names || [])];
-    const dataTables = this.getDataTablesFromDir(dir, identifiers.length > 0 ? identifiers : undefined);
+    const dataTables = this.getDataTablesFromDir(dir, ids, names);
     const payload = webhookPayload ? { ...webhookPayload, dataTables } : undefined;
     await this.publishDataTables(dataTables, payload);
   }

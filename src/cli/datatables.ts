@@ -9,7 +9,6 @@ const options = {
   id: new Option('--id <string...>', 'Data table IDs'),
   name: new Option('-n, --name <string...>', 'Data table names'),
   dir: new Option('--dir <string>', 'Directory with data tables'),
-  projectId: new Option('--project-id <string>', 'Project ID'),
   dataTableId: new Option('--data-table-id <string>', 'Data Table ID'),
   keepFiles: new Option('-kf, --keep-files', 'Keep existing files not present on server').default(false),
 };
@@ -50,7 +49,6 @@ export const dt = () => {
     .description('List data tables from n8n instance.')
     .hook('preAction', loadConfig)
     .option('-j, --json', 'Output in json format', false)
-    .addOption(options.projectId)
     .action(createAction(async (opts, dt, cmd) => {
       const args: Parameters<typeof dt.list> = [
         opts.json
@@ -66,7 +64,6 @@ export const dt = () => {
     .hook('preAction', loadConfig)
     .addOption(options.id)
     .addOption(options.name)
-    .addOption(options.projectId)
     .action(createAction(async (opts, dt, cmd) => {
       if (!opts.id && !opts.name) {
         console.error('Error: --id or --name is required');
@@ -90,7 +87,6 @@ export const dt = () => {
     .addOption(options.id)
     .addOption(options.name)
     .addOption(options.keepFiles)
-    .addOption(options.projectId)
     .action(createAction(async (opts, dt, cmd) => {
       const args: Parameters<typeof dt.save> = [
         opts.dir || config.dataTables?.dir || './datatables',
@@ -110,7 +106,6 @@ export const dt = () => {
     .addOption(options.dir)
     .addOption(options.id)
     .addOption(options.name)
-    .addOption(options.projectId)
     .action(createAction(async (opts, dt, cmd) => {
       const payload = {
         config,
@@ -131,7 +126,6 @@ export const dt = () => {
     .description('Setup n8n instance data tables exactly the same as your --dir.')
     .hook('preAction', loadConfig)
     .addOption(options.dir)
-    .addOption(options.projectId)
     .action(createAction(async (opts, dt, cmd) => {
       const payload = {
         config,
