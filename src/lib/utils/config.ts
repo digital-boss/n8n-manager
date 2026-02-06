@@ -22,6 +22,9 @@ export interface IConfig {
       id: string[]
     }
   },
+  dataTables?: {
+    dir: string;
+  },
   nodesListFile: string;
   proxy?: AxiosProxyConfig
 }

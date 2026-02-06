@@ -84,4 +84,59 @@ export class RestCliClient {
 
     return await axios(opts);
   }
+
+  async importDataTables (payload: any) {
+    const opts: AxiosRequestConfig = {
+      url: this.config.url + '/webhook/import-datatables',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+      },
+      method: 'POST',
+      auth: {
+        username: this.config.auth.user,
+        password: this.config.auth.password,
+      },
+      proxy: this.config.proxy,
+      data: payload,
+    }
+
+    return await axios(opts);
+  }
+
+  async listDataTables () {
+    const opts: AxiosRequestConfig = {
+      url: this.config.url + '/webhook/list-datatables',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+      },
+      method: 'GET',
+      auth: {
+        username: this.config.auth.user,
+        password: this.config.auth.password,
+      },
+      proxy: this.config.proxy,
+    }
+
+    return await axios(opts);
+  }
+
+  async exportDataTables () {
+    const opts: AxiosRequestConfig = {
+      url: this.config.url + '/webhook/export-datatables',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+      },
+      method: 'GET',
+      auth: {
+        username: this.config.auth.user,
+        password: this.config.auth.password,
+      },
+      proxy: this.config.proxy,
+    }
+
+    return await axios(opts);
+  }
 }
